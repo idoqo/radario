@@ -26,7 +26,7 @@ public class TopicAdapter extends BaseAdapter {
 
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
-            inflater.inflate(R.layout.topic_item, viewGroup, false);
+            view = inflater.inflate(R.layout.topic_item, viewGroup, false);
         }
         TextView titleTV = (TextView)view.findViewById(R.id.topic_title);
         Topic topic = topics.get(i);

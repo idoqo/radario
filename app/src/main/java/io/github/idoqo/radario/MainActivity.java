@@ -1,25 +1,29 @@
 package io.github.idoqo.radario;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
 
+import io.github.idoqo.radario.adapter.TopicAdapter;
 import io.github.idoqo.radario.model.Topic;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ListView topicListView;
+    private LinearLayout rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        rootLayout = (LinearLayout)findViewById(R.id.content_main);
+        topicListView = (ListView)findViewById(R.id.topic_list_view);
         initTopics();
     }
 
@@ -36,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         String msg = "";
         ObjectMapper mapper = new ObjectMapper();
         try{
-            Topic topic = mapper.readValue(jsonString, Topic.class);
-            msg = topic.getTitle();
+            List<Topic> topics = mapper.readValue(jsonString, new TypeReference<List<Topic>>(){});
+            topicListView.setAdapter(new TopicAdapter(this, topics));
         } catch (JsonParseException jpe){
             msg = jpe.getMessage();
         } catch (JsonMappingException jpe){
@@ -45,10 +50,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException ioe){
             msg = ioe.getMessage();
         }
-        TextView tv = new TextView(this);
-        tv.setText(msg);
-        LinearLayout rootLayout = (LinearLayout)findViewById(R.id.content_main);
-        rootLayout.addView(tv);
+        Log.e("MainActivity", msg);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
