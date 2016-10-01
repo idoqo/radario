@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import io.github.idoqo.radario.R;
+import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
 
 public class TopicAdapter extends BaseAdapter {
@@ -29,8 +32,10 @@ public class TopicAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.topic_item, viewGroup, false);
         }
         TextView titleTV = (TextView)view.findViewById(R.id.topic_title);
+        TextView categoryTV = (TextView)view.findViewById(R.id.topic_category);
         Topic topic = topics.get(i);
         titleTV.setText(topic.getTitle());
+        categoryTV.setText(Category.getnameFromId(topic.getCategory()));
         return view;
     }
 
