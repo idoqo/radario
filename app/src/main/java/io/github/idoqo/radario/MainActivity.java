@@ -12,9 +12,12 @@ import android.widget.ListView;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.github.idoqo.radario.adapter.TopicAdapter;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView topicListView;
     private LinearLayout rootLayout;
+    private List<Topic> topicList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +35,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        topicList = new ArrayList<Topic>();
         rootLayout = (LinearLayout)findViewById(R.id.content_main);
         topicListView = (ListView)findViewById(R.id.topic_list_view);
         initTopics();
     }
 
     private void initTopics(){
-        String jsonString = Utils.loadJsonFromAsset(this, "topic.json");
+        String jsonString = Utils.loadJsonFromAsset(this, "latest.json");
         String msg = "";
         ObjectMapper mapper = new ObjectMapper();
         try{
-            List<Topic> topics = mapper.readValue(jsonString, new TypeReference<List<Topic>>(){});
-            topicListView.setAdapter(new TopicAdapter(this, topics));
+            JsonNode response = mapper.readTree(jsonString);
+            JsonNode tps = response.path("topic_list");
+            JsonNode topicsNode = tps.path("topics");
+            Iterator<JsonNode> nodeIterator = topicsNode.elements();
+
+            while (nodeIterator.hasNext()){
+                Topic topic = mapper.readValue(nodeIterator.next().traverse(), Topic.class);
+                topicList.add(topic);
+            }
+            //List<Topic> topics = mapper.readValue(jsonString, new TypeReference<List<Topic>>(){});
+            topicListView.setAdapter(new TopicAdapter(this, topicList));
         } catch (JsonParseException jpe){
             msg = jpe.getMessage();
         } catch (JsonMappingException jpe){
