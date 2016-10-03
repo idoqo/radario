@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
     private TopicFetcherTask fetcherTask;
     private boolean executing = false;
 
+    private int currentPage = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,19 +88,18 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
 
     public void onListEnd() {
         if (!executing) {
+            currentPage++;
             Toast.makeText(this, "nearing end of list...", Toast.LENGTH_SHORT).show();
             Log.i(LOG_TAG, "nearing end of list...");
             Log.i(LOG_TAG, "current count is "+topicsListView.getRealCount());
             executing = true;
             fetcherTask = new TopicFetcherTask();
-            fetcherTask.execute(topicsListView.getRealCount());
+            fetcherTask.execute(topicsListView.getRealCount(), currentPage);
         }
     }
 
     public void onScrollCalled(int firstVisibleItem, int visibleItemCount, int totalItemCount){
-        Log.i(LOG_TAG, "first visible item: "+String.valueOf(firstVisibleItem));
-        Log.i(LOG_TAG, "visible item count: "+String.valueOf(visibleItemCount));
-        Log.i(LOG_TAG, "total item count: "+String.valueOf(totalItemCount));
+
     }
 
     private class TopicFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>>
@@ -115,8 +116,12 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
             }
             Log.i(LOG_TAG, "Current params[0] value... "+params[0]);
             ArrayList<Topic> followUpTops = new ArrayList<>();
-            if (params[0] < 30) {
-                String jsonString = Utils.loadJsonFromAsset(MainActivity.this, "latest3.json");
+            int page = params[1];
+                String fname = "latest"+page+".json";
+                Log.i(LOG_TAG, "Loading file: "+fname);
+                String jsonString = Utils.loadJsonFromAsset(MainActivity.this, fname);
+                if (jsonString != null) {
+
                 ObjectMapper mapper = new ObjectMapper();
                 try {
                     JsonNode response = mapper.readTree(jsonString);
