@@ -10,44 +10,53 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import io.github.idoqo.radario.R;
+import io.github.idoqo.radario.lib.EndlessScrollAdapter;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
 
-public class TopicAdapter extends BaseAdapter {
-    private Context context;
-    private List<Topic> topics;
-    private LayoutInflater inflater;
+public class TopicAdapter extends EndlessScrollAdapter
+{
+    private ArrayList<Topic> topics;
 
-    public TopicAdapter(Context c, List<Topic> items){
-        context = c;
-        topics = items;
-        inflater = LayoutInflater.from(c);
+    public TopicAdapter(Context context){
+        super(context);
+        topics = new ArrayList<>();
     }
 
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        if(view == null){
-            view = inflater.inflate(R.layout.topic_item, viewGroup, false);
+    public ArrayList<Topic> getItems() {return topics;}
+
+    public void addItems(Collection items){
+        if(items.size() > 0){
+            this.topics.addAll(items);
+        } else {
+            super.setDoneLoading();
         }
-        TextView titleTV = (TextView)view.findViewById(R.id.topic_title);
-        TextView categoryTV = (TextView)view.findViewById(R.id.topic_category);
-        Topic topic = topics.get(i);
-        titleTV.setText(topic.getTitle());
-        categoryTV.setText(Category.getnameFromId(topic.getCategory()));
-        return view;
+        notifyDataSetChanged();
     }
 
-    public long getItemId(int i) {
-        return i;
+    public Object getRealItem(int position) {return topics.get(position); }
+
+    public View getRealView(LayoutInflater inflater, int position, View convertView,
+                            ViewGroup parent){
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.topic_item, null);
+        }
+        TextView titleView = (TextView) convertView.findViewById(R.id.topic_title);
+        TextView catView = (TextView)convertView.findViewById(R.id.topic_category);
+
+        Topic tp = topics.get(position);
+        titleView.setText(tp.getTitle());
+        catView.setText(Category.getnameFromId(tp.getCategory()));
+
+        return convertView;
     }
 
-    public Object getItem(int i) {
-        return topics.get(i);
-    }
-
-    public int getCount() {
-        return topics.size();
+    public View getLoadingView(LayoutInflater inflater, ViewGroup parent){
+        return inflater.inflate(R.layout.loading_progress, null);
     }
 }

@@ -1,5 +1,7 @@
 package io.github.idoqo.radario;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,13 +24,21 @@ import java.util.Iterator;
 import java.util.List;
 
 import io.github.idoqo.radario.adapter.TopicAdapter;
+import io.github.idoqo.radario.lib.EndlessScrollListView;
+import io.github.idoqo.radario.lib.EndlessScrollListener;
+import io.github.idoqo.radario.lib.EndlessScrollListenerInterface;
 import io.github.idoqo.radario.model.Topic;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EndlessScrollListenerInterface{
 
-    private ListView topicListView;
+    private static final String LOG_TAG = "MainActivity";
+
+    private EndlessScrollListView topicsListView;
     private LinearLayout rootLayout;
-    private List<Topic> topicList;
+    private TopicAdapter topicAdapter;
+    private EndlessScrollListener scrollListener;
+    private TopicFetcherTask fetcherTask;
+    private boolean executing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +46,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        topicList = new ArrayList<Topic>();
+
         rootLayout = (LinearLayout)findViewById(R.id.content_main);
-        topicListView = (ListView)findViewById(R.id.topic_list_view);
+        topicsListView = (EndlessScrollListView)findViewById(R.id.topic_list_view);
+        scrollListener = new EndlessScrollListener(this);
+        topicAdapter = new TopicAdapter(this);
+
+        topicsListView.setListener(scrollListener);
+        topicsListView.setAdapter(topicAdapter);
         initTopics();
     }
 
     private void initTopics(){
-        String jsonString = Utils.loadJsonFromAsset(this, "latest.json");
+        String jsonString = Utils.loadJsonFromAsset(this, "latest1.json");
         String msg = "";
         ObjectMapper mapper = new ObjectMapper();
         try{
@@ -50,13 +66,14 @@ public class MainActivity extends AppCompatActivity {
             JsonNode tps = response.path("topic_list");
             JsonNode topicsNode = tps.path("topics");
             Iterator<JsonNode> nodeIterator = topicsNode.elements();
+            ArrayList<Topic> initialTops = new ArrayList<>();
 
             while (nodeIterator.hasNext()){
                 Topic topic = mapper.readValue(nodeIterator.next().traverse(), Topic.class);
-                topicList.add(topic);
+                initialTops.add(topic);
             }
             //List<Topic> topics = mapper.readValue(jsonString, new TypeReference<List<Topic>>(){});
-            topicListView.setAdapter(new TopicAdapter(this, topicList));
+            topicsListView.appendItems(initialTops);
         } catch (JsonParseException jpe){
             msg = jpe.getMessage();
         } catch (JsonMappingException jpe){
@@ -66,6 +83,68 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.e("MainActivity", msg);
     }
+
+    public void onListEnd() {
+        if (!executing) {
+            Toast.makeText(this, "nearing end of list...", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "nearing end of list...");
+            Log.i(LOG_TAG, "current count is "+topicsListView.getRealCount());
+            executing = true;
+            fetcherTask = new TopicFetcherTask();
+            fetcherTask.execute(topicsListView.getRealCount());
+        }
+    }
+
+    public void onScrollCalled(int firstVisibleItem, int visibleItemCount, int totalItemCount){
+        Log.i(LOG_TAG, "first visible item: "+String.valueOf(firstVisibleItem));
+        Log.i(LOG_TAG, "visible item count: "+String.valueOf(visibleItemCount));
+        Log.i(LOG_TAG, "total item count: "+String.valueOf(totalItemCount));
+    }
+
+    private class TopicFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>>
+    {
+        protected ArrayList<Topic> doInBackground (Integer... params){
+            try{
+                Thread.sleep(3000);
+            } catch (Exception e){
+                Log.i(LOG_TAG, e.getMessage());
+            }
+            ArrayList<Topic> followUpTops = new ArrayList<>();
+            String msg = "In case of any error...";
+            String jsonString = Utils.loadJsonFromAsset(MainActivity.this, "latest3.json");
+            ObjectMapper mapper = new ObjectMapper();
+            try{
+                JsonNode response = mapper.readTree(jsonString);
+                JsonNode tps = response.path("topic_list");
+                JsonNode topicsNode = tps.path("topics");
+                Iterator<JsonNode> nodeIterator = topicsNode.elements();
+
+                while (nodeIterator.hasNext()){
+                    Topic topic = mapper.readValue(nodeIterator.next().traverse(), Topic.class);
+                    followUpTops.add(topic);
+                }
+            } catch (Exception jpe){
+                Log.i(LOG_TAG, jpe.getMessage());
+                msg = jpe.getMessage();
+                Topic t = new Topic();
+                t.setTitle(msg);
+                t.setCategory(2);
+                followUpTops.add(t);
+            }
+            return followUpTops;
+        }
+
+        protected void onPostExecute(ArrayList<Topic> result){
+            topicsListView.appendItems(result);
+            executing = false;
+            if (result.size() > 0) {
+                Toast.makeText(getApplicationContext(), "Loaded " + String.valueOf(result.size()) + " items", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "No more items to load", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

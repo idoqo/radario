@@ -14,7 +14,7 @@
     tools:context="io.github.idoqo.radario.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <ListView
+    <io.github.idoqo.radario.lib.EndlessScrollListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/topic_list_view"/>
