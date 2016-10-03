@@ -109,27 +109,30 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
             } catch (Exception e){
                 Log.i(LOG_TAG, e.getMessage());
             }
+            Log.i(LOG_TAG, "Current params[0] value... "+params[0]);
             ArrayList<Topic> followUpTops = new ArrayList<>();
-            String msg = "In case of any error...";
-            String jsonString = Utils.loadJsonFromAsset(MainActivity.this, "latest3.json");
-            ObjectMapper mapper = new ObjectMapper();
-            try{
-                JsonNode response = mapper.readTree(jsonString);
-                JsonNode tps = response.path("topic_list");
-                JsonNode topicsNode = tps.path("topics");
-                Iterator<JsonNode> nodeIterator = topicsNode.elements();
+            if (params[0] < 30) {
+                String msg = "In case of any error...";
+                String jsonString = Utils.loadJsonFromAsset(MainActivity.this, "latest6.json");
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    JsonNode response = mapper.readTree(jsonString);
+                    JsonNode tps = response.path("topic_list");
+                    JsonNode topicsNode = tps.path("topics");
+                    Iterator<JsonNode> nodeIterator = topicsNode.elements();
 
-                while (nodeIterator.hasNext()){
-                    Topic topic = mapper.readValue(nodeIterator.next().traverse(), Topic.class);
-                    followUpTops.add(topic);
+                    while (nodeIterator.hasNext()) {
+                        Topic topic = mapper.readValue(nodeIterator.next().traverse(), Topic.class);
+                        followUpTops.add(topic);
+                    }
+                } catch (Exception jpe) {
+                    Log.i(LOG_TAG, jpe.getMessage());
+                    msg = jpe.getMessage();
+                    Topic t = new Topic();
+                    t.setTitle(msg);
+                    t.setCategory(2);
+                    followUpTops.add(t);
                 }
-            } catch (Exception jpe){
-                Log.i(LOG_TAG, jpe.getMessage());
-                msg = jpe.getMessage();
-                Topic t = new Topic();
-                t.setTitle(msg);
-                t.setCategory(2);
-                followUpTops.add(t);
             }
             return followUpTops;
         }
