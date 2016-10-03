@@ -103,6 +103,10 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
 
     private class TopicFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>>
     {
+
+         // currently, two elements are needed to be passed as params, first should be the current
+         // number of elements in the list view, second should be the page variable i.e, the next
+         // page to be requested...
         protected ArrayList<Topic> doInBackground (Integer... params){
             try{
                 Thread.sleep(3000);
@@ -112,8 +116,7 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
             Log.i(LOG_TAG, "Current params[0] value... "+params[0]);
             ArrayList<Topic> followUpTops = new ArrayList<>();
             if (params[0] < 30) {
-                String msg = "In case of any error...";
-                String jsonString = Utils.loadJsonFromAsset(MainActivity.this, "latest6.json");
+                String jsonString = Utils.loadJsonFromAsset(MainActivity.this, "latest3.json");
                 ObjectMapper mapper = new ObjectMapper();
                 try {
                     JsonNode response = mapper.readTree(jsonString);
@@ -127,11 +130,6 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                     }
                 } catch (Exception jpe) {
                     Log.i(LOG_TAG, jpe.getMessage());
-                    msg = jpe.getMessage();
-                    Topic t = new Topic();
-                    t.setTitle(msg);
-                    t.setCategory(2);
-                    followUpTops.add(t);
                 }
             }
             return followUpTops;

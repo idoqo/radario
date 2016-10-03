@@ -43,9 +43,8 @@ public class TopicAdapter extends EndlessScrollAdapter
 
     public View getRealView(LayoutInflater inflater, int position, View convertView,
                             ViewGroup parent){
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.topic_item, null);
-        }
+
+        convertView = inflater.inflate(R.layout.topic_item, null);
         TextView titleView = (TextView) convertView.findViewById(R.id.topic_title);
         TextView catView = (TextView)convertView.findViewById(R.id.topic_category);
 
