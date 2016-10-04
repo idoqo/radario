@@ -2,6 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="io.github.idoqo.radario.MainActivity">
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_search_posts"/>
+    <item android:id="@+id/action_sort_posts"
+        android:icon="@drawable/ic_sort_white"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_sort_posts" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
