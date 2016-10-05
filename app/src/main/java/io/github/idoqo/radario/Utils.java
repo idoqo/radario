@@ -20,7 +20,8 @@ public class Utils {
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
-            Log.e("MainActivity", ex.getMessage());
+            String tag = activity.getClass().getName();
+            Log.e(tag, ex.getMessage());
         }
         return json;
     }
