@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/activity_horizontal_margin">
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
     <TextView
         android:id="@+id/topic_title"
         android:layout_width="match_parent"
