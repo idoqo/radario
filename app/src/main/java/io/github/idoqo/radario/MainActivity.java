@@ -3,11 +3,13 @@ package io.github.idoqo.radario;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -56,6 +58,15 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
 
         topicsListView.setListener(scrollListener);
         topicsListView.setAdapter(topicAdapter);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TopicListActivity.class);
+                startActivity(intent);
+            }
+        });
         initTopics();
     }
 

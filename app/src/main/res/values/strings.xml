@@ -4,4 +4,14 @@
 
     <string name="action_sort_posts">Sort</string>
     <string name="action_search_posts">Search</string>
+
+    <!--navigation drawer and menu-->
+    <string name="cat_events">Events</string>
+    <string name="cat_design">Design</string>
+    <string name="cat_ama">AMA</string>
+    <string name="cat_cabal">Tech Cabal</string>
+    <string name="cat_jobs">Jobs</string>
+    <string name="cat_products">Products</string>
+    <string name="cat_everything">Everything</string>
+    <string name="cat_meta">Meta</string>
 </resources>
