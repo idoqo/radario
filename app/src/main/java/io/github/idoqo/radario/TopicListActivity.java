@@ -1,6 +1,7 @@
 package io.github.idoqo.radario;
 
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,11 @@ public class TopicListActivity extends AppCompatActivity {
 
         navigationView = (NavigationView) findViewById(R.id.topic_list_nav_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        TopicListFragment fragment = new TopicListFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.topic_list_main_content, fragment)
+                .commit();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
