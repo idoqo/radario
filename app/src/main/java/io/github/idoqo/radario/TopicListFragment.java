@@ -1,5 +1,6 @@
 package io.github.idoqo.radario;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,6 +24,7 @@ import io.github.idoqo.radario.adapter.TopicAdapter;
 import io.github.idoqo.radario.lib.EndlessScrollListView;
 import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.lib.EndlessScrollListenerInterface;
+import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
 
 
@@ -46,6 +49,21 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
         topicsListView.setListener(scrollListener);
         topicsListView.setAdapter(topicAdapter);
+
+        topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Topic clicked = (Topic) adapterView.getItemAtPosition(i);
+                Intent viewThreadIntent = new Intent(getActivity(), TopicDiscussionActivity.class);
+                viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_TITLE_EXTRA, clicked.getTitle());
+                viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_ID_EXTRA, clicked.getId());
+                viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_CATEGORY_EXTRA,
+                        Category.getnameFromId(clicked.getCategory()));
+                viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_OP_EXTRA, 1);
+
+                startActivity(viewThreadIntent);
+            }
+        });
         return view;
     }
 

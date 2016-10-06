@@ -14,4 +14,8 @@
     <string name="cat_products">Products</string>
     <string name="cat_everything">Everything</string>
     <string name="cat_meta">Meta</string>
+
+    <!--topic discussion activity and related layouts-->
+    <string name="title_activity_topic_discussion">TopicDiscussionActivity</string>
+    <string name="dummy_title">This guy built a Hotel-booking platform in 2 days, after Mark Essien challenged him</string>
 </resources>
