@@ -1,10 +1,12 @@
 package io.github.idoqo.radario.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -48,8 +50,13 @@ public class CommentsAdapter extends BaseAdapter {
         TextView commentTextView = (TextView)convertView.findViewById(R.id.comment_text);
 
         Comment comment = comments.get(position);
+        if (comment.getParentCommentId() != null){
+            LinearLayout commentItemRoot = (LinearLayout) convertView.findViewById(R.id.comment_item_root);
+            int indent = comment.getCommentDepth()*24;
+            commentItemRoot.setPadding(indent, 0,0,0);
+        }
 
-        commentOP.setText(comment.getUsername()+"-------------"+comment.getParentCommentId());
+        commentOP.setText(comment.getUsername()+"------"+comment.getCommentDepth());
         commentTextView.setText(comment.getCooked());
 
         return convertView;
