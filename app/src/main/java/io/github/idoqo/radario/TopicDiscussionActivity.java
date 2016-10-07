@@ -63,7 +63,7 @@ public class TopicDiscussionActivity extends AppCompatActivity {
             //int postId = extras.getInt(TOPIC_ID_EXTRA);
             int postId = 1;
             String category = extras.getString(TOPIC_CATEGORY_EXTRA);
-            String originalPoster = extras.getString(TOPIC_OP_EXTRA);
+            Integer originalPoster = extras.getInt(TOPIC_OP_EXTRA);
 
             TextView titleView = (TextView) findViewById(R.id.active_topic_title);
             TextView categoryView = (TextView) findViewById(R.id.active_topic_category);
@@ -99,7 +99,7 @@ public class TopicDiscussionActivity extends AppCompatActivity {
                     Log.i(LOG_TAG, e.getMessage());
                 }
             }
-            return loadedComments;
+            return Utils.getCommentsAsThread(loadedComments);
         }
 
         protected void onPostExecute(ArrayList<Comment> result){

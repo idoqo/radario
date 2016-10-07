@@ -48,7 +48,8 @@ public class CommentsAdapter extends BaseAdapter {
         TextView commentTextView = (TextView)convertView.findViewById(R.id.comment_text);
 
         Comment comment = comments.get(position);
-        commentOP.setText("idoko");
+
+        commentOP.setText(comment.getUsername()+"-------------"+comment.getParentCommentId());
         commentTextView.setText(comment.getCooked());
 
         return convertView;

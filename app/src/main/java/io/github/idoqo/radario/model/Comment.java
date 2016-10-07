@@ -21,6 +21,28 @@ public class Comment {
     //comment text
     private String cooked;
 
+    //number of children comments, defaults to zero
+    private int childCount;
+    //depth of comment under its root parent, e.g root will have a depth of 0,
+    //a reply to root will be 1, a reply to a reply to a root will be 2...
+    private int commentDepth;
+
+    public void setChildCount(int count){
+        childCount = count;
+    }
+
+    public int getChildCount(){
+        return childCount;
+    }
+
+    public void setCommentDepth(int depth){
+        commentDepth = depth;
+    }
+
+    public int getCommentDepth(){
+        return commentDepth;
+    }
+
     public void setCommentIsReply(boolean isReply){
         commentIsReply = isReply;
     }
