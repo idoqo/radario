@@ -50,6 +50,39 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="24dp">
+
+            <TextView
+                android:id="@+id/topic_poster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="idoko"
+                android:textSize="10sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/posted_since"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 hours ago"
+                android:textSize="10sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -87,6 +120,7 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!--todo use headerView to load all content above list views so they can scroll together-->
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

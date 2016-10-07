@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_sort_comments"
+        android:icon="@drawable/ic_sort_white"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_sort_posts" />
+    <item android:id="@+id/action_bookmark_topic"
+        android:icon="@drawable/ic_bookmark_border_white_24dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_bookmark_topic" />
+
+    <item
+        android:id="@+id/report_topic"
+        android:orderInCategory="100"
+        android:title="@string/action_report_topic"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/refresh_comments"
+        android:orderInCategory="100"
+        android:title="@string/action_refresh"
+        app:showAsAction="never" />
+</menu>

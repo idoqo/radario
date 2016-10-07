@@ -30,7 +30,8 @@
         <activity
             android:name=".TopicDiscussionActivity"
             android:label=""
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".TopicListActivity"></activity>
     </application>
 
 </manifest>

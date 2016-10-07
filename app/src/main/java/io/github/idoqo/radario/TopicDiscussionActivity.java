@@ -7,6 +7,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -77,7 +80,6 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         }
     }
 
-
     private class CommentsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Comment>> {
         public ArrayList<Comment> doInBackground(Integer... params) {
             ArrayList<Comment> loadedComments = new ArrayList<>();
@@ -118,6 +120,12 @@ public class TopicDiscussionActivity extends AppCompatActivity {
             }
             Log.i(LOG_TAG, msg);
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.topic_discussion_menu, menu);
+        return true;
     }
 
 }
