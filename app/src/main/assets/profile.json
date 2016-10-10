@@ -1,0 +1,413 @@
+{
+  "topics": [
+    {
+      "id": 7769,
+      "created_at": "2016-08-07T18:46:00.353Z",
+      "fancy_title": "Created an online pidgin resource, feedback and suggestions welcomed",
+      "slug": "created-an-online-pidgin-resource-feedback-and-suggestions-welcomed",
+      "like_count": 15
+    },
+    {
+      "id": 8308,
+      "created_at": "2016-09-08T10:55:51.330Z",
+      "fancy_title": "Profile of Kenyan ICT minister vs Nigerian ICT Minister",
+      "slug": "profile-of-kenyan-ict-minister-vs-nigerian-ict-minister",
+      "like_count": 12
+    },
+    {
+      "id": 7842,
+      "created_at": "2016-08-11T03:17:37.544Z",
+      "fancy_title": "Stack Overflow Developer Survey 2016 Results",
+      "slug": "stack-overflow-developer-survey-2016-results",
+      "like_count": 19
+    }
+  ],
+  "badges": [
+    {
+      "id": 2,
+      "name": "Member",
+      "description": "<a href=\"https://meta.discourse.org/t/what-do-user-trust-levels-do/4924/5\">Granted</a> invitations, group messaging, more likes",
+      "grant_count": 566,
+      "allow_title": true,
+      "multiple_grant": false,
+      "icon": "fa-user",
+      "image": "",
+      "listable": true,
+      "enabled": true,
+      "badge_grouping_id": 4,
+      "system": true,
+      "slug": "member",
+      "badge_type_id": 3
+    },
+    {
+      "id": 16,
+      "name": "Read Guidelines",
+      "description": "Read the <a href=\"/guidelines\">community guidelines</a>",
+      "grant_count": 243,
+      "allow_title": false,
+      "multiple_grant": false,
+      "icon": "fa-certificate",
+      "image": null,
+      "listable": true,
+      "enabled": true,
+      "badge_grouping_id": 1,
+      "system": true,
+      "slug": "read-guidelines",
+      "badge_type_id": 3
+    },
+    {
+      "id": 15,
+      "name": "First Quote",
+      "description": "Quoted a post",
+      "grant_count": 360,
+      "allow_title": false,
+      "multiple_grant": false,
+      "icon": "fa-certificate",
+      "image": null,
+      "listable": true,
+      "enabled": true,
+      "badge_grouping_id": 1,
+      "system": true,
+      "slug": "first-quote",
+      "badge_type_id": 3
+    },
+    {
+      "id": 41,
+      "name": "First Emoji",
+      "description": "Used an Emoji in a Post",
+      "grant_count": 575,
+      "allow_title": false,
+      "multiple_grant": false,
+      "icon": "fa-certificate",
+      "image": null,
+      "listable": true,
+      "enabled": true,
+      "badge_grouping_id": 1,
+      "system": true,
+      "slug": "first-emoji",
+      "badge_type_id": 3
+    },
+    {
+      "id": 28,
+      "name": "Popular Link",
+      "description": "Posted an external link with 50 clicks",
+      "grant_count": 654,
+      "allow_title": false,
+      "multiple_grant": true,
+      "icon": "fa-certificate",
+      "image": null,
+      "listable": true,
+      "enabled": true,
+      "badge_grouping_id": 3,
+      "system": true,
+      "slug": "popular-link",
+      "badge_type_id": 3
+    },
+    {
+      "id": 10,
+      "name": "Editor",
+      "description": "First post edit",
+      "grant_count": 764,
+      "allow_title": false,
+      "multiple_grant": false,
+      "icon": "fa-certificate",
+      "image": null,
+      "listable": true,
+      "enabled": true,
+      "badge_grouping_id": 1,
+      "system": true,
+      "slug": "editor",
+      "badge_type_id": 3
+    }
+  ],
+  "badge_types": [
+    {
+      "id": 3,
+      "name": "Bronze",
+      "sort_order": 7
+    }
+  ],
+  "users": [
+    {
+      "id": 3298,
+      "username": "idoko",
+      "avatar_template": "/letter_avatar_proxy/v2/letter/i/ea666f/{size}.png",
+      "name": "",
+      "moderator": false,
+      "admin": false
+    },
+    {
+      "id": -1,
+      "username": "system",
+      "avatar_template": "/user_avatar/radar.techcabal.com/system/{size}/11_1.png",
+      "name": "system",
+      "moderator": true,
+      "admin": true
+    }
+  ],
+  "user_summary": {
+    "likes_given": 6,
+    "likes_received": 9,
+    "posts_read_count": 721,
+    "days_visited": 22,
+    "topic_count": 2,
+    "post_count": 11,
+    "time_read": "3h",
+    "topic_ids": [
+      7769,
+      8308
+    ],
+    "replies": [
+      {
+        "post_number": 9,
+        "like_count": 3,
+        "created_at": "2016-08-13T13:17:49.054Z",
+        "topic_id": 7842
+      },
+      {
+        "post_number": 5,
+        "like_count": 1,
+        "created_at": "2016-08-11T14:18:56.691Z",
+        "topic_id": 7842
+      },
+      {
+        "post_number": 9,
+        "like_count": 0,
+        "created_at": "2016-08-08T22:58:27.525Z",
+        "topic_id": 7769
+      },
+      {
+        "post_number": 12,
+        "like_count": 0,
+        "created_at": "2016-08-09T10:01:27.362Z",
+        "topic_id": 7769
+      },
+      {
+        "post_number": 13,
+        "like_count": 0,
+        "created_at": "2016-08-09T10:02:06.427Z",
+        "topic_id": 7769
+      },
+      {
+        "post_number": 14,
+        "like_count": 0,
+        "created_at": "2016-08-09T10:06:03.575Z",
+        "topic_id": 7769
+      }
+    ],
+    "links": [
+      {
+        "url": "http://www.kofare.com",
+        "title": null,
+        "clicks": 81,
+        "post_number": 1,
+        "topic_id": 7769
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joseph_Mucheru",
+        "title": "Joseph Mucheru - Wikipedia, the free encyclopedia",
+        "clicks": 3,
+        "post_number": 1,
+        "topic_id": 8308
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Abdur-Raheem_Adebayo_Shittu",
+        "title": "Abdur-Raheem Adebayo Shittu - Wikipedia, the free encyclopedia",
+        "clicks": 2,
+        "post_number": 1,
+        "topic_id": 8308
+      }
+    ],
+    "most_liked_by_users": [
+      {
+        "id": 275,
+        "username": "davidsmith8900",
+        "avatar_template": "/letter_avatar_proxy/v2/letter/d/5e9695/{size}.png",
+        "count": 2,
+        "name": "David Smith"
+      },
+      {
+        "id": 761,
+        "username": "ozoesono",
+        "avatar_template": "/user_avatar/radar.techcabal.com/ozoesono/{size}/2384_1.png",
+        "count": 1,
+        "name": "Ozo"
+      },
+      {
+        "id": 479,
+        "username": "Uduak",
+        "avatar_template": "/letter_avatar_proxy/v2/letter/u/c0e974/{size}.png",
+        "count": 1,
+        "name": "Uduak Ark Asuquo"
+      },
+      {
+        "id": 1875,
+        "username": "abiodun",
+        "avatar_template": "/user_avatar/radar.techcabal.com/abiodun/{size}/2732_1.png",
+        "count": 1,
+        "name": "Abiodun"
+      },
+      {
+        "id": 1337,
+        "username": "FrankUgo",
+        "avatar_template": "/user_avatar/radar.techcabal.com/frankugo/{size}/1680_1.png",
+        "count": 1,
+        "name": "Frank Ugo"
+      },
+      {
+        "id": 3200,
+        "username": "StephenAfamO",
+        "avatar_template": "/user_avatar/radar.techcabal.com/stephenafamo/{size}/3827_1.png",
+        "count": 1,
+        "name": "Stephen Afam-Osemene"
+      }
+    ],
+    "most_liked_users": [
+      {
+        "id": 1644,
+        "username": "madeofhuman",
+        "avatar_template": "/user_avatar/radar.techcabal.com/madeofhuman/{size}/4367_1.png",
+        "count": 1,
+        "name": ""
+      },
+      {
+        "id": 129,
+        "username": "micaleel",
+        "avatar_template": "/user_avatar/radar.techcabal.com/micaleel/{size}/155_1.png",
+        "count": 1,
+        "name": "Khalil"
+      },
+      {
+        "id": 1498,
+        "username": "Diakon",
+        "avatar_template": "/user_avatar/radar.techcabal.com/diakon/{size}/3410_1.png",
+        "count": 1,
+        "name": "Shalvah Adebayo"
+      },
+      {
+        "id": 313,
+        "username": "87_chuks",
+        "avatar_template": "/user_avatar/radar.techcabal.com/87_chuks/{size}/383_1.png",
+        "count": 1,
+        "name": "Tim Chuks"
+      },
+      {
+        "id": 1244,
+        "username": "Ralph",
+        "avatar_template": "/user_avatar/radar.techcabal.com/ralph/{size}/3762_1.png",
+        "count": 1,
+        "name": "Ralph Otowo"
+      },
+      {
+        "id": 3200,
+        "username": "StephenAfamO",
+        "avatar_template": "/user_avatar/radar.techcabal.com/stephenafamo/{size}/3827_1.png",
+        "count": 1,
+        "name": "Stephen Afam-Osemene"
+      }
+    ],
+    "most_replied_to_users": [
+      {
+        "id": 129,
+        "username": "micaleel",
+        "avatar_template": "/user_avatar/radar.techcabal.com/micaleel/{size}/155_1.png",
+        "count": 1,
+        "name": "Khalil"
+      },
+      {
+        "id": 479,
+        "username": "Uduak",
+        "avatar_template": "/letter_avatar_proxy/v2/letter/u/c0e974/{size}.png",
+        "count": 1,
+        "name": "Uduak Ark Asuquo"
+      },
+      {
+        "id": 1244,
+        "username": "Ralph",
+        "avatar_template": "/user_avatar/radar.techcabal.com/ralph/{size}/3762_1.png",
+        "count": 1,
+        "name": "Ralph Otowo"
+      },
+      {
+        "id": 3273,
+        "username": "ChukwuEmekaAjah",
+        "avatar_template": "/user_avatar/radar.techcabal.com/chukwuemekaajah/{size}/4126_1.png",
+        "count": 1,
+        "name": "Chukwuemeka Ajah"
+      },
+      {
+        "id": 3444,
+        "username": "Ghost",
+        "avatar_template": "/user_avatar/radar.techcabal.com/ghost/{size}/4318_1.png",
+        "count": 1,
+        "name": ""
+      },
+      {
+        "id": 1981,
+        "username": "Freshboi_Ekundayo",
+        "avatar_template": "/user_avatar/radar.techcabal.com/freshboi_ekundayo/{size}/3688_1.png",
+        "count": 1,
+        "name": "Freshboi Ekundayo"
+      }
+    ],
+    "badges": [
+      {
+        "id": 12800,
+        "granted_at": "2016-09-24T13:03:24.567Z",
+        "count": 1,
+        "badge_id": 2,
+        "user_id": 3298,
+        "granted_by_id": -1
+      },
+      {
+        "id": 11726,
+        "granted_at": "2016-08-13T18:32:11.636Z",
+        "count": 1,
+        "badge_id": 16,
+        "user_id": 3298,
+        "granted_by_id": -1
+      },
+      {
+        "id": 11603,
+        "granted_at": "2016-08-09T10:06:03.520Z",
+        "count": 1,
+        "post_id": 38571,
+        "post_number": 14,
+        "badge_id": 15,
+        "user_id": 3298,
+        "granted_by_id": -1,
+        "topic_id": 7769
+      },
+      {
+        "id": 11547,
+        "granted_at": "2016-08-07T18:46:01.951Z",
+        "count": 1,
+        "post_id": 38435,
+        "post_number": 1,
+        "badge_id": 41,
+        "user_id": 3298,
+        "granted_by_id": -1,
+        "topic_id": 7769
+      },
+      {
+        "id": 11599,
+        "granted_at": "2016-08-09T00:59:36.093Z",
+        "count": 1,
+        "post_id": 38435,
+        "post_number": 1,
+        "badge_id": 28,
+        "user_id": 3298,
+        "granted_by_id": -1,
+        "topic_id": 7769
+      },
+      {
+        "id": 11605,
+        "granted_at": "2016-08-09T10:01:27.362Z",
+        "count": 1,
+        "badge_id": 10,
+        "user_id": 3298,
+        "granted_by_id": -1
+      }
+    ]
+  }
+}
