@@ -30,8 +30,12 @@
         <activity
             android:name=".TopicDiscussionActivity"
             android:label=""
+            android:parentActivityName=".TopicListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UserProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".TopicListActivity"></activity>
+            android:parentActivityName=".TopicListActivity"
+            android:label=""/>
     </application>
 
 </manifest>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/profile_full_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mark Essien"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"
+        />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_avatar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/fox"
+        android:layout_below="@id/profile_full_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"/>
+    <TextView
+        android:id="@+id/profile_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_bookmark_topic"
+        android:layout_below="@id/user_avatar"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        />
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_toEndOf="@id/user_avatar"
+        android:src="@drawable/ic_reply_white"
+        android:foregroundGravity="right"
+        android:tint="@color/colorPrimaryDark"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

@@ -2,6 +2,7 @@ package io.github.idoqo.radario;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,9 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 public class TopicListActivity extends AppCompatActivity {
 
@@ -41,6 +44,16 @@ public class TopicListActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 drawerLayout.closeDrawers();
                 return true;
+            }
+        });
+
+        View navHeaderView = navigationView.getHeaderView(0);
+        TextView usernameTV = (TextView) navHeaderView.findViewById(R.id.logged_username);
+        usernameTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent profileIntent = new Intent(TopicListActivity.this, UserProfileActivity.class);
+                startActivity(profileIntent);
             }
         });
     }
