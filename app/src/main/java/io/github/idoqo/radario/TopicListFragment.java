@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,7 +15,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import io.github.idoqo.radario.adapter.TopicAdapter;
 import io.github.idoqo.radario.lib.EndlessScrollListView;
@@ -26,6 +25,7 @@ import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.lib.EndlessScrollListenerInterface;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
+import io.github.idoqo.radario.model.User;
 
 
 public class TopicListFragment extends Fragment implements EndlessScrollListenerInterface {
@@ -104,8 +104,6 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
             }
 
             ArrayList<Topic> loadedTopics = new ArrayList<>();
-            //number of items currently in the list view
-            int numListViewItems = params[0];
             //the next page to be loaded
             int pageToLoad = params[1];
 
@@ -116,12 +114,30 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                 ObjectMapper mapper = new ObjectMapper();
                 try {
                     JsonNode response = mapper.readTree(jsonString);
+                    //first, make a map of the participating users on this page which is returned in
+                    //the first node from the json response
+                    Map<Integer, User> participants = new HashMap<>();
+                    JsonNode usersContainer = response.path("users");
+                    Iterator<JsonNode> userNodeIterator = usersContainer.elements();
+
+                    while (userNodeIterator.hasNext()) {
+                        User user = mapper.readValue(userNodeIterator.next().traverse(), User.class);
+                        //use the id as a key for better querying
+                        participants.put(user.getId(), user);
+                    }
                     JsonNode topicsContainer = response.path("topic_list");
                     JsonNode topicsNode = topicsContainer.path("topics");
                     Iterator<JsonNode> nodeIterator = topicsNode.elements();
 
                     while (nodeIterator.hasNext()) {
                         Topic topic = mapper.readValue(nodeIterator.next().traverse(), Topic.class);
+                        //todo simply set the poster object and let callers ask for what they need
+                     //   topic.setPosterUsername(participants.get(topic.getPosterId()).getUsername());
+                        User info = participants.get(topic.getPoster().getUserId());
+                        String username = info.getUsername();
+
+                        //topic.setPosterUsername(String.valueOf(topic.getPoster().getUserId()));
+                        topic.setPosterUsername(username);
                         loadedTopics.add(topic);
                     }
                 } catch (Exception e) {

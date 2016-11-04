@@ -52,7 +52,7 @@ public class TopicAdapter extends EndlessScrollAdapter
         Topic tp = topics.get(position);
         titleView.setText(tp.getTitle());
         catView.setText(Category.getnameFromId(tp.getCategory()));
-        //opView.setText(tp.getPosterUsername());
+        opView.setText(tp.getPosterUsername());
 
         return convertView;
     }

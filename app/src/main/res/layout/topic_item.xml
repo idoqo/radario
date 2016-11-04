@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/topic_poster_username"
-        android:text="idoko"
         android:textSize="10sp"
         android:textColor="@android:color/darker_gray" />
         <LinearLayout
