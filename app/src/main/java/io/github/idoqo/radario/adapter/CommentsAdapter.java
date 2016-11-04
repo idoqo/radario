@@ -2,6 +2,8 @@ package io.github.idoqo.radario.adapter;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,7 @@ public class CommentsAdapter extends BaseAdapter {
 
     public CommentsAdapter(Context context, ArrayList<Comment> comments){
         super();
-        context = context;
+        this.context = context;
         inflater = LayoutInflater.from(context);
         this.comments = comments;
     }
@@ -50,15 +52,45 @@ public class CommentsAdapter extends BaseAdapter {
         TextView commentTextView = (TextView)convertView.findViewById(R.id.comment_text);
 
         Comment comment = comments.get(position);
-        if (comment.getParentCommentId() != null){
-            LinearLayout commentItemRoot = (LinearLayout) convertView.findViewById(R.id.comment_item_root);
-            int indent = comment.getCommentDepth()*24;
-            commentItemRoot.setPadding(indent, 0,0,0);
-        }
+        LinearLayout indentView = (LinearLayout)convertView.findViewById(R.id.indent);
+
+        setupIndent(indentView, comment.getCommentDepth());
 
         commentOP.setText(comment.getUsername()+"------"+comment.getCommentDepth());
         commentTextView.setText(comment.getCooked());
 
         return convertView;
+    }
+
+    private void setupIndent(View indentView, int depth) {
+        LinearLayout indentBarView = (LinearLayout) indentView.findViewById(R.id.indent_bar);
+        if (depth <= 0) {
+            hideIndent(indentBarView, indentView);
+        } else {
+            positionIndentForDepth(indentBarView, indentView, depth);
+        }
+    }
+
+    private void hideIndent(View indentBarView, View indentView) {
+        indentView.getLayoutParams().width = 0;
+        indentView.setVisibility(View.INVISIBLE);
+        indentBarView.setVisibility(View.INVISIBLE);
+    }
+
+    private void positionIndentForDepth(View indentBarView, View indentView, int depth) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+
+        //int indentSize = depth * INDENT_SIZE;
+        int indentSize = depth * 5;
+        int indentSizeScaledForDisplay = Math.round(
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indentSize, metrics));
+        indentView.getLayoutParams().width = indentSizeScaledForDisplay;
+
+        int[] indentColors = context.getResources().getIntArray(R.array.commentColors);
+        int indentColor = indentColors[depth % indentColors.length];
+        indentBarView.setBackgroundColor(indentColor);
+
+        indentView.setVisibility(View.VISIBLE);
+        indentBarView.setVisibility(View.VISIBLE);
     }
 }

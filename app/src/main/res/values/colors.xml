@@ -7,4 +7,23 @@
     <color name="textLinksPrimary">#212121</color>
     <color name="textLinksSecondary">#757575</color>
     <color name="colorPrimaryLight">#C5CAE9</color>
+
+    <color name="cyan">#00BCD4</color>
+    <color name="blue">#2196F3</color>
+    <color name="lightGreen">#8BC34A</color>
+    <color name="pink">#E91E63</color>
+    <color name="lime">#CDDC39</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="indigo">#FFC107</color>
+    <color name="listDividerColor">#EEEEEE</color>
+
+    <integer-array name="commentColors">
+        <item>@color/cyan</item>
+        <item>@color/blue</item>
+        <item>@color/lightGreen</item>
+        <item>@color/pink</item>
+        <item>@color/lime</item>
+        <item>@color/yellow</item>
+        <item>@color/indigo</item>
+    </integer-array>
 </resources>
