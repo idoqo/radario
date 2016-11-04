@@ -5,20 +5,78 @@
     android:layout_height="wrap_content"
     android:paddingTop="12dp"
     android:paddingBottom="12dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/topic_poster_username"
+        android:text="idoko"
+        android:textSize="10sp"
+        android:textColor="@android:color/darker_gray" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/topic_poster_username"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/topic_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cat_everything"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="10sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bull_separator"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="10sp" />
+            <TextView
+                android:id="@+id/topic_posted_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 hours ago"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </RelativeLayout>
     <TextView
         android:id="@+id/topic_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/topic_title_size"/>
-
+        android:text="@string/dummy_title"
+        android:textSize="@dimen/topic_title_size"
+        android:layout_marginBottom="5dp"/>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/topic_meta"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/topic_category"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_like"
+                android:tint="@android:color/darker_gray"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_comment"
+                android:tint="@android:color/darker_gray"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_share"
+                android:tint="@android:color/darker_gray"
+                android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

@@ -47,10 +47,12 @@ public class TopicAdapter extends EndlessScrollAdapter
         convertView = inflater.inflate(R.layout.topic_item, null);
         TextView titleView = (TextView) convertView.findViewById(R.id.topic_title);
         TextView catView = (TextView)convertView.findViewById(R.id.topic_category);
+        TextView opView = (TextView)convertView.findViewById(R.id.topic_poster_username);
 
         Topic tp = topics.get(position);
         titleView.setText(tp.getTitle());
         catView.setText(Category.getnameFromId(tp.getCategory()));
+        //opView.setText(tp.getPosterUsername());
 
         return convertView;
     }

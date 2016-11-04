@@ -10,6 +10,8 @@ public class Topic {
     private String title;
     @JsonProperty("category_id")
     private int category;
+    @JsonProperty("username")
+    private String posterUsername;
 
     public int getCategory() {
         return category;

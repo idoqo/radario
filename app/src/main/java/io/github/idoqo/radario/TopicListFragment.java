@@ -50,7 +50,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
         topicsListView.setListener(scrollListener);
         topicsListView.setAdapter(topicAdapter);
 
-        View loaderView = view.findViewById(R.id.frg_topics_loading_view);
+        //View loaderView = view.findViewById(R.id.frg_topics_loading_view);
 
         topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
