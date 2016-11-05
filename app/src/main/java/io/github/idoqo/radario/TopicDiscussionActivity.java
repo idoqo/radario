@@ -84,7 +84,7 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         public ArrayList<Comment> doInBackground(Integer... params) {
             ArrayList<Comment> loadedComments = new ArrayList<>();
             int topicId = params[0];
-            String jsonString = Utils.loadJsonFromAsset(TopicDiscussionActivity.this, "8887.json");
+            String jsonString = Utils.loadJsonFromAsset(TopicDiscussionActivity.this, "7769.json");
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
