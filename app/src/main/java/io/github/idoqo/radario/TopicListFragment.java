@@ -52,7 +52,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
         //View loaderView = view.findViewById(R.id.frg_topics_loading_view);
 
-        topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
@@ -70,7 +70,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                     //not my fault asshole
                 }
             }
-        });
+        });*/
         return view;
     }
 
