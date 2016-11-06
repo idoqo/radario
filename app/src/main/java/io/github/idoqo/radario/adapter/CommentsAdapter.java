@@ -62,7 +62,7 @@ public class CommentsAdapter extends BaseAdapter {
 
         String commentContent = comment.getCooked();
 
-        commentOP.setText(comment.getUsername()+"------"+comment.getCommentDepth());
+        commentOP.setText(comment.getUsername());
         commentTextView.setText(Html.fromHtml(Jsoup.clean(commentContent, Whitelist.basic())));
 
         return convertView;

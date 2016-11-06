@@ -68,11 +68,13 @@ public class TopicDiscussionActivity extends AppCompatActivity {
             String category = extras.getString(TOPIC_CATEGORY_EXTRA);
             Integer originalPoster = extras.getInt(TOPIC_OP_EXTRA);
 
-            TextView titleView = (TextView) findViewById(R.id.active_topic_title);
-            TextView categoryView = (TextView) findViewById(R.id.active_topic_category);
-
+            View headerView = LayoutInflater.from(this).inflate(R.layout.topic_discussion_header, null);
+            TextView titleView = (TextView) headerView.findViewById(R.id.active_topic_title);
+            TextView categoryView = (TextView) headerView.findViewById(R.id.active_topic_category);
             titleView.setText(postTitle);
             categoryView.setText(category);
+
+            threadsListView.addHeaderView(headerView);
 
             commentsFetcherTask = new CommentsFetcherTask();
             //pass the topic id to be used in fetching the comments from server
@@ -111,14 +113,11 @@ public class TopicDiscussionActivity extends AppCompatActivity {
             }
             commentsAdapter.notifyDataSetChanged();
             String msg;
-            if (result.size() > 0) {
-                msg = "Loaded " + String.valueOf(result.size()) + " items";
+            if (result.size() <= 0) {
+                msg = "Nothing to load";
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-            } else {
-                msg = "No more items to load";
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                Log.i(LOG_TAG, msg);
             }
-            Log.i(LOG_TAG, msg);
         }
     }
 
