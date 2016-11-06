@@ -11,6 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -60,7 +63,7 @@ public class CommentsAdapter extends BaseAdapter {
         String commentContent = comment.getCooked();
 
         commentOP.setText(comment.getUsername()+"------"+comment.getCommentDepth());
-        commentTextView.setText(Html.fromHtml(commentContent));
+        commentTextView.setText(Html.fromHtml(Jsoup.clean(commentContent, Whitelist.basic())));
 
         return convertView;
     }
