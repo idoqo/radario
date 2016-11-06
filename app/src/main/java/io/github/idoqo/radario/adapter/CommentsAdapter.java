@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import io.github.idoqo.radario.R;
+import io.github.idoqo.radario.helpers.RenderableCommentHelper;
 import io.github.idoqo.radario.lib.EndlessScrollAdapter;
 import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.model.Comment;
@@ -56,8 +57,10 @@ public class CommentsAdapter extends BaseAdapter {
 
         setupIndent(indentView, comment.getCommentDepth());
 
+        String commentContent = comment.getCooked();
+
         commentOP.setText(comment.getUsername()+"------"+comment.getCommentDepth());
-        commentTextView.setText(comment.getCooked());
+        commentTextView.setText(Html.fromHtml(commentContent));
 
         return convertView;
     }
