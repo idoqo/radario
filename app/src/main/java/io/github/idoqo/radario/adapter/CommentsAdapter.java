@@ -1,6 +1,7 @@
 package io.github.idoqo.radario.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -65,7 +67,33 @@ public class CommentsAdapter extends BaseAdapter {
         commentOP.setText(comment.getUsername());
         commentTextView.setText(Html.fromHtml(Jsoup.clean(commentContent, Whitelist.basic())));
 
+        convertView.setOnClickListener(commentCollapser());
+
         return convertView;
+    }
+
+    private View.OnClickListener commentCollapser(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View commentText = view.findViewById(R.id.comment_text);
+                if (commentText != null) {
+                    toggleCollapse(view, commentText);
+                }
+            }
+        };
+    }
+
+    private void toggleCollapse(View parent, View viewToHide) {
+        ImageView indicator = (ImageView) parent.findViewById(R.id.show_comment_indicator);
+
+        if (viewToHide.getVisibility() == View.GONE) {
+            viewToHide.setVisibility(View.VISIBLE);
+            indicator.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down));
+        } else {
+            viewToHide.setVisibility(View.GONE);
+            indicator.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_right));
+        }
     }
 
     private void setupIndent(View indentView, int depth) {
