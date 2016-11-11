@@ -37,6 +37,7 @@ public class TopicDiscussionActivity extends AppCompatActivity {
     public static final String TOPIC_ID_EXTRA = "topic_id";
     public static final String TOPIC_OP_EXTRA = "topic_poster";
     public static final String TOPIC_CATEGORY_EXTRA = "topic_category";
+    public static final String TOPIC_LIKE_COUNT_EXTRA = "like_count";
 
     private ListView threadsListView;
     private CommentsAdapter commentsAdapter;
@@ -56,27 +57,40 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         commentsAdapter = new CommentsAdapter(this, commentList);
         threadsListView = (ListView) findViewById(R.id.discussion_top_level_view);
         threadsListView.setAdapter(commentsAdapter);
+
+        Bundle extras = getIntent().getExtras();
+        initHeaderView(extras);
         initThread();
+    }
+
+    private void initHeaderView(Bundle extras) {
+        if (extras != null) {
+            String title = extras.getString(TOPIC_TITLE_EXTRA);
+            //id to use when requesting for the comments via http
+            //int id = extras.getInt(TOPIC_ID_EXTRA);
+            int id = 1;
+            String category = extras.getString(TOPIC_CATEGORY_EXTRA);
+            Integer poster = extras.getInt(TOPIC_OP_EXTRA);
+            int likeCount = extras.getInt(TOPIC_LIKE_COUNT_EXTRA);
+
+            View headerView = LayoutInflater.from(this).inflate(R.layout.topic_discussion_header, null);
+            TextView titleView = (TextView) headerView.findViewById(R.id.active_topic_title);
+            TextView categoryView = (TextView) headerView.findViewById(R.id.active_topic_category);
+            TextView likeCountView = (TextView) headerView.findViewById(R.id.number_of_likes);
+            titleView.setText(title);
+            categoryView.setText(category);
+            String num = (likeCount < 2) ? " like" : " likes";
+            likeCountView.setText(String.valueOf(likeCount)+num);
+
+            threadsListView.addHeaderView(headerView);
+        }
     }
 
     private void initThread(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String postTitle = extras.getString(TOPIC_TITLE_EXTRA);
-            //int postId = extras.getInt(TOPIC_ID_EXTRA);
-            int postId = 1;
-            String category = extras.getString(TOPIC_CATEGORY_EXTRA);
-            Integer originalPoster = extras.getInt(TOPIC_OP_EXTRA);
-
-            View headerView = LayoutInflater.from(this).inflate(R.layout.topic_discussion_header, null);
-            TextView titleView = (TextView) headerView.findViewById(R.id.active_topic_title);
-            TextView categoryView = (TextView) headerView.findViewById(R.id.active_topic_category);
-            titleView.setText(postTitle);
-            categoryView.setText(category);
-
-            threadsListView.addHeaderView(headerView);
-
             commentsFetcherTask = new CommentsFetcherTask();
+            int postId = extras.getInt(TOPIC_ID_EXTRA);
             //pass the topic id to be used in fetching the comments from server
             commentsFetcherTask.execute(postId);
         }
@@ -86,7 +100,7 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         public ArrayList<Comment> doInBackground(Integer... params) {
             ArrayList<Comment> loadedComments = new ArrayList<>();
             int topicId = params[0];
-            String jsonString = Utils.loadJsonFromAsset(TopicDiscussionActivity.this, "7769.json");
+            String jsonString = Utils.loadJsonFromAsset(TopicDiscussionActivity.this, "5272.json");
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {

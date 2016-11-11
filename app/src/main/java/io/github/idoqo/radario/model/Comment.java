@@ -12,6 +12,8 @@ public class Comment {
     private String avatarUrl;
     @JsonProperty("post_number")
     private int postNumber;
+    @JsonProperty("like_count")
+    private int likeCount;
     private int postType;
     private double score;
     //is the comment a reply to another comment?
@@ -117,5 +119,13 @@ public class Comment {
 
     public void setCooked(String cooked) {
         this.cooked = cooked;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 }

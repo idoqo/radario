@@ -14,6 +14,8 @@ public class Topic {
     private String title;
     @JsonProperty("category_id")
     private int category;
+    @JsonProperty("like_count")
+    private int likeCount;
 
     private Poster op;
 
@@ -55,8 +57,6 @@ public class Topic {
         return this.posters;
     }
 
-
-
     public Poster getPoster() {
         for (Poster poster : this.posters) {
             if (poster.getDescription().startsWith(Poster.OP_DESCRIPTION)) {
@@ -70,11 +70,20 @@ public class Topic {
     public void setPoster(Poster poster) {
         this.op = poster;
     }
+
     public void setPosterUsername(String name) {
         posterUsername = name;
     }
 
     public String getPosterUsername(){
         return posterUsername;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 }
