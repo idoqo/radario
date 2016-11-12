@@ -50,27 +50,6 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
         topicsListView.setListener(scrollListener);
         topicsListView.setAdapter(topicAdapter);
 
-        //View loaderView = view.findViewById(R.id.frg_topics_loading_view);
-
-        /*topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                try {
-                    Topic clicked = (Topic) adapterView.getItemAtPosition(i);
-                    Intent viewThreadIntent = new Intent(getActivity(), TopicDiscussionActivity.class);
-                    viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_TITLE_EXTRA, clicked.getTitle());
-                    viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_ID_EXTRA, clicked.getId());
-                    viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_CATEGORY_EXTRA,
-                            Category.getnameFromId(clicked.getCategory()));
-                    viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_OP_EXTRA, 1);
-
-                    startActivity(viewThreadIntent);
-                } catch (IndexOutOfBoundsException oob) {
-                    //index out of bounds are thrown if the loading view is clicked
-                    //not my fault asshole
-                }
-            }
-        });*/
         return view;
     }
 
@@ -94,7 +73,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
     @Override
     public void onScrollCalled(int firstVisibleItem, int visibleItemCount, int totalItemCount) {}
 
-    private class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>> {
+    public class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>> {
         protected ArrayList<Topic> doInBackground (Integer... params) {
             //simulate delay
             try {

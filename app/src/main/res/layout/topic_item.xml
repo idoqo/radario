@@ -67,12 +67,14 @@
                 android:tint="@android:color/darker_gray"
                 android:layout_weight="1"/>
             <ImageView
+                android:id="@+id/action_topic_comments"
                 android:layout_width="0dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_comment"
                 android:tint="@android:color/darker_gray"
                 android:layout_weight="1"/>
             <ImageView
+                android:id="@+id/action_share_topic"
                 android:layout_width="0dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_share"

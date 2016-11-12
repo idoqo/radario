@@ -6,10 +6,18 @@
     tools:context="io.github.idoqo.radario.fragment.UserTopicsFragment">
 
     <TextView
-        android:id="@+id/user_topics_content"
+        android:id="@+id/empty_user_topics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cat_everything"
+        android:visibility="gone"
         android:layout_centerInParent="true"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/user_topics_list"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
