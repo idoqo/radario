@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.w3c.dom.Text;
 
@@ -38,6 +39,9 @@ public class UserTopicsFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private ArrayList<Topic> userTopics;
 
+    private boolean executing = false;
+    private AVLoadingIndicatorView loadingIndicator;
+
     private TextView emptyTopicsView;
 
     private static final String LOG_TAG = "UserTopicsFragment";
@@ -50,6 +54,7 @@ public class UserTopicsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //since nothing is in our list yet, the initial list count is zero
         fetcherTask = new TopicsFetcherTask();
+        executing = true;
         fetcherTask.execute(0, currentPage);
     }
 
@@ -57,6 +62,8 @@ public class UserTopicsFragment extends Fragment {
         View content = inflater.inflate(R.layout.fragment_user_topics, container, false);
         topicsList = (RecyclerView) content.findViewById(R.id.user_topics_list);
         emptyTopicsView = (TextView) content.findViewById(R.id.empty_user_topics);
+
+        loadingIndicator = (AVLoadingIndicatorView) content.findViewById(R.id.topics_loading_indicator);
 
         layoutManager = new LinearLayoutManager(getActivity());
         topicsList.setHasFixedSize(true);
@@ -69,6 +76,11 @@ public class UserTopicsFragment extends Fragment {
             topicAdapter = new UserTopicAdapter(getActivity(), userTopics);
         }
         topicsList.setAdapter(topicAdapter);
+
+        //if topics are being loaded, show the indicator
+        if (executing) {
+            loadingIndicator.setVisibility(View.VISIBLE);
+        }
 
         return content;
     }
@@ -129,6 +141,7 @@ public class UserTopicsFragment extends Fragment {
             super.onPostExecute(result);
             if (result.size() > 0) {
                 emptyTopicsView.setVisibility(View.GONE);
+                loadingIndicator.setVisibility(View.INVISIBLE);
                 Toast.makeText(getContext(), "Loaded " + String.valueOf(result.size()) + "items",
                         Toast.LENGTH_SHORT).show();
                 userTopics = result;
