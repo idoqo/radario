@@ -37,7 +37,7 @@ public class UserTopicsFragment extends Fragment {
     private RecyclerView topicsList;
     private int currentPage = 1;
     private LinearLayoutManager layoutManager;
-    private ArrayList<Topic> userTopics;
+    private ArrayList<Topic> userTopics = new ArrayList<>();
 
     private boolean executing = false;
     private AVLoadingIndicatorView loadingIndicator;
@@ -53,9 +53,11 @@ public class UserTopicsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //since nothing is in our list yet, the initial list count is zero
-        fetcherTask = new TopicsFetcherTask();
-        executing = true;
-        fetcherTask.execute(0, currentPage);
+        if (userTopics == null || userTopics.isEmpty()) {
+            executing = true;
+            fetcherTask = new TopicsFetcherTask();
+            fetcherTask.execute(0, currentPage);
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,19 +70,8 @@ public class UserTopicsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         topicsList.setHasFixedSize(true);
         topicsList.setLayoutManager(layoutManager);
-
-        if (userTopics == null) {
-            userTopics = new ArrayList<>();
-        }
-        if (topicAdapter == null) {
-            topicAdapter = new UserTopicAdapter(getActivity(), userTopics);
-        }
+        topicAdapter = new UserTopicAdapter(getActivity(), userTopics);
         topicsList.setAdapter(topicAdapter);
-
-        //if topics are being loaded, show the indicator
-        if (executing) {
-            loadingIndicator.setVisibility(View.VISIBLE);
-        }
 
         return content;
     }
@@ -142,8 +133,6 @@ public class UserTopicsFragment extends Fragment {
             if (result.size() > 0) {
                 emptyTopicsView.setVisibility(View.GONE);
                 loadingIndicator.setVisibility(View.INVISIBLE);
-                Toast.makeText(getContext(), "Loaded " + String.valueOf(result.size()) + "items",
-                        Toast.LENGTH_SHORT).show();
                 userTopics = result;
                 if (topicAdapter != null) {
                     topicAdapter.setData(result);
