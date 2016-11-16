@@ -36,7 +36,14 @@
         <activity android:name=".UserProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".TopicListActivity"
-            android:label=""/>
+            android:label="">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="@string/app_intent_uri_scheme"
+                    android:host="@string/app_user_intent"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

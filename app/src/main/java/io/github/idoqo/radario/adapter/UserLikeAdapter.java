@@ -2,6 +2,8 @@ package io.github.idoqo.radario.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.UserLike;
+import io.github.idoqo.radario.url.RadarUrlParser;
 
 
 public class UserLikeAdapter extends RecyclerView.Adapter<UserLikeAdapter.UserLikeViewHolder>
@@ -33,7 +36,8 @@ public class UserLikeAdapter extends RecyclerView.Adapter<UserLikeAdapter.UserLi
         UserLike like = likes.get(position);
 
         holder.topicTitle.setText(like.getParentTopic());
-        holder.excerpt.setText(like.getExcerpt());
+        String parsedExcerpts = RadarUrlParser.userUrlToIntent(like.getExcerpt());
+        holder.excerpt.setText(Html.fromHtml(parsedExcerpts));
         holder.receiverUsername.setText(like.getReceiverUsername());
         holder.category.setText(Category.getnameFromId(like.getCategoryId()));
     }
@@ -63,6 +67,8 @@ public class UserLikeAdapter extends RecyclerView.Adapter<UserLikeAdapter.UserLi
             receiverUsername = (TextView) itemView.findViewById(R.id.comment_poster);
             category = (TextView) itemView.findViewById(R.id.parent_topic_category);
             postedTime = (TextView) itemView.findViewById(R.id.comment_posted_time);
+
+            excerpt.setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
 }
