@@ -1,6 +1,7 @@
 package io.github.idoqo.radario;
 
 import android.app.FragmentManager;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,13 +9,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.idoqo.radario.fragment.UserCommentsFragment;
 import io.github.idoqo.radario.fragment.UserLikesFragment;
 import io.github.idoqo.radario.fragment.UserTopicsFragment;
+import io.github.idoqo.radario.url.RadarUrlParser;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -37,6 +41,21 @@ public class UserProfileActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        prepareHeaderView();
+    }
+
+    private void prepareHeaderView(){
+        TextView fullName = (TextView) findViewById(R.id.profile_full_name);
+        TextView username = (TextView) findViewById(R.id.profile_username);
+        CircleImageView imageView = (CircleImageView) findViewById(R.id.user_avatar);
+
+        Uri callerUri = getIntent().getData();
+        if (callerUri != null) {
+            String displayName = callerUri.getQueryParameter(RadarUrlParser.KEY_USERNAME_QUERY);
+            username.setText(displayName);
+        }
+        fullName.setText("Okoko Michaels");
     }
 
     private void setupViewPager(ViewPager vp) {

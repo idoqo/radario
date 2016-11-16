@@ -18,6 +18,8 @@ public class RadarUrlParser {
     public static final String RADAR_CATEGORY_MODEL_URL = "category";
     public static final String RADAR_MISC_MODEL_URL = "misc";
 
+    public static final String KEY_USERNAME_QUERY = "username";
+
     /*assumes that if the href starts with a slash instead of "http" or "www", it is relative
     to RADAR_BASE_URL*/
     public static boolean isRelativeUrl(String url){
@@ -40,7 +42,7 @@ public class RadarUrlParser {
             String href = link.attr("href");
             if (href.startsWith("/users")) {
                 String username = getUsernameFromUrl(href);
-                html = html.replace(href, "radario://user/"+username);
+                html = html.replace(href, "radario://user/?"+KEY_USERNAME_QUERY+"="+username);
             }
         }
         return html;
