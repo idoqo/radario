@@ -21,6 +21,7 @@ import java.util.List;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.TopicDiscussionActivity;
+import io.github.idoqo.radario.UserProfileActivity;
 import io.github.idoqo.radario.lib.EndlessScrollAdapter;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
@@ -63,6 +64,7 @@ public class TopicAdapter extends EndlessScrollAdapter
         opView.setText(tp.getPosterUsername());
 
         titleView.setOnClickListener(onTitleClickListener(tp));
+        opView.setOnClickListener(onUsernameClickListener(tp));
 
         return convertView;
     }
@@ -81,6 +83,20 @@ public class TopicAdapter extends EndlessScrollAdapter
                         clickedTopic.getLikeCount());
 
                 context.startActivity(viewThreadIntent);
+            }
+        };
+    }
+
+    private View.OnClickListener onUsernameClickListener(final Topic clickedTopic) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String posterUsername = clickedTopic.getPosterUsername();
+                int posterId = clickedTopic.getPoster().getUserId();
+
+                Intent profileIntent = new Intent(context, UserProfileActivity.class);
+                profileIntent.putExtra(UserProfileActivity.EXTRA_USERNAME, posterUsername);
+                context.startActivity(profileIntent);
             }
         };
     }

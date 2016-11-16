@@ -1,6 +1,7 @@
 package io.github.idoqo.radario.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.text.Html;
 import android.util.DisplayMetrics;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import io.github.idoqo.radario.R;
+import io.github.idoqo.radario.UserProfileActivity;
 import io.github.idoqo.radario.helpers.RenderableCommentHelper;
 import io.github.idoqo.radario.lib.EndlessScrollAdapter;
 import io.github.idoqo.radario.lib.EndlessScrollListener;
@@ -56,6 +58,7 @@ public class CommentsAdapter extends BaseAdapter {
         }
         TextView commentOP = (TextView) convertView.findViewById(R.id.comment_poster);
         TextView commentTextView = (TextView)convertView.findViewById(R.id.comment_text);
+        ImageView collapsedIndicator = (ImageView) convertView.findViewById(R.id.show_comment_indicator);
 
         Comment comment = comments.get(position);
         LinearLayout indentView = (LinearLayout)convertView.findViewById(R.id.indent);
@@ -67,9 +70,27 @@ public class CommentsAdapter extends BaseAdapter {
         commentOP.setText(comment.getUsername());
         commentTextView.setText(Html.fromHtml(Jsoup.clean(commentContent, Whitelist.basic())));
 
-        convertView.setOnClickListener(commentCollapser());
+        collapsedIndicator.setOnClickListener(commentCollapser());
+        commentOP.setOnClickListener(onUsernameClickedListener(comment));
 
         return convertView;
+    }
+
+    private View.OnClickListener onUsernameClickedListener(final Comment comment){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = comment.getUsername();
+                String fullName = comment.getPosterFullName();
+                String avatarUrl = comment.getAvatarUrl();
+
+                Intent profileIntent = new Intent(context, UserProfileActivity.class);
+                profileIntent.putExtra(UserProfileActivity.EXTRA_USERNAME, username);
+                profileIntent.putExtra(UserProfileActivity.EXTRA_FULLNAME, fullName);
+                profileIntent.putExtra(UserProfileActivity.EXTRA_AVATAR_URL, avatarUrl);
+                context.startActivity(profileIntent);
+            }
+        };
     }
 
     private View.OnClickListener commentCollapser(){
@@ -102,6 +123,8 @@ public class CommentsAdapter extends BaseAdapter {
             hideIndent(indentBarView, indentView);
         } else {
             positionIndentForDepth(indentBarView, indentView, depth);
+            //drop a space between the bar and the text
+            indentBarView.setPadding(0, 0, 10, 0);
         }
     }
 

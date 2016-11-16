@@ -26,6 +26,10 @@ public class UserProfileActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    public static final String EXTRA_USERNAME = "username";
+    public static final String EXTRA_FULLNAME = "fullname";
+    public static final String EXTRA_AVATAR_URL = "avatar_url";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +50,32 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void prepareHeaderView(){
-        TextView fullName = (TextView) findViewById(R.id.profile_full_name);
-        TextView username = (TextView) findViewById(R.id.profile_username);
+        TextView fullNameTextView = (TextView) findViewById(R.id.profile_full_name);
+        TextView usernameTextView = (TextView) findViewById(R.id.profile_username);
         CircleImageView imageView = (CircleImageView) findViewById(R.id.user_avatar);
 
+        //if the activity was launched from a link embedded in a text, it will be
+        //launched with a uri, else it is launched with extras.
         Uri callerUri = getIntent().getData();
+        Bundle extras = getIntent().getExtras();
+
+        String username = "";
+        String fullName = "Okoko Michaels";
+        //todo load the user's avatar in a background task
+
         if (callerUri != null) {
-            String displayName = callerUri.getQueryParameter(RadarUrlParser.KEY_USERNAME_QUERY);
-            username.setText(displayName);
+            username = callerUri.getQueryParameter(RadarUrlParser.KEY_USERNAME_QUERY);
+        } else if (extras != null) {
+            username = extras.getString(EXTRA_USERNAME);
+            fullName = extras.getString(EXTRA_FULLNAME, "Okoko Michaels");
+        } else {
+            //if there is no way to get the username, cancel the activity
+            //and go back to the parent activity since we can't get any other user info
+            finish();
         }
-        fullName.setText("Okoko Michaels");
+
+        fullNameTextView.setText(fullName);
+        usernameTextView.setText(username);
     }
 
     private void setupViewPager(ViewPager vp) {

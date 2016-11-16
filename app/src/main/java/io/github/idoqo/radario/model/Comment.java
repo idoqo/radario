@@ -10,6 +10,8 @@ public class Comment {
     private String username;
     @JsonProperty("avatar_template")
     private String avatarUrl;
+    @JsonProperty("name")
+    private String posterFullName;
     @JsonProperty("post_number")
     private int postNumber;
     @JsonProperty("like_count")
@@ -127,5 +129,17 @@ public class Comment {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public String getPosterFullName() {
+        return posterFullName;
+    }
+
+    public void setPosterFullName(String posterFullName) {
+        this.posterFullName = posterFullName;
+    }
+
+    public boolean isCommentIsReply() {
+        return commentIsReply;
     }
 }
