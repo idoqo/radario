@@ -37,7 +37,7 @@ public class UserLikeAdapter extends RecyclerView.Adapter<UserLikeAdapter.UserLi
 
         holder.topicTitle.setText(like.getParentTopic());
         String parsedExcerpts = RadarUrlParser.userUrlToIntent(like.getExcerpt());
-        holder.excerpt.setText(Html.fromHtml(parsedExcerpts));
+        holder.excerpt.setText(parsedExcerpts);
         holder.receiverUsername.setText(like.getReceiverUsername());
         holder.category.setText(Category.getnameFromId(like.getCategoryId()));
     }

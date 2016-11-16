@@ -7,6 +7,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RadarUrlParser {
 
@@ -36,8 +38,9 @@ public class RadarUrlParser {
         Elements links = document.select("a[href]");
         for (Element link : links) {
             String href = link.attr("href");
-            if (href.startsWith("/user")) {
-                html = html.replace(href, "radario://user/dsfs");
+            if (href.startsWith("/users")) {
+                String username = getUsernameFromUrl(href);
+                html = html.replace(href, "radario://user/"+username);
             }
         }
         return html;
@@ -45,10 +48,21 @@ public class RadarUrlParser {
 
     public static String getModelFromUrl(String url){
         if (isRelativeUrl(url)) {
-            if (url.startsWith("/user")) {
+            if (url.startsWith("/users")) {
                 return RADAR_USER_MODEL_URL;
             }
         }
         return RADAR_MISC_MODEL_URL;
+    }
+
+    public static String getUsernameFromUrl(String url){
+        //the username comes after the second slash i.e "/users/{username}/"
+        String username = "";
+        String[] tokens = url.split("/");
+        if (tokens.length >= 2) {
+            //0 is "users", 1 should be the username
+            username = tokens[2];
+        }
+        return username;
     }
 }
