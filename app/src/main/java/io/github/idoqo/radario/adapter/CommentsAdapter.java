@@ -22,9 +22,6 @@ import java.util.Collection;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.UserProfileActivity;
-import io.github.idoqo.radario.helpers.RenderableCommentHelper;
-import io.github.idoqo.radario.lib.EndlessScrollAdapter;
-import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.model.Comment;
 
 

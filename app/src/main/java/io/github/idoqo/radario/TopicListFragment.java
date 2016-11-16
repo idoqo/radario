@@ -3,6 +3,7 @@ package io.github.idoqo.radario;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,22 +15,28 @@ import android.widget.Toast;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import io.github.idoqo.radario.adapter.TopicAdapter;
+import io.github.idoqo.radario.helpers.ApiHelper;
+import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
 import io.github.idoqo.radario.lib.EndlessScrollListView;
 import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.lib.EndlessScrollListenerInterface;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
 import io.github.idoqo.radario.model.User;
+import okhttp3.OkHttpClient;
 
 
 public class TopicListFragment extends Fragment implements EndlessScrollListenerInterface {
     private static final String LOG_TAG = "TopicListFragment";
+
+    private OkHttpClient okHttpClient;
 
     private EndlessScrollListView topicsListView;
     private EndlessScrollListener scrollListener;
@@ -55,6 +62,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        okHttpClient = new OkHttpClient();
         //since nothing is in our list yet, the initial list count is zero
         fetcherTask = new TopicsFetcherTask();
         fetcherTask.execute(0, currentPage);
@@ -84,11 +92,21 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
             ArrayList<Topic> loadedTopics = new ArrayList<>();
             //the next page to be loaded
-            int pageToLoad = params[1];
+            /*int pageToLoad = params[1];
 
             String filename = "latest"+pageToLoad+".json";
             Log.i(LOG_TAG, "Loading file "+filename+" from assets");
-            String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);
+            String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);*/
+            String jsonString;
+            try {
+                jsonString = ApiHelper.GET(okHttpClient, HttpRequestBuilderHelper.buildHomePageUrl());
+                Log.e(LOG_TAG, jsonString);
+            } catch (IOException ioe) {
+                jsonString = null;
+                Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_INDEFINITE)
+                        .show();
+                Log.e(LOG_TAG, ioe.getMessage());
+            }
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
