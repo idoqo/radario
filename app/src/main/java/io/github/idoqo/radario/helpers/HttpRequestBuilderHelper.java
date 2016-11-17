@@ -52,4 +52,14 @@ public class HttpRequestBuilderHelper {
          *  https://www.somehostname.com/pathSegment?param1=value1&encodedName=encodedValue
          */
     }
+
+    public static HttpUrl buildTopicCommentsUrl(int topicID){
+        String jsonPath = topicID+".json";
+        return new HttpUrl.Builder()
+                .scheme(RADAR_URL_SCHEME)
+                .host(RADAR_URL_HOST)
+                .addPathSegment("t")
+                .addPathSegment(jsonPath)
+                .build();
+    }
 }

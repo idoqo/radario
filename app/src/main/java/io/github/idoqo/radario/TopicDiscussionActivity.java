@@ -21,14 +21,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.w3c.dom.Text;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import io.github.idoqo.radario.adapter.CommentsAdapter;
+import io.github.idoqo.radario.helpers.ApiHelper;
+import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
 import io.github.idoqo.radario.lib.EndlessScrollListView;
 import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.model.Comment;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 
 public class TopicDiscussionActivity extends AppCompatActivity {
 
@@ -38,10 +43,13 @@ public class TopicDiscussionActivity extends AppCompatActivity {
     public static final String TOPIC_OP_EXTRA = "topic_poster";
     public static final String TOPIC_CATEGORY_EXTRA = "topic_category";
     public static final String TOPIC_LIKE_COUNT_EXTRA = "like_count";
+    public static final String TOPIC_COMMENT_COUNT_EXTRA = "comment_count";
 
     private ListView threadsListView;
     private CommentsAdapter commentsAdapter;
     private ArrayList<Comment> commentList;
+
+    private OkHttpClient okHttpClient;
 
     private CommentsFetcherTask commentsFetcherTask;
 
@@ -52,6 +60,8 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        okHttpClient = new OkHttpClient();
 
         commentList = new ArrayList<>();
         commentsAdapter = new CommentsAdapter(this, commentList);
@@ -72,15 +82,23 @@ public class TopicDiscussionActivity extends AppCompatActivity {
             String category = extras.getString(TOPIC_CATEGORY_EXTRA);
             Integer poster = extras.getInt(TOPIC_OP_EXTRA);
             int likeCount = extras.getInt(TOPIC_LIKE_COUNT_EXTRA);
+            int commentCount = extras.getInt(TOPIC_COMMENT_COUNT_EXTRA);
 
             View headerView = LayoutInflater.from(this).inflate(R.layout.topic_discussion_header, null);
             TextView titleView = (TextView) headerView.findViewById(R.id.active_topic_title);
             TextView categoryView = (TextView) headerView.findViewById(R.id.active_topic_category);
             TextView likeCountView = (TextView) headerView.findViewById(R.id.number_of_likes);
+            TextView commentCountView = (TextView) headerView.findViewById(R.id.number_of_comments);
             titleView.setText(title);
             categoryView.setText(category);
-            String num = (likeCount < 2) ? " like" : " likes";
-            likeCountView.setText(String.valueOf(likeCount)+num);
+
+            String likesQualifier = (likeCount <= 1) ? "like" : "likes";
+            String commentsQualifier = (commentCount <= 1) ? "comment" : "comments";
+
+            likeCountView.setText(getResources().getString(R.string.item_like_count,
+                    likeCount, likesQualifier));
+            commentCountView.setText(getResources().getString(R.string.item_comment_count,
+                    commentCount, commentsQualifier));
 
             threadsListView.addHeaderView(headerView);
         }
@@ -100,7 +118,18 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         public ArrayList<Comment> doInBackground(Integer... params) {
             ArrayList<Comment> loadedComments = new ArrayList<>();
             int topicId = params[0];
-            String jsonString = Utils.loadJsonFromAsset(TopicDiscussionActivity.this, "5272.json");
+            //String jsonString = Utils.loadJsonFromAsset(TopicDiscussionActivity.this, "5272.json");
+            String jsonString;
+            try {
+                HttpUrl commentsUrl = HttpRequestBuilderHelper.buildTopicCommentsUrl(topicId);
+                jsonString = ApiHelper.GET(okHttpClient, commentsUrl);
+            } catch (IOException ioe) {
+                jsonString = null;
+                Snackbar.make(threadsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
+                        .show();
+                Log.e(LOG_TAG, ioe.getMessage());
+            }
+
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
