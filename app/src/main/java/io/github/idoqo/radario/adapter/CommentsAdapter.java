@@ -17,11 +17,14 @@ import android.widget.TextView;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.UserProfileActivity;
+import io.github.idoqo.radario.helpers.DateTimeHelper;
 import io.github.idoqo.radario.model.Comment;
 
 
@@ -55,6 +58,7 @@ public class CommentsAdapter extends BaseAdapter {
         }
         TextView commentOP = (TextView) convertView.findViewById(R.id.comment_poster);
         TextView commentTextView = (TextView)convertView.findViewById(R.id.comment_text);
+        TextView postedTimeView = (TextView) convertView.findViewById(R.id.comment_posted_time);
         ImageView collapsedIndicator = (ImageView) convertView.findViewById(R.id.show_comment_indicator);
 
         Comment comment = comments.get(position);
@@ -66,6 +70,21 @@ public class CommentsAdapter extends BaseAdapter {
 
         commentOP.setText(comment.getUsername());
         commentTextView.setText(Html.fromHtml(Jsoup.clean(commentContent, Whitelist.basic())));
+        String  timeCount;
+        String timeQualifier;
+        try {
+            Date now = new Date();
+            Date topicCreation = comment.getCreatedAtAsDate();
+            String[] cau = DateTimeHelper.getCountAndUnit(topicCreation, now);
+            timeCount = cau[0];
+            timeQualifier = cau[1];
+        } catch (ParseException pe) {
+            timeCount = "long";
+            timeQualifier = "long";
+        }
+        postedTimeView.setText(context.getResources().getString(R.string.relative_time_past,
+                timeCount, timeQualifier));
+
 
         collapsedIndicator.setOnClickListener(commentCollapser());
         commentOP.setOnClickListener(onUsernameClickedListener(comment));

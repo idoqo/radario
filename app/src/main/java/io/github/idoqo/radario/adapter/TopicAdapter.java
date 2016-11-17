@@ -15,13 +15,19 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.TopicDiscussionActivity;
 import io.github.idoqo.radario.UserProfileActivity;
+import io.github.idoqo.radario.helpers.DateTimeHelper;
 import io.github.idoqo.radario.lib.EndlessScrollAdapter;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
@@ -56,6 +62,7 @@ public class TopicAdapter extends EndlessScrollAdapter
         TextView titleView = (TextView) convertView.findViewById(R.id.topic_title);
         TextView catView = (TextView)convertView.findViewById(R.id.topic_category);
         TextView opView = (TextView)convertView.findViewById(R.id.topic_poster_username);
+        TextView postedTimeView = (TextView) convertView.findViewById(R.id.topic_posted_time);
         TextView numLikesView = (TextView) convertView.findViewById(R.id.number_of_likes);
         TextView numCommentsView = (TextView) convertView.findViewById(R.id.number_of_comments);
         final ImageView likeButton = (ImageView) convertView.findViewById(R.id.action_like_topic);
@@ -70,6 +77,21 @@ public class TopicAdapter extends EndlessScrollAdapter
                 tp.getLikeCount(), likesQualifier));
         numCommentsView.setText(context.getResources().getString(R.string.item_comment_count,
                 tp.getPostsCount(), commentsQualifier));
+
+        String  timeCount;
+        String timeQualifier;
+        try {
+            Date now = new Date();
+            Date topicCreation = tp.getCreatedAtAsDate();
+            String[] cau = DateTimeHelper.getCountAndUnit(topicCreation, now);
+            timeCount = cau[0];
+            timeQualifier = cau[1];
+        } catch (ParseException pe) {
+            timeCount = "long";
+            timeQualifier = "long";
+        }
+        postedTimeView.setText(context.getResources().getString(R.string.relative_time_past,
+                timeCount, timeQualifier));
 
         titleView.setOnClickListener(onTitleClickListener(tp));
         opView.setOnClickListener(onUsernameClickListener(tp));

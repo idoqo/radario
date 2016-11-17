@@ -24,9 +24,11 @@
 
     <string name="view_context">View Context</string>
 
-    <!-- %1d$ is the count, %2$s is the qualifier i.e singular or plural-->
+    <!-- %1$d is the count, %2$s is the qualifier i.e singular or plural-->
     <string name="item_like_count">%1$d %2$s</string>
     <string name="item_comment_count">%1$d %2$s</string>
+    <!--%1$d is the string value of the amount of time, %2$s is the unit i.e {minutes|hours|months|years}-->
+    <string name="relative_time_past">%1$s %2$s ago</string>
 
     <!--topic discussion activity, menu and related layouts-->
     <string name="title_activity_topic_discussion">TopicDiscussionActivity</string>
