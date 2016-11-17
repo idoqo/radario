@@ -1,6 +1,5 @@
 package io.github.idoqo.radario;
 
-import android.app.FragmentManager;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
