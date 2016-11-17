@@ -23,10 +23,7 @@ import java.util.Date;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.UserProfileActivity;
-<<<<<<< HEAD
 import io.github.idoqo.radario.helpers.DateTimeHelper;
-=======
->>>>>>> used okhttp to load live data from the server
 import io.github.idoqo.radario.model.Comment;
 
 
