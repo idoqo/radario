@@ -48,12 +48,15 @@ public class TopicListActivity extends AppCompatActivity {
         });
 
         View navHeaderView = navigationView.getHeaderView(0);
-        TextView usernameTV = (TextView) navHeaderView.findViewById(R.id.logged_username);
+        final TextView usernameTV = (TextView) navHeaderView.findViewById(R.id.logged_username);
         usernameTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String username = usernameTV.getText().toString();
                 Intent profileIntent = new Intent(TopicListActivity.this, UserProfileActivity.class);
+                profileIntent.putExtra(UserProfileActivity.EXTRA_USERNAME, username);
                 startActivity(profileIntent);
+                drawerLayout.closeDrawers();
             }
         });
     }
