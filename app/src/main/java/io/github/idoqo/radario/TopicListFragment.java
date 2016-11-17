@@ -30,6 +30,8 @@ import io.github.idoqo.radario.lib.EndlessScrollListenerInterface;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
 import io.github.idoqo.radario.model.User;
+import io.github.idoqo.radario.url.RadarUrlParser;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 
@@ -45,7 +47,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
     private boolean executing = false;
 
     //the current page to be loaded, starts at 1
-    private int currentPage = 1;
+    private int currentPage = 0;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_topic_list, container, false);
@@ -83,23 +85,17 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
     public class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>> {
         protected ArrayList<Topic> doInBackground (Integer... params) {
-            //simulate delay
-            try {
-                Thread.sleep(3000);
-            } catch (Exception e) {
-                Log.i(LOG_TAG, e.getMessage());
-            }
-
             ArrayList<Topic> loadedTopics = new ArrayList<>();
             //the next page to be loaded
-            /*int pageToLoad = params[1];
+            int pageToLoad = params[1];
 
-            String filename = "latest"+pageToLoad+".json";
+            /*String filename = "latest"+pageToLoad+".json";
             Log.i(LOG_TAG, "Loading file "+filename+" from assets");
             String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);*/
+            HttpUrl topicsUrl = HttpRequestBuilderHelper.buildTopicUrlWithPage(pageToLoad);
             String jsonString;
             try {
-                jsonString = ApiHelper.GET(okHttpClient, HttpRequestBuilderHelper.buildHomePageUrl());
+                jsonString = ApiHelper.GET(okHttpClient, topicsUrl);
                 Log.e(LOG_TAG, jsonString);
             } catch (IOException ioe) {
                 jsonString = null;

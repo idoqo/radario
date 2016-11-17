@@ -7,13 +7,25 @@ import okhttp3.HttpUrl;
 import okhttp3.RequestBody;
 
 public class HttpRequestBuilderHelper {
+    public static final String RADAR_URL_SCHEME = "http";
+    //somehow, prepending "www" to the host gives a 404
+    public static final String RADAR_URL_HOST = "radar.techcabal.com";
+    //page GET parameter
+    public static final String RADAR_URL_PAGE_QUERY = "page";
+
     public static HttpUrl buildHomePageUrl(){
+        //returns http://radar.techcabal.com/latest.json?page=0;
+        int initialPage = 0;
+        return buildTopicUrlWithPage(initialPage);
+    }
+
+    public static HttpUrl buildTopicUrlWithPage(int page){
         return new HttpUrl.Builder()
-                .scheme("http")
-                .host("radar.techcabal.com")
+                .scheme(RADAR_URL_SCHEME)
+                .host(RADAR_URL_HOST)
                 .addPathSegment("latest.json")
+                .addQueryParameter(RADAR_URL_PAGE_QUERY, String.valueOf(page))
                 .build();
-        //returns http://www.radar.techcabal.com/latest.json
     }
 
     //Login request body
