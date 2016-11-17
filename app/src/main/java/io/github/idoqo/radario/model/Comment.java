@@ -3,6 +3,10 @@ package io.github.idoqo.radario.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+
+import java.text.ParseException;
+import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Comment {
@@ -24,6 +28,8 @@ public class Comment {
     private Integer parentCommentId;
     //comment text
     private String cooked;
+    @JsonProperty("created_at")
+    private String createdAtString;
 
     //number of children comments, defaults to zero
     private int childCount;
@@ -141,5 +147,18 @@ public class Comment {
 
     public boolean isCommentIsReply() {
         return commentIsReply;
+    }
+
+    public String getCreatedAtString() {
+        return createdAtString;
+    }
+
+    public void setCreatedAtString(String createdAtString) {
+        this.createdAtString = createdAtString;
+    }
+
+    public Date getCreatedAtAsDate() throws ParseException {
+        ISO8601DateFormat df = new ISO8601DateFormat();
+        return df.parse(createdAtString);
     }
 }

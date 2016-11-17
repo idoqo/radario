@@ -78,22 +78,17 @@ public class TopicAdapter extends EndlessScrollAdapter
         numCommentsView.setText(context.getResources().getString(R.string.item_comment_count,
                 tp.getPostsCount(), commentsQualifier));
 
-        int timeCount;
+        String  timeCount;
         String timeQualifier;
-
         try {
             Date now = new Date();
             Date topicCreation = tp.getCreatedAtAsDate();
-            long diff = DateTimeHelper.getDateDiff(topicCreation, now, TimeUnit.MILLISECONDS);
-
-            HashMap<String, Long> duration = DateTimeHelper.deduceDuration(diff);
-            long days = duration.get(DateTimeHelper.DAYS);
-
-            timeCount = (int) days;
-            timeQualifier = (timeCount <= 1) ? "day" : "days";
+            String[] cau = DateTimeHelper.getCountAndUnit(topicCreation, now);
+            timeCount = cau[0];
+            timeQualifier = cau[1];
         } catch (ParseException pe) {
-            timeCount = 0;
-            timeQualifier = "nothing";
+            timeCount = "long";
+            timeQualifier = "long";
         }
         postedTimeView.setText(context.getResources().getString(R.string.relative_time_past,
                 timeCount, timeQualifier));
