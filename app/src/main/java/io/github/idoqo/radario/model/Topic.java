@@ -10,7 +10,7 @@ import io.github.idoqo.radario.helpers.Poster;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Topic {
-    private String id;
+    private int id;
     private String title;
     @JsonProperty("category_id")
     private int category;
@@ -19,10 +19,9 @@ public class Topic {
     @JsonProperty("posts_count")
     private int postsCount;
 
-    private Poster op;
-
     @JsonProperty("posters")
     private List<Poster> posters;
+    private Poster op;
 
     //the username of the original poster, typically gotten by querying with the poster's id
     private String posterUsername = null;
@@ -35,11 +34,11 @@ public class Topic {
         this.category = category;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

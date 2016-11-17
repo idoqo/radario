@@ -120,8 +120,6 @@ public class CommentsAdapter extends BaseAdapter {
             hideIndent(indentBarView, indentView);
         } else {
             positionIndentForDepth(indentBarView, indentView, depth);
-            //drop a space between the bar and the text
-            indentBarView.setPadding(0, 0, 10, 0);
         }
     }
 
@@ -143,6 +141,8 @@ public class CommentsAdapter extends BaseAdapter {
         int[] indentColors = context.getResources().getIntArray(R.array.commentColors);
         int indentColor = indentColors[depth % indentColors.length];
         indentBarView.setBackgroundColor(indentColor);
+        //drop a space between the bar and the text
+        indentView.setPadding(0,0,10,0);
 
         indentView.setVisibility(View.VISIBLE);
         indentBarView.setVisibility(View.VISIBLE);

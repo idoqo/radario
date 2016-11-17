@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
     private EndlessScrollListView topicsListView;
     private EndlessScrollListener scrollListener;
+    private SwipeRefreshLayout refreshTopicLayout;
     private TopicAdapter topicAdapter;
     private TopicsFetcherTask fetcherTask;
     private boolean executing = false;
@@ -53,20 +55,39 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
         View view = inflater.inflate(R.layout.fragment_topic_list, container, false);
 
         topicsListView = (EndlessScrollListView) view.findViewById(R.id.topics_list);
+        refreshTopicLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_topic_list);
         scrollListener = new EndlessScrollListener(this);
         topicAdapter = new TopicAdapter(getActivity());
 
         topicsListView.setListener(scrollListener);
         topicsListView.setAdapter(topicAdapter);
 
+        refreshTopicLayout.setColorSchemeResources(R.color.blue, R.color.colorAccent,
+                R.color.cyan, R.color.pink);
+        refreshTopicLayout.setOnRefreshListener(refreshTopicList());
+
         return view;
+    }
+
+    private SwipeRefreshLayout.OnRefreshListener refreshTopicList(){
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //reset the current page counter so as to load the latest topics
+                currentPage = 0;
+                fetcherTask = new TopicsFetcherTask();
+                //also, pass 0 as the first param(number of items in the list view)
+                fetcherTask.execute(0, currentPage);
+                refreshTopicLayout.setRefreshing(false);
+            }
+        };
     }
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         okHttpClient = new OkHttpClient();
-        //since nothing is in our list yet, the initial list count is zero
         fetcherTask = new TopicsFetcherTask();
+        //since nothing is in our list yet, the initial list count is zero
         fetcherTask.execute(0, currentPage);
     }
 
@@ -99,7 +120,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                 Log.e(LOG_TAG, jsonString);
             } catch (IOException ioe) {
                 jsonString = null;
-                Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
                         .show();
                 Log.e(LOG_TAG, ioe.getMessage());
             }
