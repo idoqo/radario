@@ -16,6 +16,8 @@ public class Topic {
     private int category;
     @JsonProperty("like_count")
     private int likeCount;
+    @JsonProperty("posts_count")
+    private int postsCount;
 
     private Poster op;
 
@@ -85,5 +87,13 @@ public class Topic {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public int getPostsCount() {
+        return postsCount;
+    }
+
+    public void setPostsCount(int postsCount) {
+        this.postsCount = postsCount;
     }
 }

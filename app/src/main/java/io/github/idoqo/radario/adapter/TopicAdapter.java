@@ -56,12 +56,20 @@ public class TopicAdapter extends EndlessScrollAdapter
         TextView titleView = (TextView) convertView.findViewById(R.id.topic_title);
         TextView catView = (TextView)convertView.findViewById(R.id.topic_category);
         TextView opView = (TextView)convertView.findViewById(R.id.topic_poster_username);
+        TextView numLikesView = (TextView) convertView.findViewById(R.id.number_of_likes);
+        TextView numCommentsView = (TextView) convertView.findViewById(R.id.number_of_comments);
         final ImageView likeButton = (ImageView) convertView.findViewById(R.id.action_like_topic);
 
         Topic tp = topics.get(position);
         titleView.setText(tp.getTitle());
         catView.setText(Category.getnameFromId(tp.getCategory()));
         opView.setText(tp.getPosterUsername());
+        String likesQualifier = (tp.getLikeCount() <= 1) ? " like" : " likes";
+        String commentsQualifier = (tp.getPostsCount() <= 1) ? " comment" : " comments";
+        numLikesView.setText(context.getResources().getString(R.string.item_like_count,
+                tp.getLikeCount(), likesQualifier));
+        numCommentsView.setText(context.getResources().getString(R.string.item_comment_count,
+                tp.getPostsCount(), commentsQualifier));
 
         titleView.setOnClickListener(onTitleClickListener(tp));
         opView.setOnClickListener(onUsernameClickListener(tp));

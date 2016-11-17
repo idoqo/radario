@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/topic_poster_username"
-        android:textSize="10sp"
         android:textColor="@android:color/darker_gray" />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -29,23 +28,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cat_everything"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="10sp" />
+                android:textColor="@android:color/darker_gray" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bull_separator"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="10sp" />
+                android:textColor="@android:color/darker_gray" />
             <TextView
                 android:id="@+id/topic_posted_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3 hours ago"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="10sp" />
+                android:textColor="@android:color/darker_gray"  />
         </LinearLayout>
     </RelativeLayout>
     <TextView
@@ -58,27 +54,68 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
             <ImageView
                 android:id="@+id/action_like_topic"
-                android:layout_width="0dp"
-                android:layout_height="18dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:src="@drawable/ic_like"
-                android:tint="@android:color/darker_gray"
-                android:layout_weight="1"/>
+                android:tint="@android:color/darker_gray"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/number_of_likes"
+                android:layout_marginStart="8dp"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
             <ImageView
                 android:id="@+id/action_topic_comments"
-                android:layout_width="0dp"
-                android:layout_height="18dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:src="@drawable/ic_comment"
-                android:tint="@android:color/darker_gray"
-                android:layout_weight="1"/>
+                android:tint="@android:color/darker_gray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/number_of_comments"
+                android:layout_marginStart="8dp"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
             <ImageView
                 android:id="@+id/action_share_topic"
-                android:layout_width="0dp"
-                android:layout_height="18dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:src="@drawable/ic_share"
-                android:tint="@android:color/darker_gray"
-                android:layout_weight="1"/>
+                android:tint="@android:color/darker_gray"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/share_text"
+                android:layout_marginStart="8dp"
+                android:text="@string/action_share"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
