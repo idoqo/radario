@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/topic_poster_username"
-        android:textColor="@android:color/darker_gray" />
+        android:textColor="@android:color/darker_gray"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cat_everything"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/darker_gray"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3 hours ago"
-                android:textColor="@android:color/darker_gray"  />
+                android:textColor="@android:color/darker_gray"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </RelativeLayout>
     <TextView

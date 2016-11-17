@@ -3,7 +3,11 @@ package io.github.idoqo.radario.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import io.github.idoqo.radario.helpers.Poster;
@@ -18,6 +22,8 @@ public class Topic {
     private int likeCount;
     @JsonProperty("posts_count")
     private int postsCount;
+    @JsonProperty("created_at")
+    private String createdAtString;
 
     private Poster op;
 
@@ -95,5 +101,18 @@ public class Topic {
 
     public void setPostsCount(int postsCount) {
         this.postsCount = postsCount;
+    }
+
+    public String getCreatedAtString() {
+        return createdAtString;
+    }
+
+    public void setCreatedAtString(String createdAtString) {
+        this.createdAtString = createdAtString;
+    }
+
+    public Date getCreatedAtAsDate() throws ParseException{
+        ISO8601DateFormat df = new ISO8601DateFormat();
+        return df.parse(createdAtString);
     }
 }
