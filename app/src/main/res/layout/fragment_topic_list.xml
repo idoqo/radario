@@ -5,14 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <io.github.idoqo.radario.lib.EndlessScrollListView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/topics_list"
-        android:listSelector="@android:color/transparent"
-        android:dividerHeight="0px"
-        android:divider="@android:color/transparent">
-    </io.github.idoqo.radario.lib.EndlessScrollListView>
+        android:id="@+id/refresh_topic_list">
+
+        <io.github.idoqo.radario.lib.EndlessScrollListView
+            android:id="@+id/topics_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="@android:color/transparent"
+            android:paddingEnd="@dimen/activity_vertical_margin"
+            android:paddingStart="@dimen/activity_vertical_margin"
+            android:dividerHeight="0px"
+            android:divider="@android:color/transparent">
+        </io.github.idoqo.radario.lib.EndlessScrollListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_topic_fab"

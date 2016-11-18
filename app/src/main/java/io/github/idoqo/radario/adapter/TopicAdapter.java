@@ -111,6 +111,8 @@ public class TopicAdapter extends EndlessScrollAdapter
                 viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_OP_EXTRA, 1);
                 viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_LIKE_COUNT_EXTRA,
                         clickedTopic.getLikeCount());
+                viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_COMMENT_COUNT_EXTRA,
+                        clickedTopic.getPostsCount());
 
                 context.startActivity(viewThreadIntent);
             }
