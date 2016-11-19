@@ -3,6 +3,7 @@
     package="io.github.idoqo.radario">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
 
     <application
@@ -14,8 +15,8 @@
         <activity
             android:name=".TopicListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,17 +37,22 @@
             android:label=""
             android:parentActivityName=".TopicListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".UserProfileActivity"
+            android:label=""
             android:parentActivityName=".TopicListActivity"
-            android:label="">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="@string/app_intent_uri_scheme"
-                    android:host="@string/app_user_intent"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="@string/app_user_intent"
+                    android:scheme="@string/app_intent_uri_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

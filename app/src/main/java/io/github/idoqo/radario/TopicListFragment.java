@@ -3,6 +3,7 @@ package io.github.idoqo.radario;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -44,6 +45,8 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
     private EndlessScrollListView topicsListView;
     private EndlessScrollListener scrollListener;
     private SwipeRefreshLayout refreshTopicLayout;
+    private FloatingActionButton createTopicButton;
+
     private TopicAdapter topicAdapter;
     private TopicsFetcherTask fetcherTask;
     private boolean executing = false;
@@ -56,6 +59,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
         topicsListView = (EndlessScrollListView) view.findViewById(R.id.topics_list);
         refreshTopicLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_topic_list);
+        createTopicButton = (FloatingActionButton) view.findViewById(R.id.add_topic_fab);
         scrollListener = new EndlessScrollListener(this);
         topicAdapter = new TopicAdapter(getActivity());
 
@@ -65,8 +69,19 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
         refreshTopicLayout.setColorSchemeResources(R.color.blue, R.color.colorAccent,
                 R.color.cyan, R.color.pink);
         refreshTopicLayout.setOnRefreshListener(refreshTopicList());
+        createTopicButton.setOnClickListener(createTopicClicked());
 
         return view;
+    }
+
+    private View.OnClickListener createTopicClicked(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        };
     }
 
     private SwipeRefreshLayout.OnRefreshListener refreshTopicList(){
