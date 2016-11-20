@@ -4,30 +4,30 @@
         <item android:title="@string/cat_products"
             android:id="@+id/menu_cat_products"
             android:checked="false"
-            android:icon="@drawable/ic_wb_incandescent_black_24dp" />
+            android:icon="@drawable/ic_products" />
         <item android:title="@string/cat_events"
             android:id="@+id/menu_cat_events"
             android:checked="false"
-            android:icon="@drawable/ic_wb_incandescent_black_24dp" />
+            android:icon="@drawable/ic_events" />
         <item android:title="@string/cat_everything"
             android:id="@+id/menu_cat_everything"
             android:checked="false"
-            android:icon="@drawable/ic_wb_incandescent_black_24dp" />
+            android:icon="@drawable/ic_everything" />
         <item android:title="@string/cat_jobs"
             android:id="@+id/menu_cat_jobs"
             android:checked="false"
-            android:icon="@drawable/ic_wb_incandescent_black_24dp" />
+            android:icon="@drawable/ic_jobs" />
         <item android:title="@string/cat_design"
             android:id="@+id/menu_cat_design"
             android:checked="false"
-            android:icon="@drawable/ic_wb_incandescent_black_24dp" />
+            android:icon="@drawable/ic_design" />
         <item android:title="@string/cat_ama"
             android:id="@+id/menu_cat_ama"
             android:checked="false"
-            android:icon="@drawable/ic_wb_incandescent_black_24dp" />
+            android:icon="@drawable/ic_ama" />
         <item android:title="@string/cat_meta"
             android:id="@+id/menu_cat_meta"
             android:checked="false"
-            android:icon="@drawable/ic_wb_incandescent_black_24dp" />
+            android:icon="@drawable/ic_meta" />
     </group>
 </menu>

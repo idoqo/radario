@@ -33,6 +33,7 @@ public class TopicListActivity extends AppCompatActivity {
 
         navigationView = (NavigationView) findViewById(R.id.topic_list_nav_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView.setItemIconTintList(null);
 
         TopicListFragment fragment = new TopicListFragment();
         getSupportFragmentManager().beginTransaction()

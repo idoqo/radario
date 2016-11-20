@@ -139,12 +139,12 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
         protected ArrayList<Topic> doInBackground (Integer... params) {
             ArrayList<Topic> loadedTopics = new ArrayList<>();
             //the next page to be loaded
-            int pageToLoad = params[1];
+            int pageToLoad = 2;
 
-            /*String filename = "latest"+pageToLoad+".json";
+            String filename = "latest"+pageToLoad+".json";
             Log.i(LOG_TAG, "Loading file "+filename+" from assets");
-            String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);*/
-            HttpUrl topicsUrl = HttpRequestBuilderHelper.buildTopicUrlWithPage(pageToLoad);
+            String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);
+            /*HttpUrl topicsUrl = HttpRequestBuilderHelper.buildTopicUrlWithPage(pageToLoad);
             String jsonString;
             try {
                 jsonString = ApiHelper.GET(okHttpClient, topicsUrl);
@@ -154,7 +154,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                 Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
                         .show();
                 Log.e(LOG_TAG, ioe.getMessage());
-            }
+            }*/
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
