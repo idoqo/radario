@@ -31,10 +31,14 @@ import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.lib.EndlessScrollListenerInterface;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
+import io.github.idoqo.radario.model.UrlResponse;
 import io.github.idoqo.radario.model.User;
 import io.github.idoqo.radario.url.RadarUrlParser;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class TopicListFragment extends Fragment implements EndlessScrollListenerInterface {
@@ -100,7 +104,17 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        okHttpClient = new OkHttpClient();
+        okHttpClient = new OkHttpClient().newBuilder()
+            .addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    final Request original = chain.request();
+                    final Request authorized = original.newBuilder()
+                            .addHeader("Cookie", "_forum_session=cDArUVZvOU4xcjd5VlJReTQ3V1ZMWmRrT3N1MkNQZEJoOXg0U2pGYXFacDFGOVlGajZXRFY3NjBBQXAyNmptckw1cno4ZzF1b1ZYTk0wdTRUbjc0WXc9PS0tRDl5T2thbFBySUlSYnBBekJWdm5tZz09--0626a8be3f55473064509109a6f01b43f15073b5;_t=139d29005eb2b8fa47c33359f0cb5b67")
+                            .build();
+                    return chain.proceed(authorized);
+                }
+            }).build();
         fetcherTask = new TopicsFetcherTask();
         //since nothing is in our list yet, the initial list count is zero
         fetcherTask.execute(0, currentPage);
@@ -120,6 +134,8 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
     public void onScrollCalled(int firstVisibleItem, int visibleItemCount, int totalItemCount) {}
 
     public class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>> {
+        private boolean isLogged; //is a user logged in?
+
         protected ArrayList<Topic> doInBackground (Integer... params) {
             ArrayList<Topic> loadedTopics = new ArrayList<>();
             //the next page to be loaded
@@ -142,6 +158,9 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
+                    UrlResponse urlResponse = mapper.readValue(jsonString, UrlResponse.class);
+                    isLogged = urlResponse.isCanCreateTopic();
+
                     JsonNode response = mapper.readTree(jsonString);
                     //first, make a map of the participating users on this page which is returned in
                     //the first node from the json response
@@ -180,6 +199,14 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
             super.onPostExecute(result);
             topicsListView.appendItems(result);
             executing = false;
+            String msg;
+            if (isLogged) {
+                msg = "Can create topic is TRUE";
+            } else {
+                msg = "Can create topic is FALSE";
+            }
+            Snackbar.make(topicsListView, msg, Snackbar.LENGTH_INDEFINITE)
+                    .show();
             if (result.size() > 0) {
                 Toast.makeText(getContext(), "Loaded "+String.valueOf(result.size()) + "items",
                         Toast.LENGTH_SHORT).show();
