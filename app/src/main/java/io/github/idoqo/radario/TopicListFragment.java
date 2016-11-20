@@ -104,13 +104,23 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        LoginActivity ac = new LoginActivity();
+        String cookie = "_forum_session=cDArUVZvOU4xcjd5VlJReTQ3V1ZMWmRrT3N1MkNQZEJoOXg0U2pGYXFacDFGOVlGajZXRFY3NjBBQXAyNmptckw1cno4ZzF1b1ZYTk0wdTRUbjc0WXc9PS0tRDl5T2thbFBySUlSYnBBekJWdm5tZz09--0626a8be3f55473064509109a6f01b43f15073b5;_t=139d29005eb2b8fa47c33359f0cb5b67)";
+        if (ac.getAppWideCookie() != null) {
+            cookie = ac.getAppWideCookie();
+        } else {
+            Toast.makeText(getActivity(), "no cookie retreived", Toast.LENGTH_LONG).show();
+        }
+        final String oop = cookie;
         okHttpClient = new OkHttpClient().newBuilder()
             .addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     final Request original = chain.request();
+                    String tada = "_t=139d29005eb2b8fa47c33359f0cb5b67;_forum_session=M0FyRitkd2hxeEQ1dUJ6cS91a1orR1FOTWNwQllwOEsrTlhhRTdVbGMyOHdQbHhQNXV5aGNzd1hOY0Q0K0E2eS9QekJKN2k4bFdxN3VHRUxxOEVFMFE9PS0tN21mOXVYYTdYR0lEanBSRTlMNVJrZz09--bbb9a90eebbfbbddb5b77d705354027351ab8c23";
                     final Request authorized = original.newBuilder()
-                            .addHeader("Cookie", "_forum_session=cDArUVZvOU4xcjd5VlJReTQ3V1ZMWmRrT3N1MkNQZEJoOXg0U2pGYXFacDFGOVlGajZXRFY3NjBBQXAyNmptckw1cno4ZzF1b1ZYTk0wdTRUbjc0WXc9PS0tRDl5T2thbFBySUlSYnBBekJWdm5tZz09--0626a8be3f55473064509109a6f01b43f15073b5;_t=139d29005eb2b8fa47c33359f0cb5b67")
+                            //.addHeader("Cookie", oop)
+                            .addHeader("Cookie", tada)
                             .build();
                     return chain.proceed(authorized);
                 }
@@ -141,10 +151,10 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
             //the next page to be loaded
             int pageToLoad = 2;
 
-            String filename = "latest"+pageToLoad+".json";
+            /*String filename = "latest"+pageToLoad+".json";
             Log.i(LOG_TAG, "Loading file "+filename+" from assets");
-            String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);
-            /*HttpUrl topicsUrl = HttpRequestBuilderHelper.buildTopicUrlWithPage(pageToLoad);
+            String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);*/
+            HttpUrl topicsUrl = HttpRequestBuilderHelper.buildTopicUrlWithPage(pageToLoad);
             String jsonString;
             try {
                 jsonString = ApiHelper.GET(okHttpClient, topicsUrl);
@@ -154,12 +164,10 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                 Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
                         .show();
                 Log.e(LOG_TAG, ioe.getMessage());
-            }*/
+            }
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
-                    UrlResponse urlResponse = mapper.readValue(jsonString, UrlResponse.class);
-                    isLogged = urlResponse.isCanCreateTopic();
 
                     JsonNode response = mapper.readTree(jsonString);
                     //first, make a map of the participating users on this page which is returned in
@@ -174,6 +182,8 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                         participants.put(user.getId(), user);
                     }
                     JsonNode topicsContainer = response.path("topic_list");
+                    UrlResponse urlResponse = mapper.readValue(topicsContainer.traverse(), UrlResponse.class);
+                    isLogged = urlResponse.isCanCreateTopic();
                     JsonNode topicsNode = topicsContainer.path("topics");
                     Iterator<JsonNode> nodeIterator = topicsNode.elements();
 
