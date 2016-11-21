@@ -1,11 +1,16 @@
 package io.github.idoqo.radario;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,8 +60,12 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
     private TopicsFetcherTask fetcherTask;
     private boolean executing = false;
 
-    //the current page to be loaded, starts at 1
+    //the current page to be loaded, starts at 0
     private int currentPage = 0;
+
+    private SharedPreferences loginData;
+    private String idAndSessionCookie;
+    private boolean cookiePresent = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_topic_list, container, false);
@@ -105,22 +114,34 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         LoginActivity ac = new LoginActivity();
-        String cookie = "_forum_session=cDArUVZvOU4xcjd5VlJReTQ3V1ZMWmRrT3N1MkNQZEJoOXg0U2pGYXFacDFGOVlGajZXRFY3NjBBQXAyNmptckw1cno4ZzF1b1ZYTk0wdTRUbjc0WXc9PS0tRDl5T2thbFBySUlSYnBBekJWdm5tZz09--0626a8be3f55473064509109a6f01b43f15073b5;_t=139d29005eb2b8fa47c33359f0cb5b67)";
-        if (ac.getAppWideCookie() != null) {
-            cookie = ac.getAppWideCookie();
+        loginData = getActivity().getApplicationContext()
+                .getSharedPreferences(LoginActivity.PREFERENCE_LOGIN_DATA,
+                Context.MODE_PRIVATE);
+        String id = loginData.getString(LoginActivity.COOKIE_ID_NAME, null);
+        String forumSession = loginData.getString(LoginActivity.COOKIE_SESSION_NAME, null);
+        if (id == null || forumSession == null) {
+            cookiePresent = false;
+            idAndSessionCookie = null;
+            Log.i("TopicListFragment", "onCreate: Just negodu, everythinhg is null");
         } else {
-            Toast.makeText(getActivity(), "no cookie retreived", Toast.LENGTH_LONG).show();
+            cookiePresent = true;
+            idAndSessionCookie = LoginActivity.COOKIE_ID_NAME+"="+id+";"+
+                    LoginActivity.COOKIE_SESSION_NAME+"="+forumSession;
+            Log.i("TopicListFragment", "onCreate: "+idAndSessionCookie);
         }
-        final String oop = cookie;
+
+        final String cookies = android.webkit.CookieManager.getInstance().getCookie("http://radar.techcabal.com/");
         okHttpClient = new OkHttpClient().newBuilder()
             .addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     final Request original = chain.request();
-                    String tada = "_t=139d29005eb2b8fa47c33359f0cb5b67;_forum_session=M0FyRitkd2hxeEQ1dUJ6cS91a1orR1FOTWNwQllwOEsrTlhhRTdVbGMyOHdQbHhQNXV5aGNzd1hOY0Q0K0E2eS9QekJKN2k4bFdxN3VHRUxxOEVFMFE9PS0tN21mOXVYYTdYR0lEanBSRTlMNVJrZz09--bbb9a90eebbfbbddb5b77d705354027351ab8c23";
+                    //String tada = "_t=139d29005eb2b8fa47c33359f0cb5b67;_forum_session=M0FyRitkd2hxeEQ1dUJ6cS91a1orR1FOTWNwQllwOEsrTlhhRTdVbGMyOHdQbHhQNXV5aGNzd1hOY0Q0K0E2eS9QekJKN2k4bFdxN3VHRUxxOEVFMFE9PS0tN21mOXVYYTdYR0lEanBSRTlMNVJrZz09--bbb9a90eebbfbbddb5b77d705354027351ab8c23";
+                    //String cookie = (idAndSessionCookie != null) ? idAndSessionCookie : "";
+                    String cookie = (cookies != null) ? cookies : "ddd";
                     final Request authorized = original.newBuilder()
                             //.addHeader("Cookie", oop)
-                            .addHeader("Cookie", tada)
+                            .addHeader("Cookie", cookie)
                             .build();
                     return chain.proceed(authorized);
                 }
@@ -149,7 +170,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
         protected ArrayList<Topic> doInBackground (Integer... params) {
             ArrayList<Topic> loadedTopics = new ArrayList<>();
             //the next page to be loaded
-            int pageToLoad = 2;
+            int pageToLoad = params[1];
 
             /*String filename = "latest"+pageToLoad+".json";
             Log.i(LOG_TAG, "Loading file "+filename+" from assets");

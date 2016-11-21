@@ -61,15 +61,15 @@ public class TopicListActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView.setItemIconTintList(null);
 
+        final String tada = android.webkit.CookieManager.getInstance().getCookie("http://radar.techcabal.com/");
         okHttpClient = new OkHttpClient().newBuilder()
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         final Request original = chain.request();
-                        String tada = "_t=139d29005eb2b8fa47c33359f0cb5b67;_forum_session=M0FyRitkd2hxeEQ1dUJ6cS91a1orR1FOTWNwQllwOEsrTlhhRTdVbGMyOHdQbHhQNXV5aGNzd1hOY0Q0K0E2eS9QekJKN2k4bFdxN3VHRUxxOEVFMFE9PS0tN21mOXVYYTdYR0lEanBSRTlMNVJrZz09--bbb9a90eebbfbbddb5b77d705354027351ab8c23";
                         final Request authorized = original.newBuilder()
                                 //.addHeader("Cookie", oop)
-                                .addHeader("Cookie", tada)
+                                .addHeader("Cookie", (tada == null) ? "dsf" : tada)
                                 .build();
                         return chain.proceed(authorized);
                     }
@@ -141,6 +141,7 @@ public class TopicListActivity extends AppCompatActivity {
             try {
                 HttpUrl url = HttpRequestBuilderHelper.buildCurrentUserUrl();
                 userJsonString = ApiHelper.GET(okHttpClient, url);
+                Log.e(TAG, "doInBackground "+userJsonString);
             } catch (IOException ioe) {
                 userJsonString = null;
                 Log.i(TAG, "doInBackground: " + ioe.getLocalizedMessage());
@@ -156,7 +157,6 @@ public class TopicListActivity extends AppCompatActivity {
                         JsonNode retval = mapper.readTree(userJsonString);
                         JsonNode currentUserPath = retval.path("current_user");
                         currentUser = mapper.readValue(currentUserPath.traverse(), CurrentUser.class);
-                        Log.e("Terrible", userJsonString);
                     } catch (IOException ioe) {
                         Log.e("Terrible", ioe.getMessage());
                         //something bad happened

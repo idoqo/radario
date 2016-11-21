@@ -1,7 +1,10 @@
 package io.github.idoqo.radario;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.StringBuilderPrinter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +16,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class LoginActivity extends AppCompatActivity {
 
     public static final String RADAR_LOGIN_URL = "http://radar.techcabal.com/login";
     public static final String COOKIE_ID_NAME = "_t";
     public static final String COOKIE_SESSION_NAME = "_forum_session";
+    public static final String PREFERENCE_LOGIN_DATA = "login";
+    public static final String TAG = "LoginActivity";
 
-    private String appWideCookie = null;
+    private HashMap<String, String> cookieMap;
+    //cookie name-value pairs joined together as a string, kinda prefer the hash map as those damned
+    //google tracking cookies can be removed before being sent to the servers
+    private String cookieString;
+
+    private SharedPreferences loginData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        loginData = getApplicationContext().getSharedPreferences(PREFERENCE_LOGIN_DATA, MODE_PRIVATE);
 
         final WebView loginView  = (WebView) findViewById(R.id.login_web_view);
         WebSettings loginViewSettings = loginView.getSettings();
@@ -48,30 +62,45 @@ public class LoginActivity extends AppCompatActivity {
     private class CookeHandlerWebClient extends WebViewClient{
         @Override
         public void onPageFinished(WebView view, String url) {
-            RelativeLayout root = (RelativeLayout) findViewById(R.id.activity_login);
-            TextView cookieView = new TextView(LoginActivity.this);
-            cookieView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            String id = getCookie(url, COOKIE_ID_NAME);
-            LoginActivity.this.assignCookies(url);
-            cookieView.setText(id);
-            root.addView(cookieView);
             super.onPageFinished(view, url);
+            String cookies = android.webkit.CookieManager.getInstance().getCookie(url);
+            cookieMap = makeCookieMap(cookies);
+            saveLoginCookies();
+            cookieString = cookies;
         }
     }
 
-    public void assignCookies(String url) {
-        String cookieValue = null;
-        String cookies = android.webkit.CookieManager.getInstance().getCookie(url);
-        this.appWideCookie = cookies;
+    private void saveLoginCookies(){
+        String tCookieValue = cookieMap.get(COOKIE_ID_NAME);
+        String forumSessionValue = cookieMap.get(COOKIE_SESSION_NAME);
+            SharedPreferences.Editor editor = loginData.edit();
+            editor.putString(COOKIE_ID_NAME, tCookieValue);
+            editor.putString(COOKIE_SESSION_NAME, forumSessionValue);
+            editor.apply();
+
+            Log.i(TAG, "saveLoginCookies: "+tCookieValue);
+            Log.i(TAG, "saveLoginCookies: "+forumSessionValue);
     }
 
-    public String getAppWideCookie() {
-        return appWideCookie;
+    public HashMap<String, String> getCookieMap(){
+        return cookieMap;
     }
+
+    private HashMap<String, String> makeCookieMap(String cookies){
+        HashMap<String, String> cookieMap = new HashMap<>();
+        String[] tmp = cookies.split(";");
+        for (String cookie : tmp) {
+            String[] lol = cookie.split("=");
+            cookieMap.put(lol[0], lol[1]);
+        }
+        return cookieMap;
+    }
+
+    //returns the value of the cookie with the specified name, null if no match was found
     public static String getCookie(String url, String cookieName){
         String cookieValue = null;
         String cookies = android.webkit.CookieManager.getInstance().getCookie(url);
+        Log.i("LoginActivity", cookies);
         String[] tmp = cookies.split(";");
         for (String cookie : tmp) {
             String[] lol = cookie.split("=");
