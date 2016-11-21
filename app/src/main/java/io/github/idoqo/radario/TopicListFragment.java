@@ -158,7 +158,6 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
             String jsonString;
             try {
                 jsonString = ApiHelper.GET(okHttpClient, topicsUrl);
-                Log.e(LOG_TAG, jsonString);
             } catch (IOException ioe) {
                 jsonString = null;
                 Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)

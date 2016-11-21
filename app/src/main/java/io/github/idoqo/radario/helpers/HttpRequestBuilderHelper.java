@@ -28,6 +28,15 @@ public class HttpRequestBuilderHelper {
                 .build();
     }
 
+    public static HttpUrl buildCurrentUserUrl() {
+        return new HttpUrl.Builder()
+                .scheme(RADAR_URL_SCHEME)
+                .host(RADAR_URL_HOST)
+                .addPathSegment("session")
+                .addPathSegment("current.json")
+                .build();
+    }
+
     //Login request body
     public static RequestBody LoginBody(String username, String password, String token) {
         return new FormBody.Builder()
