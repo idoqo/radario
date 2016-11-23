@@ -3,6 +3,7 @@ package io.github.idoqo.radario;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -47,6 +48,7 @@ public class TopicListActivity extends AppCompatActivity {
     private CurrentUser loggedUser = null;
     private OkHttpClient okHttpClient;
     private TextView usernameTV;
+    private SharedPreferences loginData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +59,22 @@ public class TopicListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
+        loginData = getSharedPreferences(LoginActivity.PREFERENCE_LOGIN_DATA, MODE_PRIVATE);
+
         navigationView = (NavigationView) findViewById(R.id.topic_list_nav_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView.setItemIconTintList(null);
 
-        final String tada = android.webkit.CookieManager.getInstance().getCookie("http://radar.techcabal.com/");
+        final String savedCookies = loginData.getString(LoginActivity.COOKIE_FULL_STRING, null);
+
         okHttpClient = new OkHttpClient().newBuilder()
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         final Request original = chain.request();
+                        String cookie = (savedCookies != null) ? savedCookies : "ddd";
                         final Request authorized = original.newBuilder()
-                                //.addHeader("Cookie", oop)
-                                .addHeader("Cookie", (tada == null) ? "dsf" : tada)
+                                .addHeader("Cookie", cookie)
                                 .build();
                         return chain.proceed(authorized);
                     }

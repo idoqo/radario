@@ -113,34 +113,20 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        LoginActivity ac = new LoginActivity();
         loginData = getActivity().getApplicationContext()
                 .getSharedPreferences(LoginActivity.PREFERENCE_LOGIN_DATA,
                 Context.MODE_PRIVATE);
-        String id = loginData.getString(LoginActivity.COOKIE_ID_NAME, null);
-        String forumSession = loginData.getString(LoginActivity.COOKIE_SESSION_NAME, null);
-        if (id == null || forumSession == null) {
-            cookiePresent = false;
-            idAndSessionCookie = null;
-            Log.i("TopicListFragment", "onCreate: Just negodu, everythinhg is null");
-        } else {
-            cookiePresent = true;
-            idAndSessionCookie = LoginActivity.COOKIE_ID_NAME+"="+id+";"+
-                    LoginActivity.COOKIE_SESSION_NAME+"="+forumSession;
-            Log.i("TopicListFragment", "onCreate: "+idAndSessionCookie);
-        }
+        final String savedCookies = loginData.getString(LoginActivity.COOKIE_FULL_STRING, null);
 
-        final String cookies = android.webkit.CookieManager.getInstance().getCookie("http://radar.techcabal.com/");
         okHttpClient = new OkHttpClient().newBuilder()
             .addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     final Request original = chain.request();
-                    //String tada = "_t=139d29005eb2b8fa47c33359f0cb5b67;_forum_session=M0FyRitkd2hxeEQ1dUJ6cS91a1orR1FOTWNwQllwOEsrTlhhRTdVbGMyOHdQbHhQNXV5aGNzd1hOY0Q0K0E2eS9QekJKN2k4bFdxN3VHRUxxOEVFMFE9PS0tN21mOXVYYTdYR0lEanBSRTlMNVJrZz09--bbb9a90eebbfbbddb5b77d705354027351ab8c23";
-                    //String cookie = (idAndSessionCookie != null) ? idAndSessionCookie : "";
-                    String cookie = (cookies != null) ? cookies : "ddd";
+                    //savedCookies being null causes the client to crash so set a non-null
+                    //string to use in-case.
+                    String cookie = (savedCookies != null) ? savedCookies : "ddd";
                     final Request authorized = original.newBuilder()
-                            //.addHeader("Cookie", oop)
                             .addHeader("Cookie", cookie)
                             .build();
                     return chain.proceed(authorized);
@@ -183,7 +169,6 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                 jsonString = null;
                 Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
                         .show();
-                Log.e(LOG_TAG, ioe.getMessage());
             }
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
