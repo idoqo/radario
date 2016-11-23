@@ -64,8 +64,6 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
     private int currentPage = 0;
 
     private SharedPreferences loginData;
-    private String idAndSessionCookie;
-    private boolean cookiePresent = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_topic_list, container, false);
@@ -150,9 +148,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
     @Override
     public void onScrollCalled(int firstVisibleItem, int visibleItemCount, int totalItemCount) {}
 
-    public class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>> {
-        private boolean isLogged; //is a user logged in?
-
+    private class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>> {
         protected ArrayList<Topic> doInBackground (Integer... params) {
             ArrayList<Topic> loadedTopics = new ArrayList<>();
             //the next page to be loaded
@@ -187,8 +183,6 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                         participants.put(user.getId(), user);
                     }
                     JsonNode topicsContainer = response.path("topic_list");
-                    UrlResponse urlResponse = mapper.readValue(topicsContainer.traverse(), UrlResponse.class);
-                    isLogged = urlResponse.isCanCreateTopic();
                     JsonNode topicsNode = topicsContainer.path("topics");
                     Iterator<JsonNode> nodeIterator = topicsNode.elements();
 
@@ -215,13 +209,6 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
             topicsListView.appendItems(result);
             executing = false;
             String msg;
-            if (isLogged) {
-                msg = "Can create topic is TRUE";
-            } else {
-                msg = "Can create topic is FALSE";
-            }
-            Snackbar.make(topicsListView, msg, Snackbar.LENGTH_INDEFINITE)
-                    .show();
             if (result.size() > 0) {
                 Toast.makeText(getContext(), "Loaded "+String.valueOf(result.size()) + "items",
                         Toast.LENGTH_SHORT).show();

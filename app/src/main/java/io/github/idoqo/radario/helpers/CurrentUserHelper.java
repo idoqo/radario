@@ -1,6 +1,8 @@
 package io.github.idoqo.radario.helpers;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -9,14 +11,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+import io.github.idoqo.radario.LoginActivity;
 import io.github.idoqo.radario.model.CurrentUser;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class CurrentUserHelper {
-    public static final String CURRENT_USER_URL = "http://radar.techcabal.com/session/current.json";
+
+    public static final String PREF_USERNAME_FIELD = "username";
+    public static final String PREF_FULL_NAME_FIELD = "full_name";
+    public static final String PREF_USER_ID_FIELD = "user_id";
+    public static final String PREF_AVATAR_URL_FIELD = "avatar_url";
+
+    private SharedPreferences userData;
+
 
     //http client for making requests to the server, should be provide by caller clas
     private OkHttpClient okHttpClient;
@@ -25,8 +36,18 @@ public class CurrentUserHelper {
     //being taken serious
     private CurrentUser loggedUser;
 
-    public CurrentUserHelper(OkHttpClient client){
+    //used to miscellaneous operations that may require a context
+    private Context context;
+
+    public CurrentUserHelper(OkHttpClient client, Context c){
         okHttpClient = client;
+        context = c;
+
+        if (context != null) {
+            Context ctx = context.getApplicationContext();
+            userData = ctx.getSharedPreferences(LoginActivity.COOKIE_FULL_STRING,
+                    MODE_PRIVATE);
+        }
     }
 
     public CurrentUser getLoggedUser(){
@@ -37,6 +58,32 @@ public class CurrentUserHelper {
         this.loggedUser = user;
     }
 
+    private void registerUserToCache(CurrentUser user){
+        SharedPreferences.Editor editor = userData.edit();
+        editor.putString(PREF_USERNAME_FIELD, user.getUsername());
+        editor.putInt(PREF_USER_ID_FIELD, user.getId());
+        editor.putString(PREF_FULL_NAME_FIELD, user.getFullName());
+        editor.putString(PREF_AVATAR_URL_FIELD, user.getAvatarUrl());
+        editor.apply();
+    }
+
+    //the user returned by this method is gotten from a shared preference, which means
+    //the server might reject it if for instance, the cookies has expired or something...
+    public CurrentUser lazyLoadUser(){
+        CurrentUser user = new CurrentUser();
+        String username = userData.getString(PREF_USERNAME_FIELD, null);
+        //i hope to God they didn't use an id of 0 for any snowflake account
+        Integer userID = userData.getInt(PREF_USER_ID_FIELD, 0);
+        String fullName = userData.getString(PREF_FULL_NAME_FIELD, null);
+        String avatarUrl = userData.getString(PREF_AVATAR_URL_FIELD, null);
+        user.setUsername(username);
+        user.setFullName(fullName);
+        user.setId(userID);
+        user.setAvatarUrl(avatarUrl);
+
+        return user;
+    }
+
     //interface for the CurrentUserFetcherTask to expose its methods
     public interface LoggedUserInfoInterface
     {
@@ -45,7 +92,7 @@ public class CurrentUserHelper {
         public void onPostExecute(CurrentUser result);
     }
 
-    public void verifyLoggedUser(LoggedUserInfoInterface in){
+    public void requestLoggedUser(LoggedUserInfoInterface in){
         CurrentUserFetcherTask fetcherTask = new CurrentUserFetcherTask(in);
         fetcherTask.execute();
     }
@@ -79,6 +126,7 @@ public class CurrentUserHelper {
                         JsonNode retval = mapper.readTree(userJsonString);
                         JsonNode currentUserPath = retval.path("current_user");
                         currentUser = mapper.readValue(currentUserPath.traverse(), CurrentUser.class);
+                        registerUserToCache(currentUser);
                     } catch (IOException ioe) {
                         //something bad happened
                         currentUser = null;

@@ -37,4 +37,5 @@
     <string name="action_bookmark_topic">Bookmark</string>
     <string name="dummy_excerpt">"Sorry, I missed your question. So I think it&#39;s a perspective problem. Many founders see it as &#39;their company&#39;. They own this company and their word is law and it&#39;s something that is intrinsically linked to them. I think they need to look at it from another perspective: a company is an entity of it"</string>
 
+    <string name="no_logged_user">Anonymous</string>
 </resources>

@@ -9,20 +9,32 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.io.IOException;
+
+import io.github.idoqo.radario.helpers.CurrentUserHelper;
+import io.github.idoqo.radario.model.CurrentUser;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class LoginActivity extends AppCompatActivity {
 
     public static final String RADAR_LOGIN_URL = "http://radar.techcabal.com/login";
     public static final String COOKIE_FULL_STRING = "radar_cookie";
     public static final String PREFERENCE_LOGIN_DATA = "login";
+    //the launching activity should pass a http client if it intends to dictate the client
+    //this activity should use
     public static final String TAG = "LoginActivity";
     private SharedPreferences loginData;
+    private OkHttpClient httpClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        loginData = getApplicationContext().getSharedPreferences(PREFERENCE_LOGIN_DATA, MODE_PRIVATE);
+        loginData = getApplicationContext().getSharedPreferences(PREFERENCE_LOGIN_DATA,
+                MODE_PRIVATE);
 
         final WebView loginView  = (WebView) findViewById(R.id.login_web_view);
         WebSettings loginViewSettings = loginView.getSettings();
@@ -47,10 +59,41 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            String cookies = android.webkit.CookieManager.getInstance().getCookie(url);
+            final String cookies = android.webkit.CookieManager.getInstance().getCookie(url);
             //todo remove google analytics cookies from the above cookie string.
             saveLoginCookies(cookies);
+
+            httpClient = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            final Request original = chain.request();
+                            String cookie = (cookies != null) ? cookies : "ddd";
+                            final Request authorized = original.newBuilder()
+                                    .addHeader("Cookie", cookie)
+                                    .build();
+                            return chain.proceed(authorized);
+                        }
+                    }).build();
+            broadcastLoggedUser();
         }
+    }
+
+    private void broadcastLoggedUser(){
+        CurrentUserHelper userHelper = new CurrentUserHelper(httpClient, this);
+        userHelper.requestLoggedUser(new CurrentUserHelper.LoggedUserInfoInterface() {
+            @Override
+            public void onPreExecute() {
+
+            }
+
+            @Override
+            public void onPostExecute(CurrentUser result) {
+                //do stuffs with the user you got
+                //finish the activity and go back to the launcher activity
+                finish();
+            }
+        });
     }
 
     private void saveLoginCookies(String cookieString){

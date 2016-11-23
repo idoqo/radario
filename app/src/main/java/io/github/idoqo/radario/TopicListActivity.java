@@ -49,6 +49,7 @@ public class TopicListActivity extends AppCompatActivity {
     private OkHttpClient okHttpClient;
     private TextView usernameTV;
     private SharedPreferences loginData;
+    private CurrentUserHelper userHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,6 @@ public class TopicListActivity extends AppCompatActivity {
         navigationView.setItemIconTintList(null);
 
         final String savedCookies = loginData.getString(LoginActivity.COOKIE_FULL_STRING, null);
-
         okHttpClient = new OkHttpClient().newBuilder()
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -79,6 +79,8 @@ public class TopicListActivity extends AppCompatActivity {
                         return chain.proceed(authorized);
                     }
                 }).build();
+
+        userHelper = new CurrentUserHelper(okHttpClient, this);
 
         TopicListFragment fragment = new TopicListFragment();
         getSupportFragmentManager().beginTransaction()
@@ -95,7 +97,7 @@ public class TopicListActivity extends AppCompatActivity {
 
         View navHeaderView = navigationView.getHeaderView(0);
         usernameTV = (TextView) navHeaderView.findViewById(R.id.logged_username);
-        prepareNavHeader(usernameTV);
+        prepareNavHeader();
         usernameTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,9 +110,11 @@ public class TopicListActivity extends AppCompatActivity {
         });
     }
 
-    private void prepareNavHeader(TextView textView){
-        CurrentUserFetcherTask fetcherTask = new CurrentUserFetcherTask();
-        fetcherTask.execute();
+    private void prepareNavHeader(){
+        loggedUser = userHelper.lazyLoadUser();
+        String textToShow = (loggedUser.getUsername() != null) ? loggedUser.getUsername() :
+                getResources().getString(R.string.no_logged_user);
+        usernameTV.setText(textToShow);
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -132,59 +136,5 @@ public class TopicListActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
-    }
-
-    public class CurrentUserFetcherTask extends AsyncTask<Void, Void, CurrentUser> {
-
-        @Override
-        protected CurrentUser doInBackground(Void... voids) {
-            String userJsonString;
-            CurrentUser currentUser = new CurrentUser();
-            /*String filename = "user.json";
-            Log.i("TopicListActivity", "Loading file "+filename+" from assets");
-            userJsonString = Utils.loadJsonFromAsset(TopicListActivity.this, filename);*/
-            try {
-                HttpUrl url = HttpRequestBuilderHelper.buildCurrentUserUrl();
-                userJsonString = ApiHelper.GET(okHttpClient, url);
-                Log.e(TAG, "doInBackground "+userJsonString);
-            } catch (IOException ioe) {
-                userJsonString = null;
-                Log.i(TAG, "doInBackground: " + ioe.getLocalizedMessage());
-            }
-            if (userJsonString != null) {
-                if (userJsonString.isEmpty()) {
-                    Log.e("Terrible", "return string is empty");
-                    //an empty response from the server means no authenticated user is present.
-                    currentUser = null;
-                } else {
-                    ObjectMapper mapper = new ObjectMapper();
-                    try {
-                        JsonNode retval = mapper.readTree(userJsonString);
-                        JsonNode currentUserPath = retval.path("current_user");
-                        currentUser = mapper.readValue(currentUserPath.traverse(), CurrentUser.class);
-                    } catch (IOException ioe) {
-                        Log.e("Terrible", ioe.getMessage());
-                        //something bad happened
-                    }
-                }
-            }
-            return currentUser;
-        }
-
-        @Override
-        protected void onPostExecute(CurrentUser data) {
-            super.onPostExecute(data);
-            loggedUser = data;
-            if (loggedUser != null) {
-                usernameTV.setText(loggedUser.getUsername());
-            } else {
-                usernameTV.setText("Hello_asshole");
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
     }
 }
