@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:layout_marginBottom="24dp">
     <LinearLayout
         android:id="@+id/indent"
         android:layout_height="fill_parent"
@@ -24,9 +25,7 @@
             android:id="@+id/comment_metadata"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="16dp"
-            android:layout_marginBottom="8dp">
+            android:orientation="horizontal">
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -65,8 +64,7 @@
             android:text="@string/dummy_excerpt"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -75,8 +73,8 @@
                 android:paddingEnd="12dp">
                 <ImageView
                     android:id="@+id/action_like_comment"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/ic_like"
                     android:tint="@android:color/darker_gray"/>
                 <TextView
@@ -95,8 +93,8 @@
                 android:paddingEnd="12dp">
                 <ImageView
                     android:id="@+id/action_reply_comment"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/ic_reply_white"
                     android:tint="@android:color/darker_gray"/>
                 <TextView
@@ -115,8 +113,8 @@
                 android:paddingEnd="12dp">
                 <ImageView
                     android:id="@+id/action_like_topic"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/ic_bookmark_border_white_24dp"
                     android:tint="@android:color/darker_gray"/>
                 <TextView
