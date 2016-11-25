@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginBottom="24dp">
+    android:paddingBottom="24dp">
     <LinearLayout
         android:id="@+id/indent"
         android:layout_height="fill_parent"
@@ -62,14 +62,17 @@
             android:textColor="@android:color/black"
             android:autoLink="web"
             android:text="@string/dummy_excerpt"/>
+        <!-- negative margin below is a dumb ass workaround for how Html.fromString
+        adds a large spacing for <p> tags-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingStart="12dp"
+                android:layout_gravity="start"
                 android:paddingEnd="12dp">
                 <ImageView
                     android:id="@+id/action_like_comment"

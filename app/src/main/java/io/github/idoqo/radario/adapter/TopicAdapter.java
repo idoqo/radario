@@ -90,6 +90,8 @@ public class TopicAdapter extends EndlessScrollAdapter
             timeCount = "long";
             timeQualifier = "long";
         }
+        tp.setDisplayableRelativeTime(timeCount+" "+timeQualifier);
+
         postedTimeView.setText(context.getResources().getString(R.string.relative_time_past,
                 timeCount, timeQualifier));
 
@@ -108,11 +110,13 @@ public class TopicAdapter extends EndlessScrollAdapter
                 viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_ID_EXTRA, clickedTopic.getId());
                 viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_CATEGORY_EXTRA,
                         Category.getnameFromId(clickedTopic.getCategory()));
-                viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_OP_EXTRA, 1);
+                viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_OP_EXTRA, clickedTopic.getPosterUsername());
                 viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_LIKE_COUNT_EXTRA,
                         clickedTopic.getLikeCount());
                 viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_COMMENT_COUNT_EXTRA,
                         clickedTopic.getPostsCount());
+                viewThreadIntent.putExtra(TopicDiscussionActivity.TOPIC_RELATIVE_TIME_EXTRA,
+                        clickedTopic.getDisplayableRelativeTime());
 
                 context.startActivity(viewThreadIntent);
             }

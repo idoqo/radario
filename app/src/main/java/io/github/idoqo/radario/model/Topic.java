@@ -29,6 +29,8 @@ public class Topic {
     private List<Poster> posters;
     private Poster op;
 
+    private String displayableRelativeTime;
+
     //the username of the original poster, typically gotten by querying with the poster's id
     private String posterUsername = null;
 
@@ -113,5 +115,13 @@ public class Topic {
     public Date getCreatedAtAsDate() throws ParseException{
         ISO8601DateFormat df = new ISO8601DateFormat();
         return df.parse(createdAtString);
+    }
+
+    public void setDisplayableRelativeTime(String time) {
+        this.displayableRelativeTime = time;
+    }
+
+    public String getDisplayableRelativeTime(){
+        return this.displayableRelativeTime;
     }
 }

@@ -29,6 +29,7 @@
     <string name="item_comment_count">%1$d %2$s</string>
     <!--%1$d is the string value of the amount of time, %2$s is the unit i.e {minutes|hours|months|years}-->
     <string name="relative_time_past">%1$s %2$s ago</string>
+    <string name="prompt_reply">Reply</string>
 
     <!--topic discussion activity, menu and related layouts-->
     <string name="title_activity_topic_discussion">TopicDiscussionActivity</string>

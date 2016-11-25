@@ -26,7 +26,6 @@ import io.github.idoqo.radario.UserProfileActivity;
 import io.github.idoqo.radario.helpers.DateTimeHelper;
 import io.github.idoqo.radario.model.Comment;
 
-
 public class CommentsAdapter extends BaseAdapter {
     private ArrayList<Comment> comments;
     private LayoutInflater inflater;
@@ -84,16 +83,13 @@ public class CommentsAdapter extends BaseAdapter {
             timeQualifier = "long";
         }
         int likeCount = comment.getLikeCount();
-        int replyCount = comment.getChildCount();
         String likeCountQualifier = (likeCount <= 1) ? "like" : "likes";
-        String replyCountQualifier = (replyCount <= 1) ? "reply" : "replies";
 
         postedTimeView.setText(context.getResources().getString(R.string.relative_time_past,
                 timeCount, timeQualifier));
         likeCountView.setText(context.getResources().getString(R.string.item_like_count,
                 likeCount, likeCountQualifier));
-        replyCountView.setText(context.getResources().getString(R.string.item_comment_count,
-                replyCount, replyCountQualifier));
+        replyCountView.setText(context.getResources().getString(R.string.prompt_reply));
 
         collapsedIndicator.setOnClickListener(commentCollapser());
         commentOP.setOnClickListener(onUsernameClickedListener(comment));

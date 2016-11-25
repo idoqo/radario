@@ -44,6 +44,7 @@ public class TopicDiscussionActivity extends AppCompatActivity {
     public static final String TOPIC_CATEGORY_EXTRA = "topic_category";
     public static final String TOPIC_LIKE_COUNT_EXTRA = "like_count";
     public static final String TOPIC_COMMENT_COUNT_EXTRA = "comment_count";
+    public static final String TOPIC_RELATIVE_TIME_EXTRA = "posted_since";
 
     private ListView threadsListView;
     private CommentsAdapter commentsAdapter;
@@ -80,7 +81,8 @@ public class TopicDiscussionActivity extends AppCompatActivity {
             //int id = extras.getInt(TOPIC_ID_EXTRA);
             int id = 1;
             String category = extras.getString(TOPIC_CATEGORY_EXTRA);
-            Integer poster = extras.getInt(TOPIC_OP_EXTRA);
+            String poster = extras.getString(TOPIC_OP_EXTRA);
+            String timePosted = extras.getString(TOPIC_RELATIVE_TIME_EXTRA);
             int likeCount = extras.getInt(TOPIC_LIKE_COUNT_EXTRA);
             int commentCount = extras.getInt(TOPIC_COMMENT_COUNT_EXTRA);
 
@@ -89,8 +91,13 @@ public class TopicDiscussionActivity extends AppCompatActivity {
             TextView categoryView = (TextView) headerView.findViewById(R.id.active_topic_category);
             TextView likeCountView = (TextView) headerView.findViewById(R.id.number_of_likes);
             TextView commentCountView = (TextView) headerView.findViewById(R.id.number_of_comments);
+            TextView timePostedView = (TextView) headerView.findViewById(R.id.posted_since);
+            TextView postedByView = (TextView) headerView.findViewById(R.id.topic_poster);
+
             titleView.setText(title);
             categoryView.setText(category);
+            timePostedView.setText(timePosted);
+            postedByView.setText(poster);
 
             String likesQualifier = (likeCount <= 1) ? "like" : "likes";
             String commentsQualifier = (commentCount <= 1) ? "comment" : "comments";
@@ -127,7 +134,7 @@ public class TopicDiscussionActivity extends AppCompatActivity {
                 jsonString = null;
                 Snackbar.make(threadsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
                         .show();
-                Log.e(LOG_TAG, ioe.getMessage());
+//                Log.e(LOG_TAG, ioe.getMessage());
             }
 
             if (jsonString != null) {
