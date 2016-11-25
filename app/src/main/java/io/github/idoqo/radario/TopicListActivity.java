@@ -91,6 +91,7 @@ public class TopicListActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 drawerLayout.closeDrawers();
+                triggerTopicsReload(item);
                 return true;
             }
         });
@@ -136,5 +137,40 @@ public class TopicListActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
+    }
+
+    private void triggerTopicsReload(MenuItem item){
+        TopicListFragment topicListFragment = new TopicListFragment();
+        Bundle extras = new Bundle();
+        String itemString;
+        switch (item.getItemId()) {
+            case R.id.menu_cat_ama:
+                itemString = "ama";
+                break;
+            case R.id.menu_cat_design:
+                itemString = "design";
+                break;
+            case R.id.menu_cat_events:
+                itemString = "events";
+                break;
+            case R.id.menu_cat_everything:
+                itemString = "everything";
+                break;
+            case R.id.menu_cat_jobs:
+                itemString = "jobs";
+                break;
+            case R.id.menu_cat_meta:
+                itemString = "meta";
+                break;
+            case R.id.menu_cat_products:
+                default:
+                itemString = "products";
+        }
+        Log.e(TAG, "triggerTopicReload: "+itemString);
+        extras.putString(TopicListFragment.TOPICS_CATEGORY_TO_LOAD, itemString);
+        topicListFragment.setArguments(extras);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.topic_list_main_content, topicListFragment)
+                .commit();
     }
 }

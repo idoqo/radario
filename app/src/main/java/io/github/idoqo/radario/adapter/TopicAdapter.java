@@ -45,6 +45,10 @@ public class TopicAdapter extends EndlessScrollAdapter
 
     public ArrayList<Topic> getItems() {return topics;}
 
+    public void removeAll(){
+        topics = new ArrayList<>();
+    }
+
     public void addItems(Collection items){
         if(items.size() > 0){
             this.topics.addAll(items);
