@@ -2,6 +2,7 @@ package io.github.idoqo.radario.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,23 +27,28 @@ import java.util.Map;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.TopicListFragment;
+import io.github.idoqo.radario.UserProfileActivity;
 import io.github.idoqo.radario.Utils;
 import io.github.idoqo.radario.adapter.UserTopicAdapter;
+import io.github.idoqo.radario.helpers.ApiHelper;
+import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
 import io.github.idoqo.radario.model.Topic;
 import io.github.idoqo.radario.model.User;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 
 
 public class UserTopicsFragment extends Fragment {
     private TopicsFetcherTask fetcherTask;
     private UserTopicAdapter topicAdapter;
     private RecyclerView topicsList;
-    private int currentPage = 1;
-    private LinearLayoutManager layoutManager;
     private ArrayList<Topic> userTopics = new ArrayList<>();
 
-    private boolean executing = false;
-    private AVLoadingIndicatorView loadingIndicator;
+    private User user;
+    private HttpUrl userTopicsUrl;
+    private OkHttpClient okHttpClient;
 
+    private AVLoadingIndicatorView loadingIndicator;
     private TextView emptyTopicsView;
 
     private static final String LOG_TAG = "UserTopicsFragment";
@@ -52,11 +59,27 @@ public class UserTopicsFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //since nothing is in our list yet, the initial list count is zero
-        if (userTopics == null || userTopics.isEmpty()) {
-            executing = true;
-            fetcherTask = new TopicsFetcherTask();
-            fetcherTask.execute(0, currentPage);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            String username = arguments.getString(UserProfileActivity.EXTRA_USERNAME);
+            String fullName = arguments.getString(UserProfileActivity.EXTRA_FULLNAME);
+            String avatarUrl = arguments.getString(UserProfileActivity.EXTRA_AVATAR_URL);
+
+            user = new User();
+            user.setUsername(username);
+            user.setAvatarUrl(avatarUrl);
+            user.setFullName(fullName);
+
+            okHttpClient = ((UserProfileActivity) getActivity()).getOkHttpClient();
+
+            userTopicsUrl = HttpRequestBuilderHelper.buildUserUrl(username,
+                    HttpRequestBuilderHelper.USER_FILTER_REPLIES);
+            fetcherTask = new TopicsFetcherTask(userTopicsUrl);
+            fetcherTask.execute(0, 1);
+        } else {
+            //what the actual fuck?
+            Snackbar.make(topicsList, "Where is your god now? ¯\\_(ツ)_/¯", Snackbar.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -67,7 +90,7 @@ public class UserTopicsFragment extends Fragment {
 
         loadingIndicator = (AVLoadingIndicatorView) content.findViewById(R.id.topics_loading_indicator);
 
-        layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         topicsList.setHasFixedSize(true);
         topicsList.setLayoutManager(layoutManager);
         topicAdapter = new UserTopicAdapter(getActivity(), userTopics);
@@ -78,47 +101,33 @@ public class UserTopicsFragment extends Fragment {
 
     private class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>>
     {
+        private HttpUrl topicsUrl;
+
+        TopicsFetcherTask(HttpUrl url){
+            topicsUrl = url;
+        }
+
         protected ArrayList<Topic> doInBackground(Integer... params) {
-            //simulate delay
-            try {
-                Thread.sleep(3000);
-            } catch (Exception e) {
-                Log.i(LOG_TAG, e.getMessage());
-            }
-
+            //todo show loading animation
             ArrayList<Topic> loadedTopics = new ArrayList<>();
-            //the next page to be loaded
-            int pageToLoad = params[1];
+            String jsonString;
 
-            String filename = "latest" + pageToLoad + ".json";
-            Log.i(LOG_TAG, "Loading file " + filename + " from assets");
-            String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);
+            try {
+                jsonString = ApiHelper.GET(okHttpClient, topicsUrl);
+                Log.e(LOG_TAG, "doInBackground: "+topicsUrl);
+            } catch (IOException ioe) {
+                jsonString = null;
+                Snackbar.make(topicsList, "Failed to retrieve data", Snackbar.LENGTH_LONG).show();
+            }
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
                     JsonNode response = mapper.readTree(jsonString);
-                    //first, make a map of the participating users on this page which is returned in
-                    //the first node from the json response
-                    Map<Integer, User> participants = new HashMap<>();
-                    JsonNode usersContainer = response.path("users");
-                    Iterator<JsonNode> userNodeIterator = usersContainer.elements();
-
-                    while (userNodeIterator.hasNext()) {
-                        User user = mapper.readValue(userNodeIterator.next().traverse(), User.class);
-                        //use the id as a key for better querying
-                        participants.put(user.getId(), user);
-                    }
-                    JsonNode topicsContainer = response.path("topic_list");
-                    JsonNode topicsNode = topicsContainer.path("topics");
-                    Iterator<JsonNode> nodeIterator = topicsNode.elements();
+                    JsonNode repliesPath = response.path("user_actions");
+                    Iterator<JsonNode> nodeIterator = repliesPath.elements();
 
                     while (nodeIterator.hasNext()) {
                         Topic topic = mapper.readValue(nodeIterator.next().traverse(), Topic.class);
-                        //todo simply set the poster object and let callers ask for what they need
-                        User info = participants.get(topic.getPoster().getUserId());
-                        String username = info.getUsername();
-
-                        topic.setPosterUsername(username);
                         loadedTopics.add(topic);
                     }
                 } catch (Exception e) {

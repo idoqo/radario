@@ -10,6 +10,8 @@ public class User {
     private String username;
     @JsonProperty("avatar_template")
     private String avatarUrl;
+    @JsonProperty("name")
+    private String fullName;
 
     public User(){
         super();
@@ -25,6 +27,10 @@ public class User {
 
     public void setAvatarUrl(String url) {
         this.avatarUrl = url;
+    }
+
+    public void setFullName(String fullName){
+        this.fullName = fullName;
     }
 
     public String getUsername(){
