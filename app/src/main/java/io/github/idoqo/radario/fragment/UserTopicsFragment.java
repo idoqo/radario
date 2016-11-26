@@ -73,7 +73,7 @@ public class UserTopicsFragment extends Fragment {
             okHttpClient = ((UserProfileActivity) getActivity()).getOkHttpClient();
 
             userTopicsUrl = HttpRequestBuilderHelper.buildUserUrl(username,
-                    HttpRequestBuilderHelper.USER_FILTER_REPLIES);
+                    HttpRequestBuilderHelper.USER_FILTER_TOPICS);
             fetcherTask = new TopicsFetcherTask(userTopicsUrl);
             fetcherTask.execute(0, 1);
         } else {

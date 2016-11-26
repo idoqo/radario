@@ -26,7 +26,7 @@ import io.github.idoqo.radario.adapter.UserReplyAdapter;
 import io.github.idoqo.radario.helpers.ApiHelper;
 import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
 import io.github.idoqo.radario.model.User;
-import io.github.idoqo.radario.model.UserReply;
+import io.github.idoqo.radario.model.UserAction;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
@@ -35,7 +35,7 @@ public class UserCommentsFragment extends Fragment {
     public UserCommentsFragment(){
 
     }
-    private ArrayList<UserReply> userReplies = new ArrayList<>();
+    private ArrayList<UserAction> userReplies = new ArrayList<>();
     private UserReplyAdapter replyAdapter;
     private RepliesFetcherTask fetcherTask;
     private RecyclerView repliesListView;
@@ -81,7 +81,7 @@ public class UserCommentsFragment extends Fragment {
         return contentView;
     }
 
-    private class RepliesFetcherTask extends AsyncTask<Integer, Void, ArrayList<UserReply>>
+    private class RepliesFetcherTask extends AsyncTask<Integer, Void, ArrayList<UserAction>>
     {
         private HttpUrl userLikesUrl;
 
@@ -91,7 +91,7 @@ public class UserCommentsFragment extends Fragment {
         }
 
         @Override
-        protected ArrayList<UserReply> doInBackground(Integer... integers) {
+        protected ArrayList<UserAction> doInBackground(Integer... integers) {
             Log.e("UserCommentsFragment", "doInBackground: "+ userLikesUrl);
             /*String filename = "mark_replies.json";
             String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);*/
@@ -103,7 +103,7 @@ public class UserCommentsFragment extends Fragment {
                         .show();
                 jsonString = null;
             }
-            ArrayList<UserReply> replies = new ArrayList<>();
+            ArrayList<UserAction> replies = new ArrayList<>();
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
@@ -112,7 +112,7 @@ public class UserCommentsFragment extends Fragment {
                     Iterator<JsonNode> repliesIterator = repliesPath.elements();
 
                     while (repliesIterator.hasNext()) {
-                        UserReply reply = mapper.readValue(repliesIterator.next().traverse(), UserReply.class);
+                        UserAction reply = mapper.readValue(repliesIterator.next().traverse(), UserAction.class);
                         replies.add(reply);
                     }
                 } catch (Exception e) {
@@ -122,7 +122,7 @@ public class UserCommentsFragment extends Fragment {
             return replies;
         }
 
-        public void onPostExecute(ArrayList<UserReply> result) {
+        public void onPostExecute(ArrayList<UserAction> result) {
             super.onPostExecute(result);
             userReplies = result;
             replyAdapter.setData(result);

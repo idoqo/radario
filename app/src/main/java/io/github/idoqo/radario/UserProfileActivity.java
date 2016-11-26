@@ -20,8 +20,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.idoqo.radario.fragment.UserCommentsFragment;
 import io.github.idoqo.radario.fragment.UserLikesFragment;
 import io.github.idoqo.radario.fragment.UserTopicsFragment;
-import io.github.idoqo.radario.model.User;
-import io.github.idoqo.radario.model.UserLike;
 import io.github.idoqo.radario.url.RadarUrlParser;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

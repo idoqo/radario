@@ -11,25 +11,25 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.github.idoqo.radario.R;
-import io.github.idoqo.radario.model.UserReply;
+import io.github.idoqo.radario.model.UserAction;
 
-public class UserReplyAdapter extends RecyclerView.Adapter<UserReplyAdapter.UserReplyViewHolder> {
+public class UserReplyAdapter extends RecyclerView.Adapter<UserReplyAdapter.UserActionViewHolder> {
 
     private Context context;
-    private ArrayList<UserReply> replies;
+    private ArrayList<UserAction> replies;
 
-    public UserReplyAdapter(Context context, ArrayList<UserReply> replies){
+    public UserReplyAdapter(Context context, ArrayList<UserAction> replies){
         this.context = context;
         this.replies = replies;
     }
 
-    public void setData(ArrayList<UserReply> data){
+    public void setData(ArrayList<UserAction> data){
         replies = data;
         notifyDataSetChanged();
     }
 
-    public void onBindViewHolder(UserReplyViewHolder holder, int position){
-        UserReply reply = replies.get(position);
+    public void onBindViewHolder(UserActionViewHolder holder, int position){
+        UserAction reply = replies.get(position);
         holder.parentTitle.setText(reply.getParentTopic());
         holder.replyExcerpt.setText(reply.getExcerpt());
     }
@@ -38,18 +38,18 @@ public class UserReplyAdapter extends RecyclerView.Adapter<UserReplyAdapter.User
         return (replies == null) ? 0 : replies.size();
     }
 
-    public UserReplyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public UserActionViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View rootView = inflater.inflate(R.layout.user_reply_item, parent, false);
-        return new UserReplyViewHolder(rootView);
+        return new UserActionViewHolder(rootView);
     }
 
-    static class UserReplyViewHolder extends RecyclerView.ViewHolder
+    static class UserActionViewHolder extends RecyclerView.ViewHolder
     {
         public TextView parentTitle, replyExcerpt, numberOfLikes;
         public ImageView likeButton;
 
-        public UserReplyViewHolder(View itemView){
+        public UserActionViewHolder(View itemView){
             super(itemView);
             parentTitle = (TextView) itemView.findViewById(R.id.parent_topic_title);
             replyExcerpt = (TextView) itemView.findViewById(R.id.reply_excerpt);

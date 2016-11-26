@@ -14,16 +14,16 @@ import java.util.ArrayList;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.model.Category;
-import io.github.idoqo.radario.model.UserLike;
+import io.github.idoqo.radario.model.UserAction;
 import io.github.idoqo.radario.url.RadarUrlParser;
 
 
-public class UserLikeAdapter extends RecyclerView.Adapter<UserLikeAdapter.UserLikeViewHolder>
+public class UserLikeAdapter extends RecyclerView.Adapter<UserLikeAdapter.UserActionViewHolder>
 {
     private Context context;
-    private ArrayList<UserLike> likes;
+    private ArrayList<UserAction> likes;
 
-    public UserLikeAdapter(Context context, ArrayList<UserLike> likes){
+    public UserLikeAdapter(Context context, ArrayList<UserAction> likes){
         this.context = context;
         this.likes = likes;
     }
@@ -32,33 +32,33 @@ public class UserLikeAdapter extends RecyclerView.Adapter<UserLikeAdapter.UserLi
         return (likes == null) ? 0 : likes.size();
     }
 
-    public void onBindViewHolder(UserLikeViewHolder holder, int position){
-        UserLike like = likes.get(position);
+    public void onBindViewHolder(UserActionViewHolder holder, int position){
+        UserAction like = likes.get(position);
 
         holder.topicTitle.setText(like.getParentTopic());
         String parsedExcerpts = RadarUrlParser.userUrlToIntent(like.getExcerpt());
         holder.excerpt.setText(Html.fromHtml(parsedExcerpts));
-        holder.receiverUsername.setText(like.getReceiverUsername());
+        //holder.receiverUsername.setText(like.getReceiverUsername());
         holder.category.setText(Category.getnameFromId(like.getCategoryId()));
     }
 
-    public UserLikeViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public UserActionViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View rootView = inflater.inflate(R.layout.user_likes_item, parent, false);
-        return new UserLikeViewHolder(rootView);
+        return new UserActionViewHolder(rootView);
     }
 
-    public void setData(ArrayList<UserLike> data) {
+    public void setData(ArrayList<UserAction> data) {
         this.likes = data;
         notifyDataSetChanged();
     }
 
-    static class UserLikeViewHolder extends RecyclerView.ViewHolder
+    static class UserActionViewHolder extends RecyclerView.ViewHolder
     {
         TextView topicTitle, excerpt, numberOfLikes, receiverUsername, category, postedTime;
         ImageView likeButton;
 
-        public UserLikeViewHolder(View itemView){
+        public UserActionViewHolder(View itemView){
             super(itemView);
 
             topicTitle = (TextView) itemView.findViewById(R.id.parent_topic_title);
