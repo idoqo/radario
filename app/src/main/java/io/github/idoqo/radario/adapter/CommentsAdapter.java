@@ -59,7 +59,6 @@ public class CommentsAdapter extends BaseAdapter {
         TextView postedTimeView = (TextView) convertView.findViewById(R.id.comment_posted_time);
         ImageView collapsedIndicator = (ImageView) convertView.findViewById(R.id.show_comment_indicator);
         TextView likeCountView = (TextView) convertView.findViewById(R.id.number_of_likes);
-        TextView replyCountView = (TextView) convertView.findViewById(R.id.number_of_replies);
 
         Comment comment = comments.get(position);
         LinearLayout indentView = (LinearLayout)convertView.findViewById(R.id.indent);
@@ -83,13 +82,10 @@ public class CommentsAdapter extends BaseAdapter {
             timeQualifier = "long";
         }
         int likeCount = comment.getLikeCount();
-        String likeCountQualifier = (likeCount <= 1) ? "like" : "likes";
 
         postedTimeView.setText(context.getResources().getString(R.string.relative_time_past,
                 timeCount, timeQualifier));
-        likeCountView.setText(context.getResources().getString(R.string.item_like_count,
-                likeCount, likeCountQualifier));
-        replyCountView.setText(context.getResources().getString(R.string.prompt_reply));
+        likeCountView.setText(String.valueOf(likeCount));
 
         collapsedIndicator.setOnClickListener(commentCollapser());
         commentOP.setOnClickListener(onUsernameClickedListener(comment));

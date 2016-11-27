@@ -1,6 +1,7 @@
 package io.github.idoqo.radario.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +12,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.github.idoqo.radario.R;
+import io.github.idoqo.radario.TopicDiscussionActivity;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.Topic;
 import io.github.idoqo.radario.model.User;
+import io.github.idoqo.radario.model.UserAction;
 
-//todo this should be the ONLY topic adapter since it implements the recycler view Adapter...
 public class UserTopicAdapter extends RecyclerView.Adapter<UserTopicAdapter.TopicViewHolder>{
 
     private Context context;
-    private ArrayList<Topic> topics;
+    private ArrayList<UserAction> topics;
 
-    public UserTopicAdapter(Context c, ArrayList<Topic> ts){
+    public UserTopicAdapter(Context c, ArrayList<UserAction> ts){
         super();
         context = c;
         topics = ts;
@@ -38,16 +40,36 @@ public class UserTopicAdapter extends RecyclerView.Adapter<UserTopicAdapter.Topi
         return new TopicViewHolder(topicView);
     }
 
-    public void setData(ArrayList<Topic> data){
+    public void setData(ArrayList<UserAction> data){
         topics = data;
     }
 
     public void onBindViewHolder(TopicViewHolder holder, int position){
-        Topic topic = topics.get(position);
-        holder.title.setText(topic.getTitle());
+        final UserAction topic = topics.get(position);
+        holder.title.setText(topic.getParentTopic());
 //        holder.poster.setText(topic.getPosterUsername());
-        holder.category.setText(Category.getnameFromId(topic.getCategory()));
+        holder.category.setText(Category.getnameFromId(topic.getCategoryId()));
         holder.relativeTime.setText("30 minutes");
+
+        holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent threadIntent = new Intent(context, TopicDiscussionActivity.class);
+                threadIntent.putExtra(TopicDiscussionActivity.TOPIC_TITLE_EXTRA, topic.getParentTopic());
+                threadIntent.putExtra(TopicDiscussionActivity.TOPIC_ID_EXTRA, topic.getTopicId());
+                threadIntent.putExtra(TopicDiscussionActivity.TOPIC_CATEGORY_EXTRA,
+                        Category.getnameFromId(topic.getCategoryId()));
+                threadIntent.putExtra(TopicDiscussionActivity.TOPIC_OP_EXTRA, topic.getUsername());
+                threadIntent.putExtra(TopicDiscussionActivity.TOPIC_LIKE_COUNT_EXTRA,
+                        0);
+                threadIntent.putExtra(TopicDiscussionActivity.TOPIC_COMMENT_COUNT_EXTRA,
+                        0);
+                threadIntent.putExtra(TopicDiscussionActivity.TOPIC_RELATIVE_TIME_EXTRA,
+                        "");
+
+                context.startActivity(threadIntent);
+            }
+        });
     }
 
     public int getItemCount(){

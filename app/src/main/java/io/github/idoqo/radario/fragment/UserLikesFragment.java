@@ -123,7 +123,9 @@ public class UserLikesFragment extends Fragment {
             super.onPostExecute(result);
             userLikes = result;
             likeAdapter.setData(result);
-            Toast.makeText(getActivity(), "loaded results", Toast.LENGTH_SHORT).show();
+            if (getActivity() != null) {
+                Toast.makeText(getActivity(), "loaded results", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

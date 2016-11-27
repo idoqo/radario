@@ -34,6 +34,7 @@ import io.github.idoqo.radario.helpers.ApiHelper;
 import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
 import io.github.idoqo.radario.model.Topic;
 import io.github.idoqo.radario.model.User;
+import io.github.idoqo.radario.model.UserAction;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
@@ -42,7 +43,7 @@ public class UserTopicsFragment extends Fragment {
     private TopicsFetcherTask fetcherTask;
     private UserTopicAdapter topicAdapter;
     private RecyclerView topicsList;
-    private ArrayList<Topic> userTopics = new ArrayList<>();
+    private ArrayList<UserAction> userTopics = new ArrayList<>();
 
     private User user;
     private HttpUrl userTopicsUrl;
@@ -99,7 +100,7 @@ public class UserTopicsFragment extends Fragment {
         return content;
     }
 
-    private class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<Topic>>
+    private class TopicsFetcherTask extends AsyncTask<Integer, Void, ArrayList<UserAction>>
     {
         private HttpUrl topicsUrl;
 
@@ -107,9 +108,9 @@ public class UserTopicsFragment extends Fragment {
             topicsUrl = url;
         }
 
-        protected ArrayList<Topic> doInBackground(Integer... params) {
+        protected ArrayList<UserAction> doInBackground(Integer... params) {
             //todo show loading animation
-            ArrayList<Topic> loadedTopics = new ArrayList<>();
+            ArrayList<UserAction> loadedTopics = new ArrayList<>();
             String jsonString;
 
             try {
@@ -127,7 +128,7 @@ public class UserTopicsFragment extends Fragment {
                     Iterator<JsonNode> nodeIterator = repliesPath.elements();
 
                     while (nodeIterator.hasNext()) {
-                        Topic topic = mapper.readValue(nodeIterator.next().traverse(), Topic.class);
+                        UserAction topic = mapper.readValue(nodeIterator.next().traverse(), UserAction.class);
                         loadedTopics.add(topic);
                     }
                 } catch (Exception e) {
@@ -137,7 +138,7 @@ public class UserTopicsFragment extends Fragment {
             return loadedTopics;
         }
 
-        protected void onPostExecute(ArrayList<Topic> result) {
+        protected void onPostExecute(ArrayList<UserAction> result) {
             super.onPostExecute(result);
             if (result.size() > 0) {
                 emptyTopicsView.setVisibility(View.GONE);

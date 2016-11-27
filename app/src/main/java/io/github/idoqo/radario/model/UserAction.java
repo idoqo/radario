@@ -21,9 +21,21 @@ public class UserAction {
     private int parentPostNumber;
     @JsonProperty("title")
     private String parentTopic;
+    @JsonProperty("topic_id")
+    private int topicId;
+    @JsonProperty("username")
+    private String username;
 
     public UserAction(){
         super();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getActionType() {
@@ -96,5 +108,13 @@ public class UserAction {
 
     public void setParentTopic(String parentTopic) {
         this.parentTopic = parentTopic;
+    }
+
+    public int getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(int topicId) {
+        this.topicId = topicId;
     }
 }
