@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -21,19 +20,10 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 
-import io.github.idoqo.radario.helpers.ApiHelper;
 import io.github.idoqo.radario.helpers.CurrentUserHelper;
-import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
 import io.github.idoqo.radario.model.CurrentUser;
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
