@@ -213,7 +213,8 @@ public class TopicListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_REQUEST_CODE) {
             if (resultCode == RESULT_OK){
-                onCreate(null);
+                finish();
+                startActivity(getIntent());
             }
         }
     }
