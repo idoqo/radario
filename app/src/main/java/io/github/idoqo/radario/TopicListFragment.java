@@ -96,8 +96,7 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
+                Toast.makeText(getActivity(), "Ogbeni calm down", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -193,8 +192,10 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
                 jsonString = ApiHelper.GET(okHttpClient, topicsUrl);
             } catch (IOException ioe) {
                 jsonString = null;
-                Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
-                        .show();
+                if (topicsListView != null) {
+                    Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
+                            .show();
+                }
             }
             if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();

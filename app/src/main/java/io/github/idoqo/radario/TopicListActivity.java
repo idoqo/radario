@@ -2,11 +2,13 @@ package io.github.idoqo.radario;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -50,6 +52,8 @@ public class TopicListActivity extends AppCompatActivity {
     private TextView usernameTV;
     private SharedPreferences loginData;
     private CurrentUserHelper userHelper;
+
+    public static final int LOGIN_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,10 +106,14 @@ public class TopicListActivity extends AppCompatActivity {
         usernameTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = usernameTV.getText().toString();
-                Intent profileIntent = new Intent(TopicListActivity.this, UserProfileActivity.class);
-                profileIntent.putExtra(UserProfileActivity.EXTRA_USERNAME, username);
-                startActivity(profileIntent);
+                if (savedCookies != null) {
+                    String username = usernameTV.getText().toString();
+                    Intent profileIntent = new Intent(TopicListActivity.this, UserProfileActivity.class);
+                    profileIntent.putExtra(UserProfileActivity.EXTRA_USERNAME, username);
+                    startActivity(profileIntent);
+                } else {
+                    promptForLogin();
+                }
                 drawerLayout.closeDrawers();
             }
         });
@@ -172,5 +180,41 @@ public class TopicListActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.topic_list_main_content, topicListFragment)
                 .commit();
+    }
+
+    private void promptForLogin(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle(getResources().getString(R.string.login));
+        dialogBuilder.setMessage(getResources().getString(R.string.login_advantage));
+        dialogBuilder.setIcon(getResources().getDrawable(R.drawable.ic_unlock_black));
+        dialogBuilder.setCancelable(true);
+
+        dialogBuilder.setPositiveButton(getResources().getString(R.string.login),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent loginIntent = new Intent(TopicListActivity.this, LoginActivity.class);
+                        startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
+                    }
+                });
+        dialogBuilder.setNegativeButton(getResources().getString(R.string.dismiss),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOGIN_REQUEST_CODE) {
+            if (resultCode == RESULT_OK){
+                onCreate(null);
+            }
+        }
     }
 }

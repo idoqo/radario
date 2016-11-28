@@ -1,13 +1,17 @@
 package io.github.idoqo.radario;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.IOException;
 
@@ -29,16 +33,25 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences loginData;
     private OkHttpClient httpClient;
 
+    private AVLoadingIndicatorView loadingIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         loginData = getApplicationContext().getSharedPreferences(PREFERENCE_LOGIN_DATA,
                 MODE_PRIVATE);
+        loadingIndicator = (AVLoadingIndicatorView) findViewById(R.id.page_loading_indicator);
 
         final WebView loginView  = (WebView) findViewById(R.id.login_web_view);
         WebSettings loginViewSettings = loginView.getSettings();
         loginViewSettings.setJavaScriptEnabled(true);
+        //override web chrome client so we can show some progress
+        loginView.setWebChromeClient(new WebChromeClient(){
+            public void onProgressChanged(WebView webView, int progress){
+                updateProgress(progress);
+            }
+        });
         //override the client so we can access the cookies
         loginView.setWebViewClient(new WebViewClient(){
             @Override
@@ -52,7 +65,14 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+        loadingIndicator.setVisibility(View.VISIBLE);
         loginView.loadUrl(RADAR_LOGIN_URL);
+    }
+
+    private void updateProgress(int progress){
+        if (progress >= 100){
+            loadingIndicator.setVisibility(View.GONE);
+        }
     }
 
     private class CookeHandlerWebClient extends WebViewClient{
@@ -91,6 +111,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onPostExecute(CurrentUser result) {
                 //do stuffs with the user you got
                 //finish the activity and go back to the launcher activity
+                Intent returnIntent = new Intent();
+                setResult(RESULT_OK, returnIntent);
                 finish();
             }
         });

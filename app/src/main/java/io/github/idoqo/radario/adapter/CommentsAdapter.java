@@ -25,6 +25,7 @@ import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.UserProfileActivity;
 import io.github.idoqo.radario.helpers.DateTimeHelper;
 import io.github.idoqo.radario.model.Comment;
+import io.github.idoqo.radario.url.RadarUrlParser;
 
 public class CommentsAdapter extends BaseAdapter {
     private ArrayList<Comment> comments;
@@ -65,10 +66,9 @@ public class CommentsAdapter extends BaseAdapter {
 
         setupIndent(indentView, comment.getCommentDepth());
 
-        String commentContent = comment.getCooked();
-
+        String parsedComments = RadarUrlParser.userUrlToIntent(comment.getCooked());
         commentOP.setText(comment.getUsername());
-        commentTextView.setText(Html.fromHtml(Jsoup.clean(commentContent, Whitelist.basic())));
+        commentTextView.setText(Html.fromHtml(Jsoup.clean(parsedComments, Whitelist.basic())));
         String  timeCount;
         String timeQualifier;
         try {

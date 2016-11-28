@@ -2,8 +2,8 @@ package io.github.idoqo.radario;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,20 +17,15 @@ import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wang.avi.AVLoadingIndicatorView;
 
-import org.w3c.dom.Text;
-
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import io.github.idoqo.radario.adapter.CommentsAdapter;
 import io.github.idoqo.radario.helpers.ApiHelper;
 import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
-import io.github.idoqo.radario.lib.EndlessScrollListView;
-import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.model.Comment;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -52,6 +47,10 @@ public class TopicDiscussionActivity extends AppCompatActivity {
 
     private OkHttpClient okHttpClient;
 
+    private boolean executing = false;
+    private AVLoadingIndicatorView loadingIndicator;
+    private SwipeRefreshLayout commentsRefresher;
+
     private CommentsFetcherTask commentsFetcherTask;
 
     @Override
@@ -68,10 +67,23 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         commentsAdapter = new CommentsAdapter(this, commentList);
         threadsListView = (ListView) findViewById(R.id.discussion_top_level_view);
         threadsListView.setAdapter(commentsAdapter);
+        commentsRefresher = (SwipeRefreshLayout) findViewById(R.id.refresh_comments);
+        loadingIndicator = (AVLoadingIndicatorView) findViewById(R.id.comments_loading_indicator);
 
+        commentsRefresher.setOnRefreshListener(onCommentsRefresh());
         Bundle extras = getIntent().getExtras();
         initHeaderView(extras);
-        initThread();
+        loadThread();
+    }
+
+    private SwipeRefreshLayout.OnRefreshListener onCommentsRefresh(){
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadThread();
+                commentsRefresher.setRefreshing(false);
+            }
+        };
     }
 
     private void initHeaderView(Bundle extras) {
@@ -111,9 +123,11 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         }
     }
 
-    private void initThread(){
+    private void loadThread(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            executing = true;
+            loadingIndicator.setVisibility(View.VISIBLE);
             commentsFetcherTask = new CommentsFetcherTask();
             int postId = extras.getInt(TOPIC_ID_EXTRA);
             //pass the topic id to be used in fetching the comments from server
@@ -157,6 +171,8 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(ArrayList<Comment> result){
+            executing = false;
+            loadingIndicator.setVisibility(View.GONE);
             //threadsListView.appendItems(result);
             for (Comment comment : result){
                 commentList.add(comment);

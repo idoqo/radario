@@ -32,6 +32,10 @@
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingEnd="@dimen/activity_horizontal_margin">
 
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/refresh_comments">
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,8 +48,20 @@
             android:layout_marginEnd="0dp"
             android:divider="@android:color/transparent">
         </ListView>
-
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/comments_loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorColor="@color/colorAccent"
+        app:indicatorName="BallClipIndicator"
+        style="@style/AVLoadingIndicatorView.Small"
+        app:layout_anchorGravity="bottom|center_horizontal"
+        app:layout_anchor="@id/discussion_top_level_view"
+        android:visibility="gone"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -54,6 +54,18 @@ public class HttpRequestBuilderHelper {
                 .build();
     }
 
+    public static HttpUrl buildSearchUrl(String term){
+        return new HttpUrl.Builder()
+                .scheme(RADAR_URL_SCHEME)
+                .host(RADAR_URL_HOST)
+                .addPathSegment("search")
+                .addPathSegment("query.json")
+                //improve search term matching
+                .addQueryParameter("include_blurbs", String.valueOf(true))
+                .addQueryParameter("term", term)
+                .build();
+    }
+
     //Login request body
     public static RequestBody LoginBody(String username, String password, String token) {
         return new FormBody.Builder()
