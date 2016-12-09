@@ -82,10 +82,11 @@ public class CommentsAdapter extends BaseAdapter {
             timeQualifier = "long";
         }
         int likeCount = comment.getLikeCount();
-
+        String likesQualifier = (likeCount <= 1) ? "like" : "likes";
         postedTimeView.setText(context.getResources().getString(R.string.relative_time_past,
                 timeCount, timeQualifier));
-        likeCountView.setText(String.valueOf(likeCount));
+        likeCountView.setText(context.getResources().getString(R.string.item_like_count, likeCount,
+                likesQualifier));
 
         collapsedIndicator.setOnClickListener(commentCollapser());
         commentOP.setOnClickListener(onUsernameClickedListener(comment));
