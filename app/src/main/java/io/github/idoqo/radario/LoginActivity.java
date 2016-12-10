@@ -10,6 +10,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -43,15 +44,17 @@ public class LoginActivity extends AppCompatActivity {
                 MODE_PRIVATE);
         loadingIndicator = (AVLoadingIndicatorView) findViewById(R.id.page_loading_indicator);
 
+        Toast.makeText(this, "Please wait while the login screen loads", Toast.LENGTH_LONG).show();
+
         final WebView loginView  = (WebView) findViewById(R.id.login_web_view);
         WebSettings loginViewSettings = loginView.getSettings();
         loginViewSettings.setJavaScriptEnabled(true);
         //override web chrome client so we can show some progress
-        loginView.setWebChromeClient(new WebChromeClient(){
+        /*loginView.setWebChromeClient(new WebChromeClient(){
             public void onProgressChanged(WebView webView, int progress){
                 updateProgress(progress);
             }
-        });
+        });*/
         //override the client so we can access the cookies
         loginView.setWebViewClient(new WebViewClient(){
             @Override
@@ -60,12 +63,11 @@ public class LoginActivity extends AppCompatActivity {
                 //new url
                 loginView.setWebViewClient(new CookeHandlerWebClient());
                 loginView.loadUrl(url);
-                loginView.setVisibility(View.INVISIBLE);
                 return super.shouldOverrideUrlLoading(view, url);
             }
 
         });
-        loadingIndicator.setVisibility(View.VISIBLE);
+        //loadingIndicator.setVisibility(View.VISIBLE);
         loginView.loadUrl(RADAR_LOGIN_URL);
     }
 
@@ -88,18 +90,18 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public Response intercept(Chain chain) throws IOException {
                             final Request original = chain.request();
-                            String cookie = (cookies != null) ? cookies : "ddd";
+                            String cookie = (cookies != null) ? cookies : "";
                             final Request authorized = original.newBuilder()
                                     .addHeader("Cookie", cookie)
                                     .build();
                             return chain.proceed(authorized);
                         }
                     }).build();
-            broadcastLoggedUser();
+            broadcastLoggedUser(url);
         }
     }
 
-    private void broadcastLoggedUser(){
+    private void broadcastLoggedUser(final String url){
         CurrentUserHelper userHelper = new CurrentUserHelper(httpClient, this);
         userHelper.requestLoggedUser(new CurrentUserHelper.LoggedUserInfoInterface() {
             @Override
@@ -109,11 +111,14 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onPostExecute(CurrentUser result) {
-                //do stuffs with the user you got
-                //finish the activity and go back to the launcher activity
-                Intent returnIntent = new Intent();
-                setResult(RESULT_OK, returnIntent);
-                finish();
+                if (url.equals("http://radar.techcabal.com/") ||
+                        url.equals("https://radar.techcabal.com/")) {
+                    //do stuffs with the user you got
+                    //finish the activity and go back to the launcher activity
+                    Intent returnIntent = new Intent();
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
+                }
             }
         });
     }
