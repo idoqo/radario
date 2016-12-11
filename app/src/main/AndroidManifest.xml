@@ -60,7 +60,10 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".UpdateActivity"></activity>
+        <activity android:name=".UpdateActivity"
+            android:parentActivityName=".TopicListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
