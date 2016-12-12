@@ -121,10 +121,17 @@ public class TopicListActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(Gravity.LEFT);
                 break;
+            case R.id.action_update:
+                launchUpdateActivity();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void launchUpdateActivity(){
+        Intent intent = new Intent(this, UpdateActivity.class);
+        startActivity(intent);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
