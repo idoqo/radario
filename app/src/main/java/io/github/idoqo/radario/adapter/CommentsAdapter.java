@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -69,6 +70,7 @@ public class CommentsAdapter extends BaseAdapter {
         String parsedComments = RadarUrlParser.userUrlToIntent(comment.getCooked());
         commentOP.setText(comment.getUsername());
         commentTextView.setText(Html.fromHtml(Jsoup.clean(parsedComments, Whitelist.basic())));
+        commentTextView.setMovementMethod(LinkMovementMethod.getInstance());
         String  timeCount;
         String timeQualifier;
         try {
