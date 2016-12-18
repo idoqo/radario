@@ -20,8 +20,11 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.idoqo.radario.helpers.CurrentUserHelper;
 import io.github.idoqo.radario.model.CurrentUser;
 import okhttp3.Interceptor;
@@ -39,6 +42,7 @@ public class TopicListActivity extends AppCompatActivity {
 
     private CurrentUser loggedUser = null;
     private OkHttpClient okHttpClient;
+    private CircleImageView avatarView;
     private TextView usernameTV;
     private SharedPreferences loginData;
     private CurrentUserHelper userHelper;
@@ -92,6 +96,7 @@ public class TopicListActivity extends AppCompatActivity {
 
         View navHeaderView = navigationView.getHeaderView(0);
         usernameTV = (TextView) navHeaderView.findViewById(R.id.logged_username);
+        avatarView = (CircleImageView) navHeaderView.findViewById(R.id.profile_image);
         prepareNavHeader();
         usernameTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,8 +116,17 @@ public class TopicListActivity extends AppCompatActivity {
 
     private void prepareNavHeader(){
         loggedUser = userHelper.lazyLoadUser();
-        String textToShow = (loggedUser.getUsername() != null) ? loggedUser.getUsername() :
-                getResources().getString(R.string.no_logged_user);
+        String textToShow;
+        if (loggedUser.getUsername() != null) {
+            textToShow = loggedUser.getUsername();
+            Picasso.with(this)
+                    .load(loggedUser.getAvatarUrl(150))
+                    .placeholder(R.drawable.default_user)
+                    .into(avatarView);
+
+        } else {
+            textToShow = getResources().getString(R.string.no_logged_user);
+        }
         usernameTV.setText(textToShow);
     }
 

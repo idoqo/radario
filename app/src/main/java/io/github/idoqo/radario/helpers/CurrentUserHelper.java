@@ -63,7 +63,7 @@ public class CurrentUserHelper {
         editor.putString(PREF_USERNAME_FIELD, user.getUsername());
         editor.putInt(PREF_USER_ID_FIELD, user.getId());
         editor.putString(PREF_FULL_NAME_FIELD, user.getFullName());
-        editor.putString(PREF_AVATAR_URL_FIELD, user.getAvatarUrl());
+        editor.putString(PREF_AVATAR_URL_FIELD, user.getAvatarUrlTemplate());
         editor.apply();
     }
 
@@ -79,7 +79,7 @@ public class CurrentUserHelper {
         user.setUsername(username);
         user.setFullName(fullName);
         user.setId(userID);
-        user.setAvatarUrl(avatarUrl);
+        user.setAvatarUrlTemplate(avatarUrl);
 
         return user;
     }

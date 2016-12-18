@@ -24,8 +24,8 @@ android {
         applicationId "io.github.idoqo.radario"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 3
-        versionName '0.3-nightly'
+        versionCode 4
+        versionName '0.302-nightly'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

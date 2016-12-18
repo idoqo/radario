@@ -9,7 +9,7 @@ public class CurrentUser {
     private int id;
     private String username;
     @JsonProperty("avatar_template")
-    private String avatarUrl;
+    private String avatarUrlTemplate;
     @JsonProperty("name")
     private String fullName;
 
@@ -29,12 +29,18 @@ public class CurrentUser {
         this.username = username;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getAvatarUrlTemplate() {
+        return avatarUrlTemplate;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setAvatarUrlTemplate(String avatarUrlTemplate) {
+        this.avatarUrlTemplate = avatarUrlTemplate;
+    }
+
+    public String getAvatarUrl(int size){
+        String template = getAvatarUrlTemplate();
+        String radarHost = "https://radar.techcabal.com";
+        return radarHost+template.replace("{size}", String.valueOf(size));
     }
 
     public String getFullName() {
