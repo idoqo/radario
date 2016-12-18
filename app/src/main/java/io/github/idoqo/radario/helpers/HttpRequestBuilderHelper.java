@@ -1,6 +1,8 @@
 package io.github.idoqo.radario.helpers;
 
 
+import org.apache.http.params.HttpParams;
+
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.RequestBody;
@@ -60,6 +62,31 @@ public class HttpRequestBuilderHelper {
                 //improve search term matching
                 .addQueryParameter("include_blurbs", String.valueOf(true))
                 .addQueryParameter("term", term)
+                .build();
+    }
+
+    public static HttpUrl buildUserInfoUrl(String username){
+        //returns "https://radar.techcabal.com/users/{username}.json"
+        String filename = username+".json";
+        return new HttpUrl.Builder()
+                .scheme(RADAR_URL_SCHEME)
+                .host(RADAR_URL_HOST)
+                .addPathSegment("users")
+                .addPathSegment(filename)
+                .build();
+    }
+
+    public static HttpUrl buildUserAvatarUrl(String username, int size){
+        //returns "https://radar.techcabal.com/user_avatar/radar.techcabal.com/{username}/{size}/201_1.png"
+        return new HttpUrl.Builder()
+                .scheme(RADAR_URL_SCHEME)
+                .host(RADAR_URL_HOST)
+                .addPathSegment("user_avatar")
+                .addPathSegment("radar.techcabal.com")
+                .addPathSegment(username)
+                .addPathSegment(String.valueOf(size))
+                //the filename is auto-selected by discourse as long as it ends in ".png"
+                .addPathSegment("201_1.png")
                 .build();
     }
 

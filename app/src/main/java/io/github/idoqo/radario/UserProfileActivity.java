@@ -3,6 +3,7 @@ package io.github.idoqo.radario;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +27,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.idoqo.radario.fragment.UserCommentsFragment;
 import io.github.idoqo.radario.fragment.UserLikesFragment;
 import io.github.idoqo.radario.fragment.UserTopicsFragment;
+import io.github.idoqo.radario.helpers.ApiHelper;
+import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
+import io.github.idoqo.radario.model.User;
 import io.github.idoqo.radario.url.RadarUrlParser;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -37,9 +48,10 @@ public class UserProfileActivity extends AppCompatActivity {
     public static final String EXTRA_AVATAR_URL = "avatar_url";
 
     private String username = null;
-    private int userID;
-    private String fullName;
-    private String avatarUrl;
+
+    TextView fullNameTextView;
+    TextView usernameTextView;
+    CircleImageView imageView;
 
     private OkHttpClient okHttpClient;
 
@@ -90,39 +102,40 @@ public class UserProfileActivity extends AppCompatActivity {
     private void initUserDetails(){
         //if the activity was launched from a link embedded in a text, it will be
         //launched with a uri, else it is launched with extras.
+        //todo try to cache these info asshole!
         Uri callerUri = getIntent().getData();
         Bundle extras = getIntent().getExtras();
 
-        fullName = "Okoko Michaels";
         //todo load the user's avatar in a background task
 
         if (callerUri != null) {
             username = callerUri.getQueryParameter(RadarUrlParser.KEY_USERNAME_QUERY);
         } else if (extras != null) {
             username = extras.getString(EXTRA_USERNAME);
-            fullName = extras.getString(EXTRA_FULLNAME, "Okoko Michaels");
         }
+        setTitle(username);
         if (username == null) {
             this.finish();
         }
     }
 
     private void prepareHeaderView(){
-        TextView fullNameTextView = (TextView) findViewById(R.id.profile_full_name);
-        TextView usernameTextView = (TextView) findViewById(R.id.profile_username);
-        CircleImageView imageView = (CircleImageView) findViewById(R.id.user_avatar);
+        fullNameTextView = (TextView) findViewById(R.id.profile_full_name);
+        usernameTextView = (TextView) findViewById(R.id.profile_username);
+        imageView = (CircleImageView) findViewById(R.id.user_avatar);
 
-        fullNameTextView.setText(fullName);
         usernameTextView.setText(username);
+        UserInfoTask infoTask = new UserInfoTask();
+        infoTask.execute(username);
     }
 
     private void setupViewPager(ViewPager vp) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         //prepare a bundle containing the user info to be shared to the fragments
         Bundle arguments = new Bundle();
-        arguments.putString(EXTRA_FULLNAME, fullName);
+        //arguments.putString(EXTRA_FULLNAME, fullName);
         arguments.putString(EXTRA_USERNAME, username);
-        arguments.putString(EXTRA_AVATAR_URL, avatarUrl);
+        //arguments.putString(EXTRA_AVATAR_URL, avatarUrl);
 
         UserTopicsFragment userTopicsFragment = new UserTopicsFragment();
         userTopicsFragment.setArguments(arguments);
@@ -162,6 +175,43 @@ public class UserProfileActivity extends AppCompatActivity {
 
         public CharSequence getPageTitle(int position) {
             return fragmentTitleList.get(position);
+        }
+    }
+
+    //the first element of params should be the username
+    private class UserInfoTask extends AsyncTask<String, Void, User>{
+        private String username;
+
+        public User doInBackground(String... params){
+            username = params[0];
+            String jsonString;
+            User fetchedUser;
+            HttpUrl userInfoUrl = HttpRequestBuilderHelper.buildUserInfoUrl(username);
+            try {
+                jsonString = ApiHelper.GET(okHttpClient, userInfoUrl);
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode response = mapper.readTree(jsonString);
+                JsonNode userPath = response.path("user");
+                JsonParser parser = userPath.traverse();
+                fetchedUser = mapper.readValue(parser, User.class);
+            } catch (IOException ioe) {
+                Log.e("UserInfoTask", "onPostExecute: "+ioe.getMessage());
+                fetchedUser = new User();
+                //at least send the username
+                fetchedUser.setUsername(username);
+            }
+            return fetchedUser;
+        }
+
+        protected void onPostExecute(User result){
+            fullNameTextView.setText(result.getFullName());
+            //build the avatar url and load it into the profile view
+            String avatar = result.getAvatarUrl(250);
+            Log.i("UserInfoTask", "onPostExecute: "+avatar);
+            Picasso.with(UserProfileActivity.this)
+                    .load(avatar)
+                    .placeholder(R.drawable.default_user)
+                    .into(imageView);
         }
     }
 }

@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.TopicDiscussionActivity;
+import io.github.idoqo.radario.helpers.DateTimeHelper;
 import io.github.idoqo.radario.model.Category;
 import io.github.idoqo.radario.model.UserAction;
 
@@ -45,9 +48,22 @@ public class UserTopicAdapter extends RecyclerView.Adapter<UserTopicAdapter.Topi
     public void onBindViewHolder(TopicViewHolder holder, int position){
         final UserAction topic = topics.get(position);
         holder.title.setText(topic.getParentTopic());
-//        holder.poster.setText(topic.getPosterUsername());
         holder.category.setText(Category.getnameFromId(topic.getCategoryId()));
-        holder.relativeTime.setText("30 minutes");
+        String  timeCount;
+        String timeQualifier;
+        try {
+            Date now = new Date();
+            Date topicCreation = topic.getCreatedAtAsDate();
+            String[] cau = DateTimeHelper.getCountAndUnit(topicCreation, now);
+            timeCount = cau[0];
+            timeQualifier = cau[1];
+        } catch (ParseException pe) {
+            timeCount = "long";
+            timeQualifier = "long";
+        }
+
+        holder.relativeTime.setText(context.getResources().getString(R.string.relative_time_past,
+                timeCount, timeQualifier));
 
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -52,7 +52,7 @@ public class UserCommentsFragment extends Fragment {
 
             user = new User();
             user.setUsername(username);
-            user.setAvatarUrl(avatarUrl);
+            user.setAvatarUrlTemplate(avatarUrl);
             user.setFullName(fullName);
 
             okHttpClient = ((UserProfileActivity) getActivity()).getOkHttpClient();
@@ -91,8 +91,6 @@ public class UserCommentsFragment extends Fragment {
         @Override
         protected ArrayList<UserAction> doInBackground(Integer... integers) {
             Log.e("UserCommentsFragment", "doInBackground: "+ userLikesUrl);
-            /*String filename = "mark_replies.json";
-            String jsonString = Utils.loadJsonFromAsset(getActivity(), filename);*/
             String jsonString;
             try {
                 jsonString = ApiHelper.GET(okHttpClient, userLikesUrl);

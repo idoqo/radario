@@ -50,7 +50,7 @@ public class UserLikesFragment extends Fragment {
 
             user = new User();
             user.setUsername(username);
-            user.setAvatarUrl(avatarUrl);
+            user.setAvatarUrlTemplate(avatarUrl);
             user.setFullName(fullName);
 
             okHttpClient = ((UserProfileActivity) getActivity()).getOkHttpClient();

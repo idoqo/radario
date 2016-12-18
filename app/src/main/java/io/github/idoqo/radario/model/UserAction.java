@@ -2,6 +2,10 @@ package io.github.idoqo.radario.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+
+import java.text.ParseException;
+import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserAction {
@@ -90,6 +94,11 @@ public class UserAction {
         return categoryId;
     }
 
+
+    public Date getCreatedAtAsDate() throws ParseException {
+        ISO8601DateFormat df = new ISO8601DateFormat();
+        return df.parse(timePosted);
+    }
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }

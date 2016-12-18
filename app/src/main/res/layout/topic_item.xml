@@ -52,7 +52,7 @@
                 android:id="@+id/topic_posted_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3 hours ago"
+                android:text="@string/relative_time_past"
                 android:textColor="@android:color/darker_gray"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>

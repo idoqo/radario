@@ -34,7 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UserProfileActivity"
-            android:label="@string/action_search_posts"
+            android:label="User Profile"
             android:parentActivityName=".TopicListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
