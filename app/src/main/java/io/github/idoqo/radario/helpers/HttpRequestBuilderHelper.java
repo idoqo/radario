@@ -1,9 +1,6 @@
 package io.github.idoqo.radario.helpers;
 
 
-import org.apache.http.params.HttpParams;
-
-import io.github.idoqo.radario.url.RadarUrlParser;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.RequestBody;

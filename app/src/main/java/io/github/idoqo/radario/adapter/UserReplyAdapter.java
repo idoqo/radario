@@ -2,6 +2,7 @@ package io.github.idoqo.radario.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.model.UserAction;
+import io.github.idoqo.radario.url.RadarUrlParser;
 
 public class UserReplyAdapter extends RecyclerView.Adapter<UserReplyAdapter.UserActionViewHolder> {
 
@@ -31,7 +33,8 @@ public class UserReplyAdapter extends RecyclerView.Adapter<UserReplyAdapter.User
     public void onBindViewHolder(UserActionViewHolder holder, int position){
         UserAction reply = replies.get(position);
         holder.parentTitle.setText(reply.getParentTopic());
-        holder.replyExcerpt.setText(reply.getExcerpt());
+        String excerpt = RadarUrlParser.userUrlToIntent(reply.getExcerpt());
+        holder.replyExcerpt.setText(Html.fromHtml(excerpt));
     }
 
     public int getItemCount(){

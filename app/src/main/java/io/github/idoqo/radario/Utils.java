@@ -2,7 +2,6 @@ package io.github.idoqo.radario;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;

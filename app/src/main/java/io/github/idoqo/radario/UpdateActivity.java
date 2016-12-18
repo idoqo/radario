@@ -5,21 +5,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.IntegerRes;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.StringReader;
 
 import io.github.idoqo.radario.helpers.ApiHelper;
 import okhttp3.HttpUrl;

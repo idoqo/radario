@@ -2,7 +2,6 @@ package io.github.idoqo.radario.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
@@ -60,7 +59,6 @@ public class CommentsAdapter extends BaseAdapter {
         TextView commentTextView = (TextView)convertView.findViewById(R.id.comment_text);
         TextView postedTimeView = (TextView) convertView.findViewById(R.id.comment_posted_time);
         ImageView collapsedIndicator = (ImageView) convertView.findViewById(R.id.show_comment_indicator);
-        TextView likeCountView = (TextView) convertView.findViewById(R.id.number_of_likes);
 
         Comment comment = comments.get(position);
         LinearLayout indentView = (LinearLayout)convertView.findViewById(R.id.indent);
@@ -83,13 +81,8 @@ public class CommentsAdapter extends BaseAdapter {
             timeCount = "long";
             timeQualifier = "long";
         }
-        int likeCount = comment.getLikeCount();
-        String likesQualifier = (likeCount <= 1) ? "like" : "likes";
         postedTimeView.setText(context.getResources().getString(R.string.relative_time_past,
                 timeCount, timeQualifier));
-        likeCountView.setText(context.getResources().getString(R.string.item_like_count, likeCount,
-                likesQualifier));
-
         collapsedIndicator.setOnClickListener(commentCollapser());
         commentOP.setOnClickListener(onUsernameClickedListener(comment));
 

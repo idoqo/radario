@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +20,6 @@ import java.util.Iterator;
 
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.UserProfileActivity;
-import io.github.idoqo.radario.Utils;
 import io.github.idoqo.radario.adapter.UserLikeAdapter;
 import io.github.idoqo.radario.helpers.ApiHelper;
 import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
@@ -123,9 +121,6 @@ public class UserLikesFragment extends Fragment {
             super.onPostExecute(result);
             userLikes = result;
             likeAdapter.setData(result);
-            if (getActivity() != null) {
-                Toast.makeText(getActivity(), "loaded results", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 }

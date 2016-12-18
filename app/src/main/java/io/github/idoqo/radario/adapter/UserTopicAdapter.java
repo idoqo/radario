@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import io.github.idoqo.radario.R;
 import io.github.idoqo.radario.TopicDiscussionActivity;
 import io.github.idoqo.radario.model.Category;
-import io.github.idoqo.radario.model.Topic;
-import io.github.idoqo.radario.model.User;
 import io.github.idoqo.radario.model.UserAction;
 
 public class UserTopicAdapter extends RecyclerView.Adapter<UserTopicAdapter.TopicViewHolder>{

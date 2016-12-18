@@ -11,28 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wang.avi.AVLoadingIndicatorView;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import io.github.idoqo.radario.R;
-import io.github.idoqo.radario.TopicListFragment;
 import io.github.idoqo.radario.UserProfileActivity;
-import io.github.idoqo.radario.Utils;
 import io.github.idoqo.radario.adapter.UserTopicAdapter;
 import io.github.idoqo.radario.helpers.ApiHelper;
 import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
-import io.github.idoqo.radario.model.Topic;
 import io.github.idoqo.radario.model.User;
 import io.github.idoqo.radario.model.UserAction;
 import okhttp3.HttpUrl;
@@ -151,7 +143,6 @@ public class UserTopicsFragment extends Fragment {
                     topicAdapter = new UserTopicAdapter(getActivity(), result);
                 }
             } else {
-                Toast.makeText(getContext(), "No more items to load", Toast.LENGTH_SHORT).show();
                 userTopics = result;
                 emptyTopicsView.setVisibility(View.VISIBLE);
             }

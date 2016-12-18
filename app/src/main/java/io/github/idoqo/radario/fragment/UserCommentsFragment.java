@@ -10,13 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -126,7 +124,6 @@ public class UserCommentsFragment extends Fragment {
             super.onPostExecute(result);
             userReplies = result;
             replyAdapter.setData(result);
-            Toast.makeText(getActivity(), "loaded results: "+result.size(), Toast.LENGTH_SHORT).show();
         }
     }
 }
