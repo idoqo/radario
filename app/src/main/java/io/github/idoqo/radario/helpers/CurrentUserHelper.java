@@ -25,6 +25,7 @@ public class CurrentUserHelper {
     public static final String PREF_FULL_NAME_FIELD = "full_name";
     public static final String PREF_USER_ID_FIELD = "user_id";
     public static final String PREF_AVATAR_URL_FIELD = "avatar_url";
+    public static final String PREF_UNREAD_NOTIFICATION_COUNT = "notification_count";
 
     private SharedPreferences userData;
 
@@ -76,10 +77,12 @@ public class CurrentUserHelper {
         Integer userID = userData.getInt(PREF_USER_ID_FIELD, 0);
         String fullName = userData.getString(PREF_FULL_NAME_FIELD, null);
         String avatarUrl = userData.getString(PREF_AVATAR_URL_FIELD, null);
+        int totalUnreadNotifications = userData.getInt(PREF_UNREAD_NOTIFICATION_COUNT, 0);
         user.setUsername(username);
         user.setFullName(fullName);
         user.setId(userID);
         user.setAvatarUrlTemplate(avatarUrl);
+        user.setTotalUnreadNotifications(totalUnreadNotifications);
 
         return user;
     }

@@ -1,6 +1,7 @@
 package io.github.idoqo.radario;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
 import io.github.idoqo.radario.lib.EndlessScrollListView;
 import io.github.idoqo.radario.lib.EndlessScrollListener;
 import io.github.idoqo.radario.lib.EndlessScrollListenerInterface;
+import io.github.idoqo.radario.model.Notification;
 import io.github.idoqo.radario.model.Topic;
 import io.github.idoqo.radario.model.User;
 import okhttp3.HttpUrl;

@@ -12,6 +12,10 @@ public class CurrentUser {
     private String avatarUrlTemplate;
     @JsonProperty("name")
     private String fullName;
+    @JsonProperty("total_unread_notifications")
+    private int totalUnreadNotifications;
+    @JsonProperty("unread_notifications")
+    private int unreadNotifications;
 
     public int getId() {
         return id;
@@ -49,5 +53,21 @@ public class CurrentUser {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public int getTotalUnreadNotifications() {
+        return totalUnreadNotifications;
+    }
+
+    public void setTotalUnreadNotifications(int totalUnreadNotifications) {
+        this.totalUnreadNotifications = totalUnreadNotifications;
+    }
+
+    public int getUnreadNotifications() {
+        return unreadNotifications;
+    }
+
+    public void setUnreadNotifications(int unreadNotifications) {
+        this.unreadNotifications = unreadNotifications;
     }
 }

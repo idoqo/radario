@@ -1,0 +1,591 @@
+{
+
+    "notifications": [
+        {
+            "id": 239537,
+            "notification_type": 5,
+            "read": false,
+            "created_at": "2016-12-24T14:21:25.242Z",
+            "post_number": 11,
+            "topic_id": 9751,
+            "slug": "are-there-programmers-here-who-can-write-raw-codes",
+            "data": {
+                "topic_title": "Are there Programmers here who can write 'raw' codes?",
+                "original_post_id": 48300,
+                "original_post_type": 1,
+                "original_username": "onuemeka",
+                "display_username": "onuemeka"
+            }
+        },
+        {
+            "id": 239323,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-12-23T12:53:23.060Z",
+            "post_number": 11,
+            "topic_id": 9751,
+            "slug": "are-there-programmers-here-who-can-write-raw-codes",
+            "data": {
+                "topic_title": "Are there Programmers here who can write 'raw' codes?",
+                "original_post_id": 48300,
+                "original_post_type": 1,
+                "original_username": "steveamaza",
+                "display_username": "steveamaza"
+            }
+        },
+        {
+            "id": 238974,
+            "notification_type": 2,
+            "read": true,
+            "created_at": "2016-12-22T06:44:37.143Z",
+            "post_number": 41,
+            "topic_id": 9751,
+            "slug": "are-there-programmers-here-who-can-write-raw-codes",
+            "data": {
+                "topic_title": "Are there Programmers here who can write 'raw' codes?",
+                "original_post_id": 48478,
+                "original_post_type": 1,
+                "original_username": "kingzamzon",
+                "display_username": "kingzamzon"
+            }
+        },
+        {
+            "id": 238973,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-12-22T06:44:14.053Z",
+            "post_number": 11,
+            "topic_id": 9751,
+            "slug": "are-there-programmers-here-who-can-write-raw-codes",
+            "data": {
+                "topic_title": "Are there Programmers here who can write 'raw' codes?",
+                "original_post_id": 48300,
+                "original_post_type": 1,
+                "original_username": "kingzamzon",
+                "display_username": "kingzamzon"
+            }
+        },
+        {
+            "id": 238457,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-12-20T15:09:06.795Z",
+            "post_number": 11,
+            "topic_id": 9751,
+            "slug": "are-there-programmers-here-who-can-write-raw-codes",
+            "data": {
+                "topic_title": "Are there Programmers here who can write 'raw' codes?",
+                "original_post_id": 48300,
+                "original_post_type": 1,
+                "original_username": "the_Ozmic",
+                "display_username": "the_Ozmic"
+            }
+        },
+        {
+            "id": 238034,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-12-19T11:23:34.559Z",
+            "post_number": 11,
+            "topic_id": 9751,
+            "slug": "are-there-programmers-here-who-can-write-raw-codes",
+            "data": {
+                "topic_title": "Are there Programmers here who can write 'raw' codes?",
+                "original_post_id": 48300,
+                "original_post_type": 1,
+                "original_username": "logbon72",
+                "display_username": "logbon72"
+            }
+        },
+        {
+            "id": 237147,
+            "notification_type": 2,
+            "read": true,
+            "created_at": "2016-12-16T18:27:00.541Z",
+            "post_number": 10,
+            "topic_id": 9656,
+            "slug": "android-client-for-radar",
+            "data": {
+                "topic_title": "Android client for radar",
+                "original_post_id": 48177,
+                "original_post_type": 1,
+                "original_username": "eaweb",
+                "display_username": "eaweb"
+            }
+        },
+        {
+            "id": 236731,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-12-15T14:12:55.173Z",
+            "post_number": 1,
+            "topic_id": 9656,
+            "slug": "android-client-for-radar",
+            "data": {
+                "topic_title": "Android client for radar",
+                "original_post_id": 47688,
+                "original_post_type": 1,
+                "original_username": "fisayoafolayan",
+                "display_username": "fisayoafolayan"
+            }
+        },
+        {
+            "id": 236726,
+            "notification_type": 2,
+            "read": true,
+            "created_at": "2016-12-15T13:59:34.195Z",
+            "post_number": 7,
+            "topic_id": 9726,
+            "slug": "502-error-how-to-eliminate-it",
+            "data": {
+                "topic_title": "502 error, How to eliminate it?",
+                "original_post_id": 48124,
+                "original_post_type": 1,
+                "original_username": "ekemini",
+                "display_username": "ekemini"
+            }
+        },
+        {
+            "id": 234134,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-12-11T20:21:26.805Z",
+            "post_number": 1,
+            "topic_id": 9656,
+            "slug": "android-client-for-radar",
+            "data": {
+                "topic_title": "Android client for radar",
+                "original_post_id": 47688,
+                "original_post_type": 1,
+                "original_username": "lordbanks",
+                "display_username": "lordbanks"
+            }
+        },
+        {
+            "id": 231169,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-12-07T19:17:46.579Z",
+            "post_number": 4,
+            "topic_id": 9386,
+            "slug": "why-havent-nigerian-startups-embraced-apis-and-integrations-yet",
+            "data": {
+                "topic_title": "Why havent Nigerian startups embraced APIs and integrations yet?",
+                "original_post_id": 46402,
+                "original_post_type": 1,
+                "original_username": "kingzamzon",
+                "display_username": "kingzamzon"
+            }
+        },
+        {
+            "id": 227827,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-11-24T20:37:32.181Z",
+            "post_number": 9,
+            "topic_id": 9442,
+            "slug": "please-help-me-to-review-a-webapp-i-created",
+            "data": {
+                "topic_title": "Please help me to review a webApp I created",
+                "original_post_id": 46631,
+                "original_post_type": 1,
+                "original_username": "eaweb",
+                "display_username": "eaweb"
+            }
+        },
+        {
+            "id": 226488,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-11-22T08:10:04.724Z",
+            "post_number": 4,
+            "topic_id": 9386,
+            "slug": "why-havent-nigerian-startups-embraced-apis-and-integrations-yet",
+            "data": {
+                "topic_title": "Why havent Nigerian startups embraced APIs and integrations yet?",
+                "original_post_id": 46402,
+                "original_post_type": 1,
+                "original_username": "giokobani",
+                "display_username": "giokobani"
+            }
+        },
+        {
+            "id": 225561,
+            "notification_type": 12,
+            "read": true,
+            "created_at": "2016-11-18T21:07:28.001Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 14,
+                "badge_name": "First Link",
+                "badge_slug": "first-link",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 217205,
+            "notification_type": 9,
+            "read": true,
+            "created_at": "2016-10-24T19:55:59.073Z",
+            "post_number": 2,
+            "topic_id": 8995,
+            "slug": "any-idea-why-mobile-money-services-are-so-shitty-in-nigeria",
+            "data": {
+                "topic_title": "Any idea why mobile money services are so shitty in Nigeria?",
+                "original_post_id": 44730,
+                "original_post_type": 1,
+                "original_username": "ofilispeaks",
+                "display_username": "16 replies"
+            }
+        },
+        {
+            "id": 214558,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-10-16T09:05:11.694Z",
+            "post_number": 16,
+            "topic_id": 8690,
+            "slug": "what-do-you-think-about-these-ideas-are-they-really-applicable-in-nigeria",
+            "data": {
+                "topic_title": "What do you think about these ideas, are they really applicable in nigeria",
+                "original_post_id": 44105,
+                "original_post_type": 1,
+                "original_username": "xolubi",
+                "display_username": "xolubi"
+            }
+        },
+        {
+            "id": 213933,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-10-14T08:37:56.572Z",
+            "post_number": 16,
+            "topic_id": 8690,
+            "slug": "what-do-you-think-about-these-ideas-are-they-really-applicable-in-nigeria",
+            "data": {
+                "topic_title": "What do you think about these ideas, are they really applicable in nigeria",
+                "original_post_id": 44105,
+                "original_post_type": 1,
+                "original_username": "Ahmedin",
+                "display_username": "Ahmedin"
+            }
+        },
+        {
+            "id": 207513,
+            "notification_type": 12,
+            "read": false,
+            "created_at": "2016-09-24T13:03:24.580Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 2,
+                "badge_name": "Member",
+                "badge_slug": "member",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 205162,
+            "notification_type": 9,
+            "read": true,
+            "created_at": "2016-09-18T16:37:35.617Z",
+            "post_number": 6,
+            "topic_id": 8308,
+            "slug": "profile-of-kenyan-ict-minister-vs-nigerian-ict-minister",
+            "data": {
+                "topic_title": "Profile of Kenyan ICT minister vs Nigerian ICT Minister",
+                "original_post_id": 42438,
+                "original_post_type": 1,
+                "original_username": "kingzamzon",
+                "display_username": "4 replies"
+            }
+        },
+        {
+            "id": 199453,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-09-08T12:29:54.371Z",
+            "post_number": 1,
+            "topic_id": 8308,
+            "slug": "profile-of-kenyan-ict-minister-vs-nigerian-ict-minister",
+            "data": {
+                "topic_title": "Profile of Kenyan ICT minister vs Nigerian ICT Minister",
+                "original_post_id": 41474,
+                "original_post_type": 1,
+                "original_username": "jidelambo",
+                "display_username": "jidelambo"
+            }
+        },
+        {
+            "id": 184535,
+            "notification_type": 12,
+            "read": true,
+            "created_at": "2016-08-13T18:32:54.028Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 16,
+                "badge_name": "Read Guidelines",
+                "badge_slug": "read-guidelines",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 184440,
+            "notification_type": 2,
+            "read": true,
+            "created_at": "2016-08-13T13:29:31.962Z",
+            "post_number": 10,
+            "topic_id": 7842,
+            "slug": "stack-overflow-developer-survey-2016-results",
+            "data": {
+                "topic_title": "Stack Overflow Developer Survey 2016 Results",
+                "original_post_id": 39026,
+                "original_post_type": 1,
+                "original_username": "ChukwuEmekaAjah",
+                "display_username": "ChukwuEmekaAjah"
+            }
+        },
+        {
+            "id": 184439,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-08-13T13:26:24.229Z",
+            "post_number": 9,
+            "topic_id": 7842,
+            "slug": "stack-overflow-developer-survey-2016-results",
+            "data": {
+                "topic_title": "Stack Overflow Developer Survey 2016 Results",
+                "original_post_id": 39025,
+                "original_post_type": 1,
+                "original_username": "Uduak",
+                "display_username": "Uduak"
+            }
+        },
+        {
+            "id": 183376,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-08-12T03:09:52.833Z",
+            "post_number": 5,
+            "topic_id": 7842,
+            "slug": "stack-overflow-developer-survey-2016-results",
+            "data": {
+                "topic_title": "Stack Overflow Developer Survey 2016 Results",
+                "original_post_id": 38787,
+                "original_post_type": 1,
+                "original_username": "davidsmith8900",
+                "display_username": "davidsmith8900"
+            }
+        },
+        {
+            "id": 183308,
+            "notification_type": 4,
+            "read": true,
+            "created_at": "2016-08-12T00:34:16.682Z",
+            "post_number": 5,
+            "topic_id": 7842,
+            "slug": "stack-overflow-developer-survey-2016-results",
+            "data": {
+                "topic_title": "Stack Overflow Developer Survey 2016 Results",
+                "original_post_id": 38787,
+                "original_post_type": 1,
+                "original_username": "lordbanks",
+                "display_username": "lordbanks"
+            }
+        },
+        {
+            "id": 181674,
+            "notification_type": 1,
+            "read": true,
+            "created_at": "2016-08-09T12:33:40.999Z",
+            "post_number": 11,
+            "topic_id": 7796,
+            "slug": "torrent-laws-in-nigeria-good-or-bad",
+            "data": {
+                "topic_title": "Torrent Laws in Nigeria, Good or Bad?",
+                "original_post_id": 38583,
+                "original_post_type": 1,
+                "original_username": "87_chuks",
+                "display_username": "87_chuks"
+            }
+        },
+        {
+            "id": 181667,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-08-09T11:52:13.143Z",
+            "post_number": 1,
+            "topic_id": 7769,
+            "slug": "created-an-online-pidgin-resource-feedback-and-suggestions-welcomed",
+            "data": {
+                "topic_title": "Created an online pidgin resource, feedback and suggestions welcomed",
+                "original_post_id": 38435,
+                "original_post_type": 1,
+                "original_username": "ozoesono",
+                "display_username": "ozoesono"
+            }
+        },
+        {
+            "id": 181621,
+            "notification_type": 12,
+            "read": true,
+            "created_at": "2016-08-09T10:15:35.611Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 10,
+                "badge_name": "Editor",
+                "badge_slug": "editor",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 181613,
+            "notification_type": 12,
+            "read": true,
+            "created_at": "2016-08-09T10:06:47.261Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 15,
+                "badge_name": "First Quote",
+                "badge_slug": "first-quote",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 181612,
+            "notification_type": 12,
+            "read": true,
+            "created_at": "2016-08-09T10:06:47.188Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 11,
+                "badge_name": "First Like",
+                "badge_slug": "first-like",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 181451,
+            "notification_type": 9,
+            "read": true,
+            "created_at": "2016-08-09T06:57:42.425Z",
+            "post_number": 10,
+            "topic_id": 7769,
+            "slug": "created-an-online-pidgin-resource-feedback-and-suggestions-welcomed",
+            "data": {
+                "topic_title": "Created an online pidgin resource, feedback and suggestions welcomed",
+                "original_post_id": 38548,
+                "original_post_type": 1,
+                "original_username": "Freshboi_Ekundayo",
+                "display_username": "2 replies"
+            }
+        },
+        {
+            "id": 181375,
+            "notification_type": 12,
+            "read": true,
+            "created_at": "2016-08-09T00:59:36.108Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 28,
+                "badge_name": "Popular Link",
+                "badge_slug": "popular-link",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 180789,
+            "notification_type": 12,
+            "read": false,
+            "created_at": "2016-08-07T19:46:03.347Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 5,
+                "badge_name": "Welcome",
+                "badge_slug": "welcome",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 180788,
+            "notification_type": 5,
+            "read": true,
+            "created_at": "2016-08-07T19:45:58.743Z",
+            "post_number": 1,
+            "topic_id": 7769,
+            "slug": "created-an-online-pidgin-resource-feedback-and-suggestions-welcomed",
+            "data": {
+                "topic_title": "Created an online pidgin resource, feedback and suggestions welcomed",
+                "original_post_id": 38435,
+                "original_post_type": 1,
+                "original_username": "StephenAfamO",
+                "display_username": "StephenAfamO"
+            }
+        },
+        {
+            "id": 180774,
+            "notification_type": 12,
+            "read": true,
+            "created_at": "2016-08-07T18:46:02.059Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 41,
+                "badge_name": "First Emoji",
+                "badge_slug": "first-emoji",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 174285,
+            "notification_type": 12,
+            "read": true,
+            "created_at": "2016-07-30T19:05:57.066Z",
+            "post_number": null,
+            "topic_id": null,
+            "slug": null,
+            "data": {
+                "badge_id": 1,
+                "badge_name": "Basic User",
+                "badge_slug": "basic",
+                "username": "idoko"
+            }
+        },
+        {
+            "id": 174260,
+            "notification_type": 6,
+            "read": true,
+            "created_at": "2016-07-30T17:47:33.779Z",
+            "post_number": 1,
+            "topic_id": 7621,
+            "slug": "welcome-to-radar-from-techcabal",
+            "data": {
+                "topic_title": "Welcome to Radar from TechCabal!",
+                "original_post_id": 37380,
+                "original_post_type": 1,
+                "original_username": "lordbanks",
+                "display_username": "lordbanks"
+            }
+        }
+    ],
+    "total_rows_notifications": 37,
+    "seen_notification_id": 239323,
+    "load_more_notifications": "/notifications?offset=60&username=idoko"
+
+}

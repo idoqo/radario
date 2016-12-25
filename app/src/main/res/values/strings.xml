@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Radario</string>
+    <string name="notification_label">Notifications</string>
     <string name="app_intent_uri_scheme">radario</string>
     <string name="app_user_intent">user</string>
 
@@ -30,6 +31,9 @@
     <!--%1$d is the string value of the amount of time, %2$s is the unit i.e {minutes|hours|months|years}-->
     <string name="relative_time_past">%1$s %2$s ago</string>
     <string name="prompt_reply">Reply</string>
+
+    <!--%1$s is username, %2$s is the notification type as string, %3$s is the post...-->
+    <string name="notification_details"><b>%1$s</b> %2$s <b>%3$s</b></string>
 
     <!--topic discussion activity, menu and related layouts-->
     <string name="title_activity_topic_discussion">TopicDiscussionActivity</string>

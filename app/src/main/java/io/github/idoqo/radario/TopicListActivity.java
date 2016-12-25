@@ -17,10 +17,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -44,6 +47,8 @@ public class TopicListActivity extends AppCompatActivity {
     private OkHttpClient okHttpClient;
     private CircleImageView avatarView;
     private TextView usernameTV;
+    private TextView notificationCountView;
+    private RelativeLayout notificationCountWrap;
     private SharedPreferences loginData;
     private CurrentUserHelper userHelper;
 
@@ -97,6 +102,9 @@ public class TopicListActivity extends AppCompatActivity {
         View navHeaderView = navigationView.getHeaderView(0);
         usernameTV = (TextView) navHeaderView.findViewById(R.id.logged_username);
         avatarView = (CircleImageView) navHeaderView.findViewById(R.id.profile_image);
+        notificationCountWrap = (RelativeLayout) navHeaderView.findViewById(R.id.count_wrapper);
+        notificationCountView = (TextView) navHeaderView.findViewById(R.id.pending_notification_count);
+
         prepareNavHeader();
         usernameTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,8 +125,10 @@ public class TopicListActivity extends AppCompatActivity {
     private void prepareNavHeader(){
         loggedUser = userHelper.lazyLoadUser();
         String textToShow;
+        int notificationCount;
         if (loggedUser.getUsername() != null) {
             textToShow = loggedUser.getUsername();
+            notificationCount = loggedUser.getTotalUnreadNotifications();
             Picasso.with(this)
                     .load(loggedUser.getAvatarUrl(150))
                     .placeholder(R.drawable.default_user)
@@ -126,8 +136,24 @@ public class TopicListActivity extends AppCompatActivity {
 
         } else {
             textToShow = getResources().getString(R.string.no_logged_user);
+            notificationCount = 0;
         }
         usernameTV.setText(textToShow);
+        if (notificationCount < 1) {
+            //hide the bubble
+            notificationCountWrap.setVisibility(View.GONE);
+        } else if (notificationCount > 99) {
+            notificationCountView.setText("99+");
+        } else {
+            notificationCountView.setText(String.valueOf(notificationCount));
+        }
+        avatarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent notificationIntent = new Intent(TopicListActivity.this, NotificationActivity.class);
+                startActivity(notificationIntent);
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

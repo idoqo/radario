@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/user_meta_layout"
+        >
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
@@ -13,10 +20,26 @@
         app:civ_border_width="2dp"
         app:civ_border_color="#FFF"
         android:layout_marginStart="24dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
+
+        <RelativeLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/circular_background"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="24dp"
+            android:id="@+id/count_wrapper">
+            <TextView
+                android:id="@+id/pending_notification_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:textSize="10sp"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+    </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +49,7 @@
         android:text="@string/no_logged_user"
         android:textSize="14sp"
         android:gravity="end"
-        android:layout_toEndOf="@id/profile_image"
+        android:layout_toEndOf="@id/user_meta_layout"
         android:layout_centerVertical="true"
         android:textColor="#FFF"/>
 

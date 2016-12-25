@@ -59,10 +59,13 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".UpdateActivity"
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".UpdateActivity"
             android:parentActivityName=".TopicListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".NotificationActivity"
+            android:label="@string/notification_label">
         </activity>
     </application>
 
