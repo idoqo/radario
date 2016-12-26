@@ -65,6 +65,7 @@ public class CurrentUserHelper {
         editor.putInt(PREF_USER_ID_FIELD, user.getId());
         editor.putString(PREF_FULL_NAME_FIELD, user.getFullName());
         editor.putString(PREF_AVATAR_URL_FIELD, user.getAvatarUrlTemplate());
+        editor.putInt(PREF_UNREAD_NOTIFICATION_COUNT, user.getTotalUnreadNotifications());
         editor.apply();
     }
 
