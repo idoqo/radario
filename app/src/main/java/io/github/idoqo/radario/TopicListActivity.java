@@ -30,6 +30,7 @@ import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.idoqo.radario.helpers.CurrentUserHelper;
 import io.github.idoqo.radario.model.CurrentUser;
+import io.github.idoqo.radario.service.PullNotificationService;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -84,6 +85,8 @@ public class TopicListActivity extends AppCompatActivity {
                 }).build();
 
         userHelper = new CurrentUserHelper(okHttpClient, this);
+
+        initNotificationService();
 
         TopicListFragment fragment = new TopicListFragment();
         getSupportFragmentManager().beginTransaction()
@@ -143,8 +146,14 @@ public class TopicListActivity extends AppCompatActivity {
             //hide the bubble
             notificationCountWrap.setVisibility(View.GONE);
         } else if (notificationCount > 99) {
+            if (notificationCountWrap.getVisibility() == View.GONE) {
+                notificationCountWrap.setVisibility(View.VISIBLE);
+            }
             notificationCountView.setText("99+");
         } else {
+            if (notificationCountWrap.getVisibility() == View.GONE) {
+                notificationCountWrap.setVisibility(View.VISIBLE);
+            }
             notificationCountView.setText(String.valueOf(notificationCount));
         }
         avatarView.setOnClickListener(new View.OnClickListener() {
@@ -254,5 +263,11 @@ public class TopicListActivity extends AppCompatActivity {
                 startActivity(getIntent());
             }
         }
+    }
+
+    private void initNotificationService(){
+        Log.i("TopicListActivity", "starting pull notification service");
+        Intent service = new Intent(this, PullNotificationService.class);
+        startService(service);
     }
 }

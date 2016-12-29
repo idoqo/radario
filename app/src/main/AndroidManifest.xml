@@ -63,10 +63,16 @@
         <activity
             android:name=".UpdateActivity"
             android:parentActivityName=".TopicListActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".NotificationActivity"
-            android:label="@string/notification_label">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NotificationActivity"
+            android:label="@string/notification_label" />
+
+        <service
+            android:name=".service.PullNotificationService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

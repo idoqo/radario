@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                     //finish the activity and go back to the launcher activity
                     Intent returnIntent = new Intent();
                     setResult(RESULT_OK, returnIntent);
-                    finish();
+                    //fini sh();
                 }
             }
         });

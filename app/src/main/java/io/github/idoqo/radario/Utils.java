@@ -2,6 +2,7 @@ package io.github.idoqo.radario;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
@@ -13,17 +14,17 @@ import io.github.idoqo.radario.model.Comment;
 
 public class Utils {
 
-    public static String loadJsonFromAsset(Activity activity, String fname) {
+    public static String loadJsonFromAsset(Context context, String fname) {
         String json = null;
         try {
-            InputStream is = activity.getAssets().open(fname);
+            InputStream is = context.getAssets().open(fname);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
-            String tag = activity.getClass().getName();
+            String tag = context.getClass().getName();
             Log.e(tag, ex.getMessage());
         }
         return json;

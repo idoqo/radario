@@ -96,7 +96,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void showNotification(ArrayList<Notification> unread) {
-        String title;
+    /*    String title;
         String content;
         if (!unread.isEmpty()) {
             //get the first item in the list...
@@ -118,6 +118,6 @@ public class NotificationActivity extends AppCompatActivity {
             builder.setContentIntent(listPendingIntent);
             NM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             NM.notify(NOTIFICATON_ID, builder.build());
-        }
+        }*/
     }
 }
