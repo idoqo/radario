@@ -112,7 +112,7 @@ public class TopicListActivity extends AppCompatActivity {
         usernameTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (savedCookies != null) {
+                if (savedCookies != null && savedCookies.contains("_t=")) {
                     String username = usernameTV.getText().toString();
                     Intent profileIntent = new Intent(TopicListActivity.this, UserProfileActivity.class);
                     profileIntent.putExtra(UserProfileActivity.EXTRA_USERNAME, username);
@@ -173,6 +173,9 @@ public class TopicListActivity extends AppCompatActivity {
             case R.id.action_update:
                 launchUpdateActivity();
                 break;
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -139,23 +139,31 @@ public class TopicDiscussionActivity extends AppCompatActivity {
         public ArrayList<Comment> doInBackground(Integer... params) {
             ArrayList<Comment> loadedComments = new ArrayList<>();
             int topicId = params[0];
-            //String jsonString = Utils.loadJsonFromAsset(TopicDiscussionActivity.this, "5272.json");
             String jsonString;
             try {
                 HttpUrl commentsUrl = HttpRequestBuilderHelper.buildTopicCommentsUrl(topicId);
                 jsonString = ApiHelper.GET(okHttpClient, commentsUrl);
-            } catch (IOException ioe) {
-                jsonString = null;
-                Snackbar.make(threadsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
-                        .show();
-//                Log.e(LOG_TAG, ioe.getMessage());
-            }
-
-            if (jsonString != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
                     JsonNode postsNode = mapper.readTree(jsonString);
                     JsonNode postStreamNode = postsNode.path("post_stream");
+                    //discourse sent a block of 20 posts for each request, we need to get all numbers
+                    //in the "stream" and build a new url to actually get everything
+                    JsonNode stream = postStreamNode.path("stream");
+                    Iterator<JsonNode> streamIterator = stream.elements();
+                    ArrayList<Integer> streamIds = new ArrayList<>();
+
+                    while (streamIterator.hasNext()) {
+                        Integer id = mapper.readValue(streamIterator.next().traverse(), Integer.class);
+                        streamIds.add(id);
+                    }
+                    //start afresh with a new url
+                    HttpUrl postsUrl = HttpRequestBuilderHelper.buildPostsUrl(topicId, streamIds);
+                    Log.e("doInBackground: ", postsUrl.toString());
+                    jsonString = ApiHelper.GET(okHttpClient, postsUrl);
+                    postsNode = mapper.readTree(jsonString);
+                    postStreamNode = postsNode.path("post_stream");
+
                     JsonNode posts = postStreamNode.path("posts");
                     Iterator<JsonNode> nodeIterator = posts.elements();
 
@@ -163,9 +171,14 @@ public class TopicDiscussionActivity extends AppCompatActivity {
                         Comment comment = mapper.readValue(nodeIterator.next().traverse(), Comment.class);
                         loadedComments.add(comment);
                     }
-                } catch (Exception e) {
-                    Log.i(LOG_TAG, e.getMessage());
+
+                } catch (IOException ioe) {
+                    Snackbar.make(threadsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
+                            .show();
+                    Log.e(LOG_TAG, "doInBackground: "+ioe.getMessage());
                 }
+            } catch (IOException ioe) {
+                Log.e(LOG_TAG, "doInBackground: "+ioe.getMessage());
             }
             return Utils.getCommentsAsThread(loadedComments);
         }

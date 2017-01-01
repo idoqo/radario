@@ -1,5 +1,6 @@
 package io.github.idoqo.radario;
 
+import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -17,22 +18,30 @@ import android.widget.Button;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import io.github.idoqo.radario.adapter.NotificationAdapter;
+import io.github.idoqo.radario.helpers.ApiHelper;
 import io.github.idoqo.radario.helpers.CurrentUserHelper;
+import io.github.idoqo.radario.helpers.HttpRequestBuilderHelper;
 import io.github.idoqo.radario.model.CurrentUser;
 import io.github.idoqo.radario.model.Notification;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class NotificationActivity extends AppCompatActivity {
 
-    private static final int NOTIFICATON_ID = 5;
-    private NotificationManager NM;
     private RecyclerView notificationListView;
     private NotificationAdapter adapter;
+    private OkHttpClient httpClient;
+    private AVLoadingIndicatorView indicatorView;
 
     private SharedPreferences cachedPref;
 
@@ -44,6 +53,7 @@ public class NotificationActivity extends AppCompatActivity {
         notificationListView = (RecyclerView) findViewById(R.id.notification_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         notificationListView.setLayoutManager(layoutManager);
+        indicatorView = (AVLoadingIndicatorView) findViewById(R.id.item_loading_indicator);
 
         adapter = new NotificationAdapter(this, new ArrayList<Notification>());
         notificationListView.setAdapter(adapter);
@@ -56,8 +66,28 @@ public class NotificationActivity extends AppCompatActivity {
         editor.putInt(CurrentUserHelper.PREF_UNREAD_NOTIFICATION_COUNT, 0);
         editor.apply();
 
+        initHttpClient();
+
+        indicatorView.setVisibility(View.VISIBLE);
         NotificationFetcherTask fetcherTask = new NotificationFetcherTask();
         fetcherTask.execute();
+    }
+
+    private void initHttpClient() {
+        SharedPreferences loginData = getSharedPreferences(LoginActivity.PREFERENCE_LOGIN_DATA, MODE_PRIVATE);
+        final String savedCookies = loginData.getString(LoginActivity.COOKIE_FULL_STRING, null);
+        httpClient = new OkHttpClient().newBuilder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        final Request original = chain.request();
+                        String cookie = (savedCookies != null) ? savedCookies : "ddd";
+                        final Request authorized = original.newBuilder()
+                                .addHeader("Cookie", cookie)
+                                .build();
+                        return chain.proceed(authorized);
+                    }
+                }).build();
     }
 
     private class NotificationFetcherTask extends AsyncTask<Void, Void, ArrayList<Notification>>
@@ -67,8 +97,9 @@ public class NotificationActivity extends AppCompatActivity {
         public ArrayList<Notification> doInBackground(Void... params){
             String jsonString;
             ArrayList<Notification> notifications = new ArrayList<>();
+            HttpUrl url = HttpRequestBuilderHelper.buildNotificationsUrl();
             try {
-                jsonString = Utils.loadJsonFromAsset(NotificationActivity.this, "noti.json");
+                jsonString = ApiHelper.GET(httpClient, url);
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode responseNode = mapper.readTree(jsonString);
                 JsonNode notificationNode = responseNode.path("notifications");
@@ -89,35 +120,7 @@ public class NotificationActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Notification> result){
             //update notification list and show notifications
             adapter.reloadData(result);
-            if (!unreadNotifications.isEmpty()) {
-                showNotification(unreadNotifications);
-            }
+            indicatorView.setVisibility(View.GONE);
         }
-    }
-
-    private void showNotification(ArrayList<Notification> unread) {
-    /*    String title;
-        String content;
-        if (!unread.isEmpty()) {
-            //get the first item in the list...
-            Notification first = unread.get(0);
-            int count = unread.size();
-            title = (count < 2) ? "New notification from "+first.getData().getUsername()
-                    : "Notifications from "+first.getData().getUsername()+" and "+(count-1)+" others";
-            Log.i("NotificationActivity", title);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.ic_sort_white)
-                    .setContentTitle(title)
-                    .setContentText("hello jupiter");
-            Intent topicListIntent = new Intent(this, TopicListActivity.class);
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            stackBuilder.addParentStack(TopicListActivity.class);
-            stackBuilder.addNextIntent(topicListIntent);
-            PendingIntent listPendingIntent = stackBuilder.getPendingIntent(0,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(listPendingIntent);
-            NM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            NM.notify(NOTIFICATON_ID, builder.build());
-        }*/
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:key="@string/key_enable_notification"
+        android:title="@string/notification_label"
+        android:defaultValue="false" />
+
+    <io.github.idoqo.radario.view.NumberPreference
+        android:key="@string/key_notification_interval"
+        android:title="@string/title_notification_interval"
+        android:summary="@string/summary_notification_interval"
+        />
+</PreferenceScreen>

@@ -71,8 +71,12 @@
         <service
             android:name=".service.PullNotificationService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false" />
+
+        <activity android:name=".SettingsActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".TopicListActivity">
+        </activity>
     </application>
 
 </manifest>

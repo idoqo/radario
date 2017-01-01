@@ -205,7 +205,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
         protected void onPostExecute(User result){
             fullNameTextView.setText(result.getFullName());
-            //build the avatar url and load it into the profile view
             String avatar = result.getAvatarUrl(250);
             Log.i("UserInfoTask", "onPostExecute: "+avatar);
             Picasso.with(UserProfileActivity.this)

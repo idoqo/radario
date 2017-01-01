@@ -3,6 +3,9 @@ package io.github.idoqo.radario.helpers;
 
 import org.apache.http.params.HttpParams;
 
+import java.sql.Struct;
+import java.util.ArrayList;
+
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.RequestBody;
@@ -32,6 +35,15 @@ public class HttpRequestBuilderHelper {
                 .addPathSegment("user_actions.json")
                 .addQueryParameter("username", username)
                 .addQueryParameter("filter", String.valueOf(filter))
+                .build();
+    }
+
+    public static HttpUrl buildNotificationsUrl(){
+        //returns http://radar.techcabal.com/notifications.json
+        return new HttpUrl.Builder()
+                .scheme(RADAR_URL_SCHEME)
+                .host(RADAR_URL_HOST)
+                .addPathSegment("notifications.json")
                 .build();
     }
 
@@ -116,12 +128,30 @@ public class HttpRequestBuilderHelper {
     }
 
     public static HttpUrl buildTopicCommentsUrl(int topicID){
-        String jsonPath = topicID+".json";
         return new HttpUrl.Builder()
                 .scheme(RADAR_URL_SCHEME)
                 .host(RADAR_URL_HOST)
                 .addPathSegment("t")
-                .addPathSegment(jsonPath)
+                .addPathSegment(String.valueOf(topicID))
+                .addPathSegment("posts.json")
                 .build();
+    }
+
+    /**
+     * Builds a url in the form of
+     "http://radar.techcabal.com/t/{topicId}/{post.json}?post_ids[]=stream[0]&post_ids[]=stream[1]
+     */
+    public static HttpUrl buildPostsUrl(int topicId, ArrayList<Integer> stream) {
+        HttpUrl.Builder builder = new HttpUrl.Builder();
+        builder.scheme(RADAR_URL_SCHEME)
+                .host(RADAR_URL_HOST)
+                .addPathSegment("t")
+                .addPathSegment(String.valueOf(topicId))
+                .addPathSegment("posts.json");
+        String indieParam = "post_ids[]";
+        for (int postId : stream) {
+            builder.addQueryParameter(indieParam, String.valueOf(postId));
+        }
+        return builder.build();
     }
 }

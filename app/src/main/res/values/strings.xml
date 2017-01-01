@@ -47,6 +47,9 @@
     <string name="login_advantage">You should be logged in except you are Obanikoro!</string>
     <string name="dismiss">Dismiss</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--preference scree-->
+    <string name="key_enable_notification">ENABLE_NOTIFICATION</string>
+    <string name="key_notification_interval">NOTIFICATION_INTERVAL</string>
+    <string name="title_notification_interval">Interval</string>
+    <string name="summary_notification_interval">Intervals for radario to check the server for new notifications.</string>
 </resources>
