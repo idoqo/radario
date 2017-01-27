@@ -19,7 +19,7 @@ android {
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "io.github.idoqo.radario"
         minSdkVersion 19
