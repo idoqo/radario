@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="post_sorts">
+        <item>@string/sort_latest</item>
+        <item>@string/sort_top</item>
+        <item>@string/sort_top_this_week</item>
+        <item>@string/sort_goat</item>
+    </string-array>
+</resources>

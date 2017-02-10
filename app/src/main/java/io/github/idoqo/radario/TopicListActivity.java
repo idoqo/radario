@@ -176,8 +176,17 @@ public class TopicListActivity extends AppCompatActivity {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
+                break;
+            case R.id.action_sort_posts:
+                showPostSortDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showPostSortDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Sort Topics");
     }
 
     private void launchUpdateActivity(){

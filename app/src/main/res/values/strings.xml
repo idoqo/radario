@@ -52,4 +52,9 @@
     <string name="key_notification_interval">NOTIFICATION_INTERVAL</string>
     <string name="title_notification_interval">Interval</string>
     <string name="summary_notification_interval">Intervals for radario to check the server for new notifications.</string>
+
+    <string name="sort_goat">GOAT</string>
+    <string name="sort_latest">Latest</string>
+    <string name="sort_top_this_week">Top of the week</string>
+    <string name="sort_top">Trending</string>
 </resources>
