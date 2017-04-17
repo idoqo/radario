@@ -133,6 +133,10 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
         loadTopics(0, currentPage);
     }
 
+    private void retryLoading() {
+        loadTopics(0, currentPage);
+    }
+
     private void loadTopics(int itemCount, int page){
         Bundle args = getArguments();
         if (args != null && args.containsKey(TOPICS_CATEGORY_TO_LOAD)) {
@@ -187,7 +191,14 @@ public class TopicListFragment extends Fragment implements EndlessScrollListener
             } catch (IOException ioe) {
                 jsonString = null;
                 if (topicsListView != null) {
-                    Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(topicsListView, "Failed to retrieve data", Snackbar.LENGTH_INDEFINITE)
+                            .setAction(getResources().getString(R.string.action_retry),
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            retryLoading();
+                                        }
+                                    })
                             .show();
                 }
             }
